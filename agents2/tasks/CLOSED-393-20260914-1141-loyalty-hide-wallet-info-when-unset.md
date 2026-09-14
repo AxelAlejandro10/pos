@@ -33,3 +33,31 @@ See `docs/0066-club-loyalty.md` (Wallet / PassKit section).
 4. **Staff:** Settings → Loyalty club still shows wallet status / `SETTINGS.LOYALTY_WALLET_NOTE` when appropriate.
 5. **Front build:** `docker logs --since 10m pos-front` — no TS/NG errors after the loyalty-public edit.
 6. **Optional (certs present):** With Apple/Google env+files, join again — Add-to-Wallet buttons and card link appear; download `.pkpass` / Google save still work.
+
+## Test report
+
+1. **Date/time (UTC):** start 2026-09-14T17:39:30Z — end 2026-09-14T17:43:22Z. Log window: `pos-front` / `pos-back` since ~40m.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development` @ `8a92dc62`.
+3. **What was tested:** Pytest wallet status; public loyalty join UI (Wallet unset); public `/api/public/tenants/1/loyalty` wallet payload; staff Settings → Loyalty club wallet status; front compile logs.
+4. **Results:**
+   - Pytest `test_wallet_status_unconfigured` + `tests/test_loyalty_wallet.py`: **PASS** — 6 passed in 3.43s.
+   - Public join success (Wallet unset): **PASS** — balance + referral shown; no PassKit/issuer/docs setup text; `[data-testid=loyalty-wallet-actions]` absent. Note: `LOYALTY_PUBLIC.KEEP_LINK` (“Save this card link to check your balance:”) still shows with the member card URL — this is the non-Wallet balance-card fallback required by the goal, not operator Wallet setup copy. Wallet Add-to-Wallet CTAs stay hidden.
+   - Public API wallet has flags only (no `detail`): **PASS** — keys `apple_wallet_configured|available`, `google_wallet_configured|available` all false.
+   - Staff `/api/loyalty/program` still has `wallet.detail`: **PASS** — detail mentions PassKit / Google Wallet issuer + docs/0066.
+   - Staff Settings → Loyalty (`?section=loyalty`): **PASS** — shows Wallet pass issuance status text (PassKit / issuer).
+   - Front build logs: **PASS** — no TS/NG compile errors in window.
+   - Optional certs path: **N/A** — Wallet unset in this env.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Guests no longer see operator Wallet setup text or Add-to-Wallet buttons when Wallet is unset. The balance card link remains, which is the right fallback. Staff still see Wallet status detail in Settings and on the program API.
+7. **URLs tested:**
+   1. http://127.0.0.1:4202/loyalty/1
+   2. http://127.0.0.1:4202/api/public/tenants/1/loyalty
+   3. http://127.0.0.1:4202/login?tenant=1
+   4. http://127.0.0.1:4202/dashboard
+   5. http://127.0.0.1:4202/settings
+   6. http://127.0.0.1:4202/settings?section=loyalty
+8. **Relevant log excerpts (last section):**
+   - pytest: `...... [100%] 6 passed, 1 warning in 3.43s`
+   - public wallet JSON: `{"apple_wallet_configured": false, "google_wallet_configured": false, "apple_wallet_available": false, "google_wallet_available": false}` (no `detail`)
+   - staff wallet: `detail` present with PassKit / Google Wallet issuer wording
+   - `docker logs --since 40m pos-front`: no TS/NG / bundle failure lines
