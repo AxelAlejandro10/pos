@@ -2889,6 +2889,9 @@
   "LOYALTY_PUBLIC": {
     "TITLE": "Club fidélité",
     "INVALID_TENANT": "Lien restaurant invalide.",
+    "NEED_LINK": "Cette page nécessite le lien de fidélité du restaurant.",
+    "NEED_LINK_HINT": "Demandez au restaurant son URL d'inscription (par exemple /loyalty/1). Le chemin /loyalty seul n'est pas une page d'inscription.",
+    "BACK_HOME": "Retour à l'accueil",
     "NOT_ENABLED": "Ce restaurant n'a pas encore activé de club fidélité.",
     "LEDE": "Gagnez {{earn}} {{mode}} par visite payée. Échangez à {{threshold}} pour une récompense.",
     "NAME": "Votre nom",

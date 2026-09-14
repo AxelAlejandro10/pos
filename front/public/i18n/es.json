@@ -2889,6 +2889,9 @@
   "LOYALTY_PUBLIC": {
     "TITLE": "Club de fidelidad",
     "INVALID_TENANT": "Enlace de restaurante no válido.",
+    "NEED_LINK": "Esta página necesita el enlace de fidelidad del restaurante.",
+    "NEED_LINK_HINT": "Pide al restaurante su URL de alta (por ejemplo /loyalty/1). La ruta /loyalty sola no es una página de alta.",
+    "BACK_HOME": "Volver al inicio",
     "NOT_ENABLED": "Este restaurante aún no tiene club de fidelidad.",
     "LEDE": "Gana {{earn}} {{mode}} por visita pagada. Canjea a {{threshold}} por una recompensa.",
     "NAME": "Tu nombre",

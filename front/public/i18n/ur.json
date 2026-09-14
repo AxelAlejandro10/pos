@@ -2889,6 +2889,9 @@
   "LOYALTY_PUBLIC": {
     "TITLE": "Loyalty club",
     "INVALID_TENANT": "Invalid restaurant link.",
+    "NEED_LINK": "اس صفحے کے لیے ریستوران لائلٹی لنک درکار ہے۔",
+    "NEED_LINK_HINT": "ریستوران سے ان کا جوائن URL مانگیں (مثال /loyalty/1)۔ صرف /loyalty جوائن صفحہ نہیں ہے۔",
+    "BACK_HOME": "ہوم پر واپس",
     "NOT_ENABLED": "This restaurant has not enabled a loyalty club yet.",
     "LEDE": "Earn {{earn}} {{mode}} per paid visit. Redeem at {{threshold}} for a reward.",
     "NAME": "Your name",

@@ -14,6 +14,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+- **Bare `/loyalty` landing (#373):** `/loyalty` and `/loyalty/` show a short “need a restaurant link” page instead of falling through to the Satisfecho marketing landing. Join `/loyalty/{tenantId}` and card `/loyalty/card/{token}` unchanged.
 - **2FA secret Copy (#377):** Settings → Security Copy uses Clipboard API with an `execCommand` fallback and shows Copied / error feedback (helps LibreWolf and other strict browsers).
 - **Delivery floating CTA overlap (#360):** Fixed bottom total + CTA shows on the delivery **menu** step only. Cart and address keep inline actions so the bar no longer covers cart lines or Continue buttons.
 

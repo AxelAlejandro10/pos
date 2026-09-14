@@ -5,8 +5,22 @@
 
   @if (loading()) {
     <p class="hint">{{ 'COMMON.LOADING' | translate }}</p>
-  } @else if (errorKind() === 'invalid_tenant') {
-    <p class="error">{{ 'LOYALTY_PUBLIC.INVALID_TENANT' | translate }}</p>
+  } @else if (errorKind() === 'missing_link' || errorKind() === 'invalid_tenant') {
+    <main class="book-main" data-testid="loyalty-need-link">
+      <h1>{{ 'LOYALTY_PUBLIC.TITLE' | translate }}</h1>
+      <p class="error">
+        {{
+          (errorKind() === 'missing_link'
+            ? 'LOYALTY_PUBLIC.NEED_LINK'
+            : 'LOYALTY_PUBLIC.INVALID_TENANT'
+          ) | translate
+        }}
+      </p>
+      <p class="hint">{{ 'LOYALTY_PUBLIC.NEED_LINK_HINT' | translate }}</p>
+      <a routerLink="/" class="btn" data-testid="loyalty-back-home">{{
+        'LOYALTY_PUBLIC.BACK_HOME' | translate
+      }}</a>
+    </main>
   } @else if (errorKind() === 'not_enabled') {
     <p class="error">{{ 'LOYALTY_PUBLIC.NOT_ENABLED' | translate }}</p>
   } @else if (program(); as p) {

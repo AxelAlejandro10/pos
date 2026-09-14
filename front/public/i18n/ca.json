@@ -2889,6 +2889,9 @@
   "LOYALTY_PUBLIC": {
     "TITLE": "Loyalty club",
     "INVALID_TENANT": "Invalid restaurant link.",
+    "NEED_LINK": "Aquesta pàgina necessita l'enllaç de fidelitat del restaurant.",
+    "NEED_LINK_HINT": "Demaneu al restaurant la URL d'alta (per exemple /loyalty/1). La ruta /loyalty sola no és una pàgina d'alta.",
+    "BACK_HOME": "Tornar a l'inici",
     "NOT_ENABLED": "This restaurant has not enabled a loyalty club yet.",
     "LEDE": "Earn {{earn}} {{mode}} per paid visit. Redeem at {{threshold}} for a reward.",
     "NAME": "Your name",

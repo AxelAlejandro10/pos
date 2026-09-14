@@ -1,7 +1,7 @@
 import { Component, DestroyRef, OnInit, afterNextRender, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { merge } from 'rxjs';
@@ -13,7 +13,7 @@ import { contactEmailValid, contactPhoneValid } from '../shared/contact-validato
 @Component({
   selector: 'app-loyalty-public',
   standalone: true,
-  imports: [FormsModule, TranslateModule, LanguagePickerComponent, LegalLinksComponent],
+  imports: [FormsModule, TranslateModule, LanguagePickerComponent, LegalLinksComponent, RouterLink],
   templateUrl: './loyalty-public.component.html',
   styleUrls: ['../book/book.component.scss', './loyalty-public.component.scss'],
 })
@@ -27,7 +27,7 @@ export class LoyaltyPublicComponent implements OnInit {
   tenantId = signal(0);
   program = signal<LoyaltyProgramPublic | null>(null);
   loading = signal(true);
-  errorKind = signal<'invalid_tenant' | 'not_enabled' | null>(null);
+  errorKind = signal<'missing_link' | 'invalid_tenant' | 'not_enabled' | null>(null);
   submitting = signal(false);
   submitted = signal(false);
   submitError = signal<string | null>(null);
@@ -64,10 +64,18 @@ export class LoyaltyPublicComponent implements OnInit {
       .subscribe(() => this.updateDocumentTitle());
 
     const idParam = this.route.snapshot.paramMap.get('tenantId');
-    const id = idParam ? Number(idParam) : NaN;
+    if (idParam == null || idParam.trim() === '') {
+      // Bare /loyalty — no tenant segment (do not show platform landing) — #373
+      this.errorKind.set('missing_link');
+      this.loading.set(false);
+      this.updateDocumentTitle();
+      return;
+    }
+    const id = Number(idParam);
     if (!Number.isFinite(id) || id <= 0) {
       this.errorKind.set('invalid_tenant');
       this.loading.set(false);
+      this.updateDocumentTitle();
       return;
     }
     this.tenantId.set(id);

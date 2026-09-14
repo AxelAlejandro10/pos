@@ -2889,6 +2889,9 @@
   "LOYALTY_PUBLIC": {
     "TITLE": "Treueclub",
     "INVALID_TENANT": "Ungültiger Restaurant-Link.",
+    "NEED_LINK": "Diese Seite braucht einen Restaurant-Treueclub-Link.",
+    "NEED_LINK_HINT": "Fragen Sie das Restaurant nach der Beitritts-URL (zum Beispiel /loyalty/1). Die Pfadangabe /loyalty allein ist keine Beitrittsseite.",
+    "BACK_HOME": "Zur Startseite",
     "NOT_ENABLED": "Dieses Restaurant hat noch keinen Treueclub aktiviert.",
     "LEDE": "Verdiene {{earn}} {{mode}} pro bezahltem Besuch. Einlösen ab {{threshold}}.",
     "NAME": "Dein Name",

@@ -2889,6 +2889,9 @@
   "LOYALTY_PUBLIC": {
     "TITLE": "Loyalty club",
     "INVALID_TENANT": "Invalid restaurant link.",
+    "NEED_LINK": "此页面需要餐厅会员链接。",
+    "NEED_LINK_HINT": "请向餐厅索取其加入链接（例如 /loyalty/1）。单独的 /loyalty 不是加入页。",
+    "BACK_HOME": "返回首页",
     "NOT_ENABLED": "This restaurant has not enabled a loyalty club yet.",
     "LEDE": "Earn {{earn}} {{mode}} per paid visit. Redeem at {{threshold}} for a reward.",
     "NAME": "Your name",

@@ -7,6 +7,7 @@
 Tenant-scoped loyalty distinct from pricing promos (**#322**):
 
 - Guests join via public URL `/loyalty/{tenantId}` (optional `?ref=` referral code)
+- Bare `/loyalty` (no tenant id) shows a short “need a restaurant link” page — it does **not** redirect to the Satisfecho marketing landing (#373)
 - Staff enable rules under **Settings → Loyalty club**
 - Units (points or stamps) earn **once per paid order** when the order is linked to a membership
 - Staff redeem a reward at checkout → `order.loyalty_discount_cents` (order-level discount via `order_discounts.order_level_discount_cents`, shared with #322)

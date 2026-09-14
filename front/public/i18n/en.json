@@ -2923,6 +2923,9 @@
   "LOYALTY_PUBLIC": {
     "TITLE": "Loyalty club",
     "INVALID_TENANT": "Invalid restaurant link.",
+    "NEED_LINK": "This page needs a restaurant loyalty link.",
+    "NEED_LINK_HINT": "Ask the restaurant for their join URL (for example /loyalty/1). The bare /loyalty path is not a join page.",
+    "BACK_HOME": "Back to home",
     "NOT_ENABLED": "This restaurant has not enabled a loyalty club yet.",
     "LEDE": "Earn {{earn}} {{mode}} per paid visit. Redeem at {{threshold}} for a reward.",
     "NAME": "Your name",
