@@ -38,6 +38,7 @@
     "debug:working-plan-calendar": "node scripts/debug-working-plan-calendar.mjs",
     "test:changelog": "node scripts/test-changelog.mjs",
     "test:settings-logo": "node scripts/test-settings-logo-upload.mjs",
+    "test:settings-otp-copy": "node scripts/test-settings-otp-copy.mjs",
     "test:settings-providers": "node scripts/test-settings-providers.mjs",
     "test:bartender-role": "node scripts/test-bartender-role.mjs",
     "test:support-access": "node scripts/test-support-access.mjs",

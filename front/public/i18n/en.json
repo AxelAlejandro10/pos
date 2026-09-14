@@ -2221,6 +2221,8 @@
     "OTP_DISABLE_ENTER_CODE": "Enter your current OTP code to disable",
     "OTP_DISABLE": "Disable OTP",
     "OTP_DISABLING": "Disabling…",
+    "OTP_SECRET_COPIED": "Copied",
+    "OTP_SECRET_COPY_FAILED": "Could not copy the key. Select it and copy manually, or allow clipboard access.",
     "STRIPE_KEYS": "Stripe Keys",
     "LOCATION_VERIFICATION": "Location Verification",
     "LOCATION_VERIFICATION_DESC": "Set the restaurant venue coordinates and radius below. The same point flags orders placed outside the area and, when enabled under Staff clock-in QR, verifies staff GPS at clock-in.",

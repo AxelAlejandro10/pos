@@ -2187,6 +2187,8 @@
     "OTP_DISABLE_ENTER_CODE": "Introdueix el teu codi OTP actual per desactivar",
     "OTP_DISABLE": "Desactivar OTP",
     "OTP_DISABLING": "Desactivant…",
+    "OTP_SECRET_COPIED": "Copiat",
+    "OTP_SECRET_COPY_FAILED": "No s'ha pogut copiar la clau. Selecciona-la i copia-la manualment, o permet l'accés al porta-retalls.",
     "STRIPE_KEYS": "Claus Stripe",
     "LOCATION_VERIFICATION": "Verificació d'ubicació",
     "LOCATION_VERIFICATION_DESC": "Defineix a sota les coordenades i el radi del local. El mateix punt marca comandes fora de l'àrea i, si ho actives al QR de fitxatge del personal, verifica el GPS en fitxar.",

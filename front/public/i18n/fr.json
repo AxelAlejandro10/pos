@@ -1997,6 +1997,8 @@
     "OTP_DISABLE_ENTER_CODE": "Saisissez votre code OTP actuel pour désactiver",
     "OTP_DISABLE": "Désactiver l'OTP",
     "OTP_DISABLING": "Désactivation…",
+    "OTP_SECRET_COPIED": "Copié",
+    "OTP_SECRET_COPY_FAILED": "Impossible de copier la clé. Sélectionnez-la et copiez-la manuellement, ou autorisez le presse-papiers.",
     "STRIPE_KEYS": "Clés Stripe",
     "LOCATION_VERIFICATION": "Vérification de localisation",
     "LOCATION_VERIFICATION_DESC": "Définissez ci-dessous les coordonnées et le rayon du lieu. Le même point signale les commandes hors zone et, si activé sous QR pointage personnel, vérifie le GPS au pointage.",

@@ -624,8 +624,19 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
                 <h3>{{ 'SETTINGS.OTP_SCAN_OR_ENTER' | translate }}</h3>
                 <p class="hint">{{ 'SETTINGS.OTP_ADD_TO_APP' | translate }}</p>
                 <div class="otp-secret-row">
-                  <code class="otp-secret">{{ otpSetupResult()?.secret }}</code>
-                  <button type="button" class="btn btn-secondary btn-sm" (click)="copyOtpSecret()">{{ 'COMMON.COPY' | translate }}</button>
+                  <code class="otp-secret" data-testid="otp-secret-value">{{ otpSetupResult()?.secret }}</code>
+                  <button
+                    type="button"
+                    class="btn btn-secondary btn-sm"
+                    data-testid="otp-secret-copy"
+                    (click)="copyOtpSecret()"
+                  >
+                    {{
+                      otpSecretCopied()
+                        ? ('SETTINGS.OTP_SECRET_COPIED' | translate)
+                        : ('COMMON.COPY' | translate)
+                    }}
+                  </button>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
                   <label for="otp-confirm-code">{{ 'SETTINGS.OTP_ENTER_CODE' | translate }}</label>
@@ -3170,6 +3181,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
   otpDisableCode = '';
   otpDisabling = signal(false);
   otpSettingUp = signal(false);
+  /** Brief “Copied” feedback after a successful TOTP secret copy (#377). */
+  otpSecretCopied = signal(false);
+  private otpSecretCopiedClearTimer: ReturnType<typeof setTimeout> | null = null;
 
   clockQrBusy = signal(false);
   clockQrDownloadBusy = signal(false);
@@ -3842,9 +3856,59 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   copyOtpSecret() {
     const secret = this.otpSetupResult()?.secret;
-    if (secret && navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(secret);
+    if (!secret) return;
+    this.otpError.set(null);
+
+    const onOk = () => this.flashOtpSecretCopied();
+    const onFail = () =>
+      this.otpError.set(this.translate.instant('SETTINGS.OTP_SECRET_COPY_FAILED'));
+
+    // Clipboard API often fails in strict browsers (e.g. LibreWolf). Fall back to execCommand.
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(secret).then(onOk).catch(() => {
+        if (!this.copyTextViaExecCommand(secret)) onFail();
+        else onOk();
+      });
+      return;
     }
+    if (!this.copyTextViaExecCommand(secret)) onFail();
+    else onOk();
+  }
+
+  private flashOtpSecretCopied(): void {
+    if (this.otpSecretCopiedClearTimer) {
+      clearTimeout(this.otpSecretCopiedClearTimer);
+      this.otpSecretCopiedClearTimer = null;
+    }
+    this.otpSecretCopied.set(true);
+    this.otpSecretCopiedClearTimer = setTimeout(() => {
+      this.otpSecretCopied.set(false);
+      this.otpSecretCopiedClearTimer = null;
+    }, 2000);
+  }
+
+  /** Sync copy fallback for browsers that block Clipboard API (Firefox/LibreWolf). */
+  private copyTextViaExecCommand(text: string): boolean {
+    if (typeof document === 'undefined') return false;
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.top = '0';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    textarea.setSelectionRange(0, text.length);
+    let ok = false;
+    try {
+      ok = document.execCommand('copy');
+    } catch {
+      ok = false;
+    } finally {
+      document.body.removeChild(textarea);
+    }
+    return ok;
   }
 
   confirmOtpEnable() {
@@ -3869,6 +3933,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.otpSetupResult.set(null);
     this.otpConfirmCode = '';
     this.otpError.set(null);
+    this.otpSecretCopied.set(false);
+    if (this.otpSecretCopiedClearTimer) {
+      clearTimeout(this.otpSecretCopiedClearTimer);
+      this.otpSecretCopiedClearTimer = null;
+    }
     this.loadOtpStatus();
   }
 

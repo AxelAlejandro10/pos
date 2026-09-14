@@ -2187,6 +2187,8 @@
     "OTP_DISABLE_ENTER_CODE": "输入当前 OTP 验证码以禁用",
     "OTP_DISABLE": "禁用 OTP",
     "OTP_DISABLING": "正在禁用…",
+    "OTP_SECRET_COPIED": "已复制",
+    "OTP_SECRET_COPY_FAILED": "无法复制密钥。请手动选择并复制，或允许剪贴板访问。",
     "STRIPE_KEYS": "Stripe 密钥",
     "LOCATION_VERIFICATION": "位置验证",
     "LOCATION_VERIFICATION_DESC": "在下方设置餐厅位置坐标与半径。同一位置用于标记区域外订单；若在员工打卡二维码处启用，也用于打卡时的 GPS 校验。",

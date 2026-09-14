@@ -2002,6 +2002,8 @@
     "OTP_DISABLE_ENTER_CODE": "Introduce tu código OTP actual para desactivar",
     "OTP_DISABLE": "Desactivar OTP",
     "OTP_DISABLING": "Desactivando…",
+    "OTP_SECRET_COPIED": "Copiado",
+    "OTP_SECRET_COPY_FAILED": "No se pudo copiar la clave. Selecciónala y cópiala manualmente, o permite el acceso al portapapeles.",
     "BUSINESS_NAME_PLACEHOLDER": "Nombre de tu negocio",
     "BUSINESS_TYPE_SERVICE": "Servicios",
     "BUSINESS_TYPE_OTHER": "Otro",

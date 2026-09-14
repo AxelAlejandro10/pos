@@ -2016,6 +2016,8 @@
     "OTP_DISABLE_ENTER_CODE": "Geben Sie Ihren aktuellen OTP-Code ein, um zu deaktivieren",
     "OTP_DISABLE": "OTP deaktivieren",
     "OTP_DISABLING": "Wird deaktiviert…",
+    "OTP_SECRET_COPIED": "Kopiert",
+    "OTP_SECRET_COPY_FAILED": "Schlüssel konnte nicht kopiert werden. Markieren und manuell kopieren, oder Zwischenablage erlauben.",
     "STRIPE_KEYS": "Stripe-Schlüssel",
     "LOCATION_VERIFICATION": "Standortüberprüfung",
     "LOCATION_VERIFICATION_DESC": "Legen Sie unten Koordinaten und Radius des Restaurantstandorts fest. Derselbe Punkt markiert Bestellungen außerhalb des Bereichs und dient bei aktivierter Mitarbeiter-Stempeluhr-QR auch zur GPS-Prüfung beim Stempeln.",

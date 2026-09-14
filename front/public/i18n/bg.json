@@ -2050,6 +2050,8 @@
     "OTP_DISABLE_ENTER_CODE": "Enter your current OTP code to disable",
     "OTP_DISABLE": "Деактивиране на ОТП",
     "OTP_DISABLING": "Изключване",
+    "OTP_SECRET_COPIED": "Копирано",
+    "OTP_SECRET_COPY_FAILED": "Ключът не можа да бъде копиран. Маркирайте го и копирайте ръчно или разрешете достъп до клипборда.",
     "STRIPE_KEYS": "Клавиши Stripe",
     "LOCATION_VERIFICATION": "Проверка на местоположението",
     "LOCATION_VERIFICATION_DESC": "Задайте по-долу координатите и радиуса на заведението. Същата точка маркира поръчки извън зоната и при активиране под QR за часовник на персонала служи и за GPS проверка при отчитане.",

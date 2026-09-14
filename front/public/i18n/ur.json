@@ -2050,6 +2050,8 @@
     "OTP_DISABLE_ENTER_CODE": "درج کریں آپ کا موجودہ OTP کوڈ کو غیر فعال کریں",
     "OTP_DISABLE": "غیر فعال کریں OTP",
     "OTP_DISABLING": "غیر فعال ہو رہا ہے…",
+    "OTP_SECRET_COPIED": "کاپی ہو گیا",
+    "OTP_SECRET_COPY_FAILED": "کلیدی کاپی نہیں ہو سکی۔ اسے منتخب کر کے دستی کاپی کریں، یا کلپ بورڈ کی اجازت دیں۔",
     "STRIPE_KEYS": "Stripe کلیدیں",
     "LOCATION_VERIFICATION": "مقام تصدیق",
     "LOCATION_VERIFICATION_DESC": "سیٹ کریں ریستوران مقام coordinates اور رداس نیچے. یکساں point flags آرڈرز placed باہر علاقہ اور, جب فعال نیچے عملہ کلاک-اِن QR, verifies عملہ GPS پر کلاک-اِن.",
