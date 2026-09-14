@@ -18,7 +18,7 @@ Public pages such as `/book/1` lose branding and cross-links while the guest scr
 - Smoke: open `/book/1`, scroll the form, confirm header stays visible and links resolve; quick check of `/menu` or delivery public entry if touched.
 
 ## Status
-- **UNTESTED** — sticky guest header shipped for tester.
+- **CLOSED** — verification PASS (tester 2026-09-14).
 
 ## Acceptance criteria
 - [x] On `/book/{tenantId}` (and other public pages touched), a sticky header with branding remains visible while scrolling.
@@ -37,3 +37,27 @@ App up on HAProxy (example `http://127.0.0.1:4202`).
 5. Automated: `BASE_URL=http://127.0.0.1:4202 npm run test:public-guest-header --prefix front`
 
 Coder already ran `test:public-guest-header` and `test:landing-version` (version 2.1.162). Front logs showed a successful bundle after the edits.
+
+## Test report
+
+1. **Date/time (UTC):** start `2026-09-14T12:56:58Z`, end `2026-09-14T12:58:20Z`. Log window: `docker logs --since 15m` on `pos-front` / `pos-back`.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development` @ `d80efa14`.
+3. **What was tested:** Sticky guest header on `/book/1` (branding, lang picker, Menu/Book/Waitlist/Delivery/Loyalty/Feedback); stays stuck after scroll; Menu/Waitlist/Delivery navigation; Book table CTA not covered; `npm run test:public-guest-header`.
+4. **Results:**
+   - Compact sticky bar with Demo Pizzeria + nav + language picker on `/book/1` — **PASS** (a11y snapshot; `data-testid=public-guest-header`).
+   - Header stays at top after scroll (`position: sticky`, `afterTop=0`, `scrollY≈2126`) — **PASS**.
+   - Menu → `/public-menu/1` (automated); Waitlist → `/waitlist/1`; Delivery → `/delivery/1`; same bar on each — **PASS**.
+   - Book table button reachable below header (`overlap=false`, submit below `headerBottom=52`) — **PASS** (Puppeteer also used 390×844).
+   - `BASE_URL=http://127.0.0.1:4202 npm run test:public-guest-header --prefix front` — **PASS** (exit 0: sticky header on /book and menu link resolves).
+   - Front serving public pages; latest bundles complete after transient unrelated `otpDisableCode` errors from other WIP — **PASS** for this feature (no #376 compile break; `/book/1` 200).
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Guests keep restaurant branding and cross-links while they scroll the booking form. The same compact bar works on waitlist and delivery. Mobile submit stays usable under the sticky strip.
+7. **URLs tested:**
+   1. http://127.0.0.1:4202/book/1
+   2. http://127.0.0.1:4202/public-menu/1 (via automated Menu click)
+   3. http://127.0.0.1:4202/waitlist/1
+   4. http://127.0.0.1:4202/delivery/1
+8. **Relevant log excerpts:**
+   - Puppeteer: `OK: sticky guest header on /book and menu link resolves.`
+   - `pos-front`: `Application bundle generation complete. [0.608 seconds] - 2026-09-14T12:54:55.114Z` (and later completes); no back errors in the window.
+   - Note: earlier `TS2339: Property 'otpDisableCode'…` (Settings / #401) appeared then cleared — unrelated to this task.
