@@ -29,4 +29,4 @@ When a header image is set, a dark overlay keeps text readable.
 ## Frontend
 
 - **Settings:** Business profile tab: “Public site background color” (colour + hex + RAL5002 preset), “Header background image” (upload + remove).
-- **Public pages:** Root container gets `[style.--color-bg]` when colour is set; hero header gets `[style.background-image]` and class `has-bg-image` when header image is set (with overlay in SCSS).
+- **Public pages:** Root container gets `[style.--color-bg]` when colour is set; hero header gets `[style.background-image]` and class `has-bg-image` when header image is set (with overlay in SCSS). Shared **`app-public-guest-header`** stays at the top while scrolling (logo, name, links to menu / book / waitlist / delivery / loyalty / feedback, language picker).

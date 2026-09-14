@@ -7,13 +7,14 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { merge } from 'rxjs';
 import { ApiService, LoyaltyProgramPublic } from '../services/api.service';
 import { LanguagePickerComponent } from '../shared/language-picker.component';
+import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { contactEmailValid, contactPhoneValid } from '../shared/contact-validators';
 
 @Component({
   selector: 'app-loyalty-public',
   standalone: true,
-  imports: [FormsModule, TranslateModule, LanguagePickerComponent, LegalLinksComponent, RouterLink],
+  imports: [FormsModule, TranslateModule, LanguagePickerComponent, PublicGuestHeaderComponent, LegalLinksComponent, RouterLink],
   templateUrl: './loyalty-public.component.html',
   styleUrls: ['../book/book.component.scss', './loyalty-public.component.scss'],
 })

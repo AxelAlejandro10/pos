@@ -128,6 +128,15 @@
     "WAREHOUSES": "仓库",
     "TALK": "语音"
   },
+  "PUBLIC_GUEST_NAV": {
+    "ARIA": "餐厅页面",
+    "MENU": "菜单",
+    "BOOK": "预订",
+    "WAITLIST": "等位",
+    "DELIVERY": "外卖",
+    "LOYALTY": "会员",
+    "FEEDBACK": "反馈"
+  },
   "STAFF_FLOW": {
     "TOOLBAR_ARIA": "员工导航",
     "HIDE_NAV": "隐藏主导航",

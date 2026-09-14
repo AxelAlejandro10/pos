@@ -23,7 +23,7 @@ import {
   PublicTenantMenuResponse,
   TenantSummary,
 } from '../services/api.service';
-import { LanguagePickerComponent } from '../shared/language-picker.component';
+import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 import { LanguageService } from '../services/language.service';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { contactPhoneValid } from '../shared/contact-validators';
@@ -39,7 +39,7 @@ type CheckoutStep = 'menu' | 'cart' | 'address' | 'pay' | 'success';
 @Component({
   selector: 'app-delivery-checkout',
   standalone: true,
-  imports: [FormsModule, RouterLink, TranslateModule, LanguagePickerComponent, LegalLinksComponent],
+  imports: [FormsModule, RouterLink, TranslateModule, PublicGuestHeaderComponent, LegalLinksComponent],
   templateUrl: './delivery-checkout.component.html',
   styleUrls: ['../book/book.component.scss', './delivery-checkout.component.scss'],
 })

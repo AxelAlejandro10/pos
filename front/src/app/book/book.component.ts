@@ -10,7 +10,7 @@ import {
   TenantSummary,
 } from '../services/api.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LanguagePickerComponent } from '../shared/language-picker.component';
+import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { ReservationWeekSlotGridComponent } from '../shared/reservation-week-slot-grid.component';
 import { tenantOpeningHoursHasMealSplit } from '../shared/booking-meal-split';
@@ -20,7 +20,7 @@ import { ApiErrorMessageService } from '../services/api-error-message.service';
 @Component({
   selector: 'app-book',
   standalone: true,
-  imports: [FormsModule, TranslateModule, LanguagePickerComponent, ReservationWeekSlotGridComponent, LegalLinksComponent, RouterLink],
+  imports: [FormsModule, TranslateModule, PublicGuestHeaderComponent, ReservationWeekSlotGridComponent, LegalLinksComponent, RouterLink],
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss',
 })

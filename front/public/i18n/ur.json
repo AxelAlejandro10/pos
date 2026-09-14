@@ -128,6 +128,15 @@
     "WAREHOUSES": "گودام",
     "TALK": "بات کریں"
   },
+  "PUBLIC_GUEST_NAV": {
+    "ARIA": "ریستوران کے صفحات",
+    "MENU": "مینو",
+    "BOOK": "بکنگ",
+    "WAITLIST": "انتظار فہرست",
+    "DELIVERY": "ڈیلیوری",
+    "LOYALTY": "لائلٹی",
+    "FEEDBACK": "رائے"
+  },
   "STAFF_FLOW": {
     "TOOLBAR_ARIA": "عملہ نیویگیشن",
     "HIDE_NAV": "چھپائیں اہم نیویگیشن",

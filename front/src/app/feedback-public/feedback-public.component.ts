@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService, TenantSummary } from '../services/api.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LanguagePickerComponent } from '../shared/language-picker.component';
+import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { contactEmailValid, contactPhoneValid } from '../shared/contact-validators';
 import { merge, Subscription } from 'rxjs';
@@ -22,7 +22,7 @@ import { merge, Subscription } from 'rxjs';
 @Component({
   selector: 'app-feedback-public',
   standalone: true,
-  imports: [FormsModule, TranslateModule, LanguagePickerComponent, LegalLinksComponent],
+  imports: [FormsModule, TranslateModule, PublicGuestHeaderComponent, LegalLinksComponent],
   templateUrl: './feedback-public.component.html',
   styleUrls: ['../book/book.component.scss', './feedback-public.component.scss'],
 })

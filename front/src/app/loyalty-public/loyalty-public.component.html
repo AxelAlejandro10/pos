@@ -1,7 +1,11 @@
 <div class="book-page loyalty-public" data-testid="loyalty-public-page">
-  <header class="book-header">
-    <app-language-picker></app-language-picker>
-  </header>
+  @if (tenantId() > 0) {
+    <app-public-guest-header [tenantId]="tenantId()" activePage="loyalty" />
+  } @else {
+    <header class="book-header">
+      <app-language-picker></app-language-picker>
+    </header>
+  }
 
   @if (loading()) {
     <p class="hint">{{ 'COMMON.LOADING' | translate }}</p>

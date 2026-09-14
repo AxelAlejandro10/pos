@@ -128,6 +128,15 @@
     "WAREHOUSES": "गोदाम",
     "TALK": "बात करें"
   },
+  "PUBLIC_GUEST_NAV": {
+    "ARIA": "रेस्तरां पृष्ठ",
+    "MENU": "मेनू",
+    "BOOK": "बुक करें",
+    "WAITLIST": "प्रतीक्षा सूची",
+    "DELIVERY": "डिलीवरी",
+    "LOYALTY": "लॉयल्टी",
+    "FEEDBACK": "प्रतिक्रिया"
+  },
   "STAFF_FLOW": {
     "TOOLBAR_ARIA": "स्टाफ नेविगेशन",
     "HIDE_NAV": "मुख्य मेनू छिपाएँ",

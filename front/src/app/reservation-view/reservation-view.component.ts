@@ -7,12 +7,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
 import { ConfirmationModalComponent } from '../shared/confirmation-modal.component';
 import { reservationDietaryNotesDisplay } from '../shared/reservation-dietary-notes';
-import { LanguagePickerComponent } from '../shared/language-picker.component';
+import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 
 @Component({
   selector: 'app-reservation-view',
   standalone: true,
-  imports: [FormsModule, TranslateModule, RouterLink, ConfirmationModalComponent, LanguagePickerComponent],
+  imports: [FormsModule, TranslateModule, RouterLink, ConfirmationModalComponent, PublicGuestHeaderComponent],
   templateUrl: './reservation-view.component.html',
   styleUrl: './reservation-view.component.scss',
 })

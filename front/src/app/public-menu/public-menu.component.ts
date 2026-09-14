@@ -19,14 +19,14 @@ import {
   PublicTenantMenuResponse,
   TenantSummary,
 } from '../services/api.service';
-import { LanguagePickerComponent } from '../shared/language-picker.component';
+import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 import { LanguageService } from '../services/language.service';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 
 @Component({
   selector: 'app-public-menu',
   standalone: true,
-  imports: [RouterLink, TranslateModule, LanguagePickerComponent, LegalLinksComponent],
+  imports: [RouterLink, TranslateModule, PublicGuestHeaderComponent, LegalLinksComponent],
   templateUrl: './public-menu.component.html',
   styleUrls: ['../book/book.component.scss', './public-menu.component.scss'],
 })

@@ -128,6 +128,15 @@
     "WAREHOUSES": "Lager",
     "TALK": "Sprechen"
   },
+  "PUBLIC_GUEST_NAV": {
+    "ARIA": "Restaurantseiten",
+    "MENU": "Speisekarte",
+    "BOOK": "Reservieren",
+    "WAITLIST": "Warteliste",
+    "DELIVERY": "Lieferung",
+    "LOYALTY": "Treueclub",
+    "FEEDBACK": "Feedback"
+  },
   "STAFF_FLOW": {
     "TOOLBAR_ARIA": "Personal-Navigation",
     "HIDE_NAV": "Hauptnavigation ausblenden",

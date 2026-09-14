@@ -128,6 +128,15 @@
     "WAREHOUSES": "Almacenes",
     "TALK": "Hablar"
   },
+  "PUBLIC_GUEST_NAV": {
+    "ARIA": "Páginas del restaurante",
+    "MENU": "Carta",
+    "BOOK": "Reservar",
+    "WAITLIST": "Lista de espera",
+    "DELIVERY": "Entrega",
+    "LOYALTY": "Fidelización",
+    "FEEDBACK": "Opinión"
+  },
   "STAFF_FLOW": {
     "TOOLBAR_ARIA": "Navegación de personal",
     "HIDE_NAV": "Ocultar menú principal",

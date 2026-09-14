@@ -3,20 +3,20 @@
   [style.--color-bg]="tenant()?.public_background_color ?? null"
   [style.--hero-header-bg]="tenant()?.public_background_color ?? null"
 >
+  <app-public-guest-header
+    [tenantId]="tenantId()"
+    [tenantName]="tenant()?.name ?? null"
+    [logoUrl]="logoUrl()"
+    activePage="delivery"
+  />
   @if (loading()) {
     <div class="delivery-shell">
-      <div class="delivery-top-bar">
-        <app-language-picker class="book-language-picker"></app-language-picker>
-      </div>
       <div class="loading-screen">
         <p>{{ 'DELIVERY_CHECKOUT.LOADING' | translate }}</p>
       </div>
     </div>
   } @else if (errorKind()) {
     <div class="delivery-shell">
-      <div class="delivery-top-bar">
-        <app-language-picker class="book-language-picker"></app-language-picker>
-      </div>
       <main class="book-content">
         <div class="book-card">
           <h1>{{ 'DELIVERY_CHECKOUT.PAGE_TITLE' | translate }}</h1>
@@ -40,7 +40,6 @@
       [style.background-image]="headerBackgroundStyle()"
     >
       <div class="hero-overlay"></div>
-      <app-language-picker class="book-language-picker"></app-language-picker>
       <div class="hero-content">
         <div class="hero-top-row">
           @if (logoUrl()) {

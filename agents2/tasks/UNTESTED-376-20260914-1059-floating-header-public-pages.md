@@ -17,8 +17,23 @@ Public pages such as `/book/1` lose branding and cross-links while the guest scr
 - i18n for new user-visible strings; check `docker logs --since 10m pos-front` after edits.
 - Smoke: open `/book/1`, scroll the form, confirm header stays visible and links resolve; quick check of `/menu` or delivery public entry if touched.
 
+## Status
+- **UNTESTED** — sticky guest header shipped for tester.
+
 ## Acceptance criteria
-- [ ] On `/book/{tenantId}` (and other public pages touched), a sticky header with branding remains visible while scrolling.
-- [ ] Header links reach other relevant public pages for the same tenant.
-- [ ] Mobile layout remains usable; no permanent cover of primary submit CTAs.
-- [ ] Front build clean; no broken public booking smoke if booking UI changed.
+- [x] On `/book/{tenantId}` (and other public pages touched), a sticky header with branding remains visible while scrolling.
+- [x] Header links reach other relevant public pages for the same tenant.
+- [x] Mobile layout remains usable; no permanent cover of primary submit CTAs.
+- [x] Front build clean; no broken public booking smoke if booking UI changed.
+
+## Testing instructions
+
+App up on HAProxy (example `http://127.0.0.1:4202`).
+
+1. Open `/book/1`. Confirm a compact bar at the top with restaurant name, language picker, and links: Menu, Book, Waitlist, Delivery, Loyalty, Feedback.
+2. Scroll the booking form. The compact bar stays at the top. The large hero can scroll away.
+3. Tap **Menu**. Land on `/public-menu/1` with the same bar. Repeat for Waitlist and Delivery.
+4. Optional: open `/book/1` on a narrow viewport (~390px). Nav may scroll sideways. The Book table button stays reachable (header is at the top, not over the submit button).
+5. Automated: `BASE_URL=http://127.0.0.1:4202 npm run test:public-guest-header --prefix front`
+
+Coder already ran `test:public-guest-header` and `test:landing-version` (version 2.1.162). Front logs showed a successful bundle after the edits.
