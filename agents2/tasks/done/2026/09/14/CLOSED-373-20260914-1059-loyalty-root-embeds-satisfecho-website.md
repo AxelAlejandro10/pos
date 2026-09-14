@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Bare `/loyalty/` fell through Angular `**` to the Satisfecho landing instead of a loyalty entry.
+- **What was done:** Added a full-match `loyalty` route that shows a need-link page; kept `/loyalty/:tenantId` join and `/loyalty/card/:token` working; updated docs and i18n.
+- **What was tested:** Need-link on `/loyalty` and `/loyalty/`; join on `/loyalty/1`; invalid card token; landing smoke; front build — all **PASS**.
+- **Why closed:** All acceptance criteria passed; tester overall **PASS**.
+- **Closed at (UTC):** 2026-09-14 12:34
+---
+
 # Fix `/loyalty/` embedding Satisfecho website (#373)
 
 ## GitHub Issues
