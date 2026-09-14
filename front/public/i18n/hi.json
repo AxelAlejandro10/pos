@@ -2282,6 +2282,7 @@
     "EMAIL_FROM": "प्रेषक ईमेल पता",
     "EMAIL_FROM_NAME": "प्रेषक नाम",
     "EMAIL_FROM_PLACEHOLDER": "उदा. आपके रेस्तरां का नाम",
+    "EMAIL_FROM_NAME_HINT": "प्रेषक नाम के रूप में व्यवसाय का नाम उपयोग करने के लिए खाली छोड़ें।",
     "RESERVATION_CONFIRMATION_EMAIL_TITLE": "आरक्षण पुष्टि ईमेल",
     "RESERVATION_CONFIRMATION_EMAIL_DESC": "ईमेल सादे पाठ में लिखें। मान डालने के लिए अनुमत नाम को दोहरी कर्ली ब्रेस में लिखें (उदा. customer_name)। केवल ये नाम भरे जाते हैं—कोई कोड या स्क्रिप्ट नहीं। डिफ़ॉल्ट बिल्ट-इन टेक्स्ट के लिए खाली छोड़ें।",
     "RESERVATION_CONFIRMATION_SUBJECT": "ईमेल विषय",

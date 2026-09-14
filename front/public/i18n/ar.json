@@ -2462,6 +2462,7 @@
     "EMAIL_FROM": "عنوان البريد المُرسِل",
     "EMAIL_FROM_NAME": "اسم المُرسِل",
     "EMAIL_FROM_PLACEHOLDER": "مثال: اسم مطعمك",
+    "EMAIL_FROM_NAME_HINT": "اتركه فارغًا لاستخدام اسم المطعم كاسم المرسل.",
     "RESERVATION_CONFIRMATION_EMAIL_TITLE": "بريد تأكيد الحجز",
     "RESERVATION_CONFIRMATION_EMAIL_DESC": "اكتب البريد بنص عادي. أدرج القيم بوضع اسم مسموح بين قوسين معقوفين مزدوجين (مثال: customer_name). هذه الأسماء فقط تُملأ — بدون أكواد أو سكريبتات. اتركه فارغًا لاستخدام الافتراضي المدمج.",
     "RESERVATION_CONFIRMATION_SUBJECT": "عنوان البريد",

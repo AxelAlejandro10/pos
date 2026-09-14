@@ -2316,6 +2316,7 @@
     "EMAIL_FROM": "From email address",
     "EMAIL_FROM_NAME": "From name",
     "EMAIL_FROM_PLACEHOLDER": "e.g. Your Restaurant Name",
+    "EMAIL_FROM_NAME_HINT": "Leave blank to use Business Name as the sender name.",
     "RESERVATION_CONFIRMATION_EMAIL_TITLE": "Reservation confirmation email",
     "RESERVATION_CONFIRMATION_EMAIL_DESC": "Write the email in plain text. Insert values by wrapping an allowed name in double curly braces (for example customer_name). Only those names are filled in—no code or scripts. Leave blank to use the built-in default.",
     "RESERVATION_CONFIRMATION_SUBJECT": "Email subject",

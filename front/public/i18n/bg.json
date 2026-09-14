@@ -2136,6 +2136,7 @@
     "EMAIL_FROM": "От имейл адрес",
     "EMAIL_FROM_NAME": "От име",
     "EMAIL_FROM_PLACEHOLDER": "напр. името на ресторанта ви",
+    "EMAIL_FROM_NAME_HINT": "Оставете празно, за да се използва търговското наименование като подател.",
     "RESERVATION_CONFIRMATION_EMAIL_TITLE": "Имейл за потвърждение на резервацията",
     "RESERVATION_CONFIRMATION_EMAIL_DESC": "Пишете имейла в обикновен текст. Стойностите с позволено име в двойни фигурни скоби (напр. customer_name). Само те се попълват — без код или скриптове. Празно = вграденият текст по подразбиране.",
     "RESERVATION_CONFIRMATION_SUBJECT": "Тема",

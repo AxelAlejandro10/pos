@@ -2136,6 +2136,7 @@
     "EMAIL_FROM": "Correo del remitente",
     "EMAIL_FROM_NAME": "Nombre del remitente",
     "EMAIL_FROM_PLACEHOLDER": "p. ej. Nombre de tu restaurante",
+    "EMAIL_FROM_NAME_HINT": "Déjalo vacío para usar el Nombre del negocio como remitente.",
     "RESERVATION_CONFIRMATION_EMAIL_TITLE": "Correo de confirmación de reserva",
     "RESERVATION_CONFIRMATION_EMAIL_DESC": "Escribe el correo en texto plano. Para insertar valores, escribe un nombre permitido entre llaves dobles (por ejemplo customer_name). Solo esos nombres se sustituyen; no se ejecuta código ni scripts. Déjalo en blanco para usar el texto integrado por defecto.",
     "RESERVATION_CONFIRMATION_SUBJECT": "Asunto del correo",

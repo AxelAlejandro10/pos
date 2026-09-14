@@ -2282,6 +2282,7 @@
     "EMAIL_FROM": "Adreça del remitent",
     "EMAIL_FROM_NAME": "Nom del remitent",
     "EMAIL_FROM_PLACEHOLDER": "p. ex. Nom del teu restaurant",
+    "EMAIL_FROM_NAME_HINT": "Deixa-ho en blanc per usar el Nom del negoci com a remitent.",
     "RESERVATION_CONFIRMATION_EMAIL_TITLE": "Correu de confirmació de reserva",
     "RESERVATION_CONFIRMATION_EMAIL_DESC": "Escriu el correu en text pla. Per inserir valors, posa un nom permès entre claus dobles (per exemple customer_name). Només aquests noms es substitueixen; no s’executa codi ni scripts. Deixa-ho buit per usar el text integrat per defecte.",
     "RESERVATION_CONFIRMATION_SUBJECT": "Assumpte del correu",

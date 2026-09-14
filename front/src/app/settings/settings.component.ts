@@ -2020,7 +2020,14 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
                   </div>
                   <div class="form-group">
                     <label for="email_from_name">{{ 'SETTINGS.EMAIL_FROM_NAME' | translate }}</label>
-                    <input type="text" id="email_from_name" [(ngModel)]="formData.email_from_name" name="email_from_name" [placeholder]="'SETTINGS.EMAIL_FROM_PLACEHOLDER' | translate" />
+                    <input
+                      type="text"
+                      id="email_from_name"
+                      [(ngModel)]="formData.email_from_name"
+                      name="email_from_name"
+                      [placeholder]="emailFromNamePlaceholder()"
+                    />
+                    <p class="hint">{{ 'SETTINGS.EMAIL_FROM_NAME_HINT' | translate }}</p>
                   </div>
                   <div class="section-header" style="margin-top: 1.5rem;">
                     <h3>{{ 'SETTINGS.RESERVATION_CONFIRMATION_EMAIL_TITLE' | translate }}</h3>
@@ -3724,6 +3731,18 @@ export class SettingsComponent implements OnInit, OnDestroy {
     const u = this.api.getCurrentUser();
     if (!u) return false;
     return this.permissions.hasPermission(u, 'staff_contract:manage');
+  }
+
+  /**
+   * Placeholder for From name: show Business Name when set.
+   * Empty saved value stays empty; send path falls back to Business Name.
+   */
+  emailFromNamePlaceholder(): string {
+    const business = (this.formData.name || '').trim();
+    if (business) {
+      return business;
+    }
+    return this.translate.instant('SETTINGS.EMAIL_FROM_PLACEHOLDER');
   }
 
   loadSettings() {

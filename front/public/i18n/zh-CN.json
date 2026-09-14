@@ -2282,6 +2282,7 @@
     "EMAIL_FROM": "发件人邮箱",
     "EMAIL_FROM_NAME": "发件人名称",
     "EMAIL_FROM_PLACEHOLDER": "例如：您的餐厅名称",
+    "EMAIL_FROM_NAME_HINT": "留空则使用业务名称作为发件人名称。",
     "RESERVATION_CONFIRMATION_EMAIL_TITLE": "预订确认邮件",
     "RESERVATION_CONFIRMATION_EMAIL_DESC": "请使用纯文本编写邮件。插入变量时，将允许的名称写在双花括号中（例如 customer_name）。仅替换这些名称，不会执行代码或脚本。留空则使用内置默认模板。",
     "RESERVATION_CONFIRMATION_SUBJECT": "邮件主题",

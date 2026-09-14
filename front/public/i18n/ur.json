@@ -2136,6 +2136,7 @@
     "EMAIL_FROM": "سے ای میل پتہ",
     "EMAIL_FROM_NAME": "سے نام",
     "EMAIL_FROM_PLACEHOLDER": "مثلاً آپ کا ریستوران نام",
+    "EMAIL_FROM_NAME_HINT": "بھیجنے والے کے نام کے طور پر کاروبار نام استعمال کرنے کے لیے خالی چھوڑیں۔",
     "RESERVATION_CONFIRMATION_EMAIL_TITLE": "بکنگ تصدیق ای میل",
     "RESERVATION_CONFIRMATION_EMAIL_DESC": "Write ای میل میں plain متن. Insert اقدار بذریعہ wrapping اجازت دی گئی نام میں دوہرا گول بریسز (کے لیے مثال گاہک_نام). صرف وہ نام ہیں بھرا ہوا میں—نہیں کوڈ یا scripts. چھوڑیں خالی کو استعمال کریں built-in ڈیفالٹ.",
     "RESERVATION_CONFIRMATION_SUBJECT": "ای میل موضوع",

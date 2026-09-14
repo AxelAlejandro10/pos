@@ -2111,6 +2111,7 @@
     "EMAIL_FROM": "Absender-E-Mail-Adresse",
     "EMAIL_FROM_NAME": "Absendername",
     "EMAIL_FROM_PLACEHOLDER": "z. B. Name Ihres Restaurants",
+    "EMAIL_FROM_NAME_HINT": "Leer lassen, um den Geschäftsnamen als Absendername zu verwenden.",
     "RESERVATION_CONFIRMATION_EMAIL_TITLE": "E-Mail zur Reservierungsbestätigung",
     "RESERVATION_CONFIRMATION_EMAIL_DESC": "E-Mail als Klartext verfassen. Werte einfügen, indem Sie einen erlaubten Namen in doppelte geschweifte Klammern setzen (z. B. customer_name). Nur diese Namen werden ersetzt — kein Code oder Skripte. Leer lassen für die integrierte Standardvorlage.",
     "RESERVATION_CONFIRMATION_SUBJECT": "E-Mail-Betreff",

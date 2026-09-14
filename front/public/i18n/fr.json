@@ -2092,6 +2092,7 @@
     "EMAIL_FROM": "Adresse d’expédition",
     "EMAIL_FROM_NAME": "Nom d’expéditeur",
     "EMAIL_FROM_PLACEHOLDER": "p. ex. Nom de votre restaurant",
+    "EMAIL_FROM_NAME_HINT": "Laissez vide pour utiliser le nom de l'établissement comme expéditeur.",
     "RESERVATION_CONFIRMATION_EMAIL_TITLE": "E-mail de confirmation de réservation",
     "RESERVATION_CONFIRMATION_EMAIL_DESC": "Rédigez l’e-mail en texte brut. Insérez des valeurs en entourant un nom autorisé d’accolades doubles (par ex. customer_name). Seuls ces noms sont remplis — pas de code ni de scripts. Laisser vide pour le modèle intégré par défaut.",
     "RESERVATION_CONFIRMATION_SUBJECT": "Objet de l’e-mail",
