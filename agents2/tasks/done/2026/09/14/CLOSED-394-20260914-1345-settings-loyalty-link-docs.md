@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Settings → Loyalty club had no clear link to the club loyalty runbook (`docs/0066-club-loyalty.md`).
+- **What was done:** Added a visible docs link (Printing pattern) with i18n `SETTINGS.LOYALTY_DOCS_LINK`, smoke `test:settings-loyalty-docs`, and a sidebar brand markup fix that blocked compile.
+- **What was tested:** HAProxy health, front compile clean, and `test:settings-loyalty-docs` — all PASS (tester 2026-09-14).
+- **Why closed:** All acceptance criteria passed; tester overall PASS.
+- **Closed at (UTC):** 2026-09-14 14:05
+---
+
 # Hyperlink club loyalty docs in Settings → Loyalty club (#394)
 
 ## GitHub Issues
