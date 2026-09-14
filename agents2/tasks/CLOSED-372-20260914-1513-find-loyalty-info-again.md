@@ -31,3 +31,30 @@ If a guest does not add the loyalty card to a wallet or bookmark `/loyalty/{tena
 4. Manual guest: open `/loyalty/1` → join with email → note card link → clear session → use **Find my card** with same email → same card link + Open my card.
 5. Manual staff: Settings → Loyalty club → search by email → **Copy card link** → open URL → balance page loads.
 6. Confirm `docker logs --since 10m pos-front` has no TS/NG errors for loyalty components; `pos-back` clean for recover/join.
+
+## Test report
+
+1. **Date/time (UTC):** start 2026-09-14T15:38:53Z — end 2026-09-14T15:40:19Z. Log window: `docker logs --since 15m` (front/back).
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development` @ `7f133522`.
+3. **What was tested:** Public loyalty recover (API + UI), staff membership search/copy card link, front/back logs for loyalty recover/join.
+4. **Results:**
+   - App up on :4202 — **PASS** (`/` and `/api/health` → 200).
+   - Pytest `test_public_recover_by_email_and_phone` + `test_staff_membership_search` — **PASS** (2 passed in 1.35s).
+   - Smoke `npm run test:loyalty-recover` — **PASS** (`>>> RESULT: Loyalty recover smoke passed.` staff login + API join + public recover UI + staff search/copy).
+   - Manual guest join → Find my card — **PASS** (joined `recover372.manual@amvara.de`; card `…/loyalty/card/iwXU0dIdZhuq2-Us0EjDdIN60m4io9uO`; after reload, **Find my card** returned same link + “We found your membership.” + Open my card).
+   - Manual staff search/copy — **PASS** (covered by smoke step 4; card URL opens balance page with member name).
+   - Front logs (loyalty TS/NG) — **PASS** (current build `Application bundle generation complete` at 15:38:04Z; earlier 15:32:10Z mid-edit TS2339 on recover fields resolved by 15:32:26Z; no loyalty errors in final window).
+   - Back logs recover/join — **PASS** (no ERROR/Exception/500 for loyalty recover in window).
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Guests can recover a lost card from the public loyalty page with email alone. Staff keep search plus copy-card-link in Settings. Flow matches the goal without a new portal.
+7. **URLs tested:**
+   1. http://127.0.0.1:4202/
+   2. http://127.0.0.1:4202/api/health
+   3. http://127.0.0.1:4202/loyalty/1
+   4. http://127.0.0.1:4202/loyalty/card/iwXU0dIdZhuq2-Us0EjDdIN60m4io9uO
+   5. (smoke also exercised staff `/login` and Settings → Loyalty club)
+8. **Relevant log excerpts:**
+   - pytest: `2 passed, 1 warning in 1.35s`
+   - smoke: `>>> RESULT: Loyalty recover smoke passed.`
+   - pos-front: `Application bundle generation complete. [1.125 seconds] - 2026-09-14T15:38:04.167Z`
+   - pos-back: no matching ERROR/Exception lines for loyalty recover in the test window
