@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Guests and staff needed a way to find loyalty membership again without a wallet pass or bookmark.
+- **What was done:** Added public recover by email/phone on `/loyalty/{tenantId}` (API + UI) and staff search with Copy card link in Settings → Loyalty club; docs and tests updated.
+- **What was tested:** Pytest recover/search, loyalty-recover smoke, and manual guest/staff paths all PASS; front/back logs clean.
+- **Why closed:** All acceptance criteria passed; tester overall PASS.
+- **Closed at (UTC):** 2026-09-14 15:41
+---
+
 # Way for customers and staff to find loyalty info again (#372)
 
 ## GitHub Issues
