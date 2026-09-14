@@ -22,6 +22,7 @@ import {
 import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 import { LanguageService } from '../services/language.service';
 import { LegalLinksComponent } from '../shared/legal-links.component';
+import { formatMoneyCents } from '../shared/currency-symbol';
 
 @Component({
   selector: 'app-public-menu',
@@ -185,10 +186,6 @@ export class PublicMenuComponent implements OnInit, OnDestroy {
     return this.menu()?.tenant_name?.trim() || this.tenant()?.name?.trim() || '';
   }
 
-  currencyLabel(): string {
-    return this.menu()?.currency?.trim() || '';
-  }
-
   getLogoSafeUrl(url: string | null): SafeResourceUrl | string {
     if (!url) return '';
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
@@ -209,11 +206,8 @@ export class PublicMenuComponent implements OnInit, OnDestroy {
     return url.startsWith('/') ? base + url : `${base}/${url}`;
   }
 
-  formatPrice(product: { price_formatted: string }): string {
-    const amount = product.price_formatted;
-    const code = this.currencyLabel();
-    if (!code) return amount;
-    return `${amount} ${code}`;
+  formatPrice(product: { price_cents: number }): string {
+    return formatMoneyCents(this.translate, product.price_cents, this.menu()?.currency);
   }
 
   private updateDocumentTitle(): void {

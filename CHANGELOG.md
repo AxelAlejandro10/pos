@@ -17,6 +17,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+## [2.1.170] - 2026-09-14
+
+### Fixed
+
+- **Public menu currency symbol (#387):** `/public-menu/:tenantId` and delivery menu prices use the same Intl currency formatting as Products (tenant ISO code → symbol, e.g. `€9.50` / `£9.50`), via shared `formatMoneyCents`.
+
 ## [2.1.169] - 2026-09-14
 
 ### Added

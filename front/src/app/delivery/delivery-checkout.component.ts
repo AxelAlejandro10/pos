@@ -28,6 +28,7 @@ import { LanguageService } from '../services/language.service';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { contactPhoneValid } from '../shared/contact-validators';
 import { productStockLeft } from '../shared/product-stock.util';
+import { formatMoneyCents } from '../shared/currency-symbol';
 
 interface CartLine {
   product: PublicTenantMenuProduct;
@@ -274,7 +275,7 @@ export class DeliveryCheckoutComponent implements OnInit, OnDestroy {
   }
 
   formatPrice(product: PublicTenantMenuProduct): string {
-    return product.price_formatted || `${(product.price_cents / 100).toFixed(2)}`;
+    return formatMoneyCents(this.translate, product.price_cents, this.menu()?.currency);
   }
 
   stockLeft(product: PublicTenantMenuProduct): number | null {
@@ -282,12 +283,7 @@ export class DeliveryCheckoutComponent implements OnInit, OnDestroy {
   }
 
   formatCents(cents: number): string {
-    const currency = this.menu()?.currency || 'EUR';
-    try {
-      return new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(cents / 100);
-    } catch {
-      return `${(cents / 100).toFixed(2)} ${currency}`;
-    }
+    return formatMoneyCents(this.translate, cents, this.menu()?.currency || 'EUR');
   }
 
   productImageUrl(url: string): string {
