@@ -1363,91 +1363,95 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
                     <p class="hint">{{ 'SETTINGS.REVOLUT_MERCHANT_SECRET_HINT' | translate }}</p>
                   </div>
 
-                  <div class="divider"></div>
-                  <h3>{{ 'SETTINGS.FISCAL_INVOICING_TITLE' | translate }}</h3>
-                  <p class="hint">{{ 'SETTINGS.FISCAL_INVOICING_DESC' | translate }}</p>
-                  <div class="form-group">
-                    <label for="fiscal_mode">{{ 'SETTINGS.FISCAL_MODE' | translate }}</label>
-                    <select id="fiscal_mode" class="form-select" [(ngModel)]="formData.fiscal_mode" name="fiscal_mode">
-                      <option value="off">{{ 'SETTINGS.FISCAL_MODE_OFF' | translate }}</option>
-                      <option value="test">{{ 'SETTINGS.FISCAL_MODE_TEST' | translate }}</option>
-                      <option value="live">{{ 'SETTINGS.FISCAL_MODE_LIVE' | translate }}</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="fiscal_invoice_series">{{ 'SETTINGS.FISCAL_SERIES' | translate }}</label>
-                    <input
-                      type="text"
-                      id="fiscal_invoice_series"
-                      [(ngModel)]="formData.fiscal_invoice_series"
-                      name="fiscal_invoice_series"
-                      maxlength="32"
-                      class="input-medium"
-                    />
-                    <p class="hint">{{ 'SETTINGS.FISCAL_SERIES_HINT' | translate }}</p>
-                  </div>
-                  <div class="form-group">
-                    <label for="fiscal_aeat_api_secret">{{ 'SETTINGS.FISCAL_AEAT_SECRET' | translate }}</label>
-                    <input
-                      type="password"
-                      id="fiscal_aeat_api_secret"
-                      [(ngModel)]="formData.fiscal_aeat_api_secret"
-                      name="fiscal_aeat_api_secret"
-                      placeholder="••••••••••••••••"
-                      autocomplete="off"
-                    />
-                    <p class="hint">{{ 'SETTINGS.FISCAL_AEAT_SECRET_HINT' | translate }}</p>
-                  </div>
+                  @if (showVeriFactuFiscalPrep()) {
+                    <div class="divider"></div>
+                    <h3>{{ 'SETTINGS.FISCAL_INVOICING_TITLE' | translate }}</h3>
+                    <p class="hint">{{ 'SETTINGS.FISCAL_INVOICING_DESC' | translate }}</p>
+                    <div class="form-group">
+                      <label for="fiscal_mode">{{ 'SETTINGS.FISCAL_MODE' | translate }}</label>
+                      <select id="fiscal_mode" class="form-select" [(ngModel)]="formData.fiscal_mode" name="fiscal_mode">
+                        <option value="off">{{ 'SETTINGS.FISCAL_MODE_OFF' | translate }}</option>
+                        <option value="test">{{ 'SETTINGS.FISCAL_MODE_TEST' | translate }}</option>
+                        <option value="live">{{ 'SETTINGS.FISCAL_MODE_LIVE' | translate }}</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="fiscal_invoice_series">{{ 'SETTINGS.FISCAL_SERIES' | translate }}</label>
+                      <input
+                        type="text"
+                        id="fiscal_invoice_series"
+                        [(ngModel)]="formData.fiscal_invoice_series"
+                        name="fiscal_invoice_series"
+                        maxlength="32"
+                        class="input-medium"
+                      />
+                      <p class="hint">{{ 'SETTINGS.FISCAL_SERIES_HINT' | translate }}</p>
+                    </div>
+                    <div class="form-group">
+                      <label for="fiscal_aeat_api_secret">{{ 'SETTINGS.FISCAL_AEAT_SECRET' | translate }}</label>
+                      <input
+                        type="password"
+                        id="fiscal_aeat_api_secret"
+                        [(ngModel)]="formData.fiscal_aeat_api_secret"
+                        name="fiscal_aeat_api_secret"
+                        placeholder="••••••••••••••••"
+                        autocomplete="off"
+                      />
+                      <p class="hint">{{ 'SETTINGS.FISCAL_AEAT_SECRET_HINT' | translate }}</p>
+                    </div>
+                  }
 
-                  <div class="divider"></div>
-                  <h3>{{ 'SETTINGS.TSE_TITLE' | translate }}</h3>
-                  <p class="hint">{{ 'SETTINGS.TSE_DESC' | translate }}</p>
-                  <div class="form-group">
-                    <label for="fiscal_country">{{ 'SETTINGS.FISCAL_COUNTRY' | translate }}</label>
-                    <input
-                      type="text"
-                      id="fiscal_country"
-                      [(ngModel)]="formData.fiscal_country"
-                      name="fiscal_country"
-                      maxlength="2"
-                      class="input-small"
-                      placeholder="DE"
-                    />
-                    <p class="hint">{{ 'SETTINGS.FISCAL_COUNTRY_HINT' | translate }}</p>
-                  </div>
-                  <div class="form-group">
-                    <label for="tse_mode">{{ 'SETTINGS.TSE_MODE' | translate }}</label>
-                    <select id="tse_mode" class="form-select" [(ngModel)]="formData.tse_mode" name="tse_mode">
-                      <option value="off">{{ 'SETTINGS.TSE_MODE_OFF' | translate }}</option>
-                      <option value="test">{{ 'SETTINGS.TSE_MODE_TEST' | translate }}</option>
-                      <option value="live">{{ 'SETTINGS.TSE_MODE_LIVE' | translate }}</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="tse_client_id">{{ 'SETTINGS.TSE_CLIENT_ID' | translate }}</label>
-                    <input
-                      type="text"
-                      id="tse_client_id"
-                      [(ngModel)]="formData.tse_client_id"
-                      name="tse_client_id"
-                      maxlength="128"
-                      class="input-medium"
-                      autocomplete="off"
-                    />
-                    <p class="hint">{{ 'SETTINGS.TSE_CLIENT_ID_HINT' | translate }}</p>
-                  </div>
-                  <div class="form-group">
-                    <label for="tse_api_secret">{{ 'SETTINGS.TSE_API_SECRET' | translate }}</label>
-                    <input
-                      type="password"
-                      id="tse_api_secret"
-                      [(ngModel)]="formData.tse_api_secret"
-                      name="tse_api_secret"
-                      placeholder="••••••••••••••••"
-                      autocomplete="off"
-                    />
-                    <p class="hint">{{ 'SETTINGS.TSE_API_SECRET_HINT' | translate }}</p>
-                  </div>
+                  @if (showGermanyTsePrep()) {
+                    <div class="divider"></div>
+                    <h3>{{ 'SETTINGS.TSE_TITLE' | translate }}</h3>
+                    <p class="hint">{{ 'SETTINGS.TSE_DESC' | translate }}</p>
+                    <div class="form-group">
+                      <label for="fiscal_country">{{ 'SETTINGS.FISCAL_COUNTRY' | translate }}</label>
+                      <input
+                        type="text"
+                        id="fiscal_country"
+                        [(ngModel)]="formData.fiscal_country"
+                        name="fiscal_country"
+                        maxlength="2"
+                        class="input-small"
+                        placeholder="DE"
+                      />
+                      <p class="hint">{{ 'SETTINGS.FISCAL_COUNTRY_HINT' | translate }}</p>
+                    </div>
+                    <div class="form-group">
+                      <label for="tse_mode">{{ 'SETTINGS.TSE_MODE' | translate }}</label>
+                      <select id="tse_mode" class="form-select" [(ngModel)]="formData.tse_mode" name="tse_mode">
+                        <option value="off">{{ 'SETTINGS.TSE_MODE_OFF' | translate }}</option>
+                        <option value="test">{{ 'SETTINGS.TSE_MODE_TEST' | translate }}</option>
+                        <option value="live">{{ 'SETTINGS.TSE_MODE_LIVE' | translate }}</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="tse_client_id">{{ 'SETTINGS.TSE_CLIENT_ID' | translate }}</label>
+                      <input
+                        type="text"
+                        id="tse_client_id"
+                        [(ngModel)]="formData.tse_client_id"
+                        name="tse_client_id"
+                        maxlength="128"
+                        class="input-medium"
+                        autocomplete="off"
+                      />
+                      <p class="hint">{{ 'SETTINGS.TSE_CLIENT_ID_HINT' | translate }}</p>
+                    </div>
+                    <div class="form-group">
+                      <label for="tse_api_secret">{{ 'SETTINGS.TSE_API_SECRET' | translate }}</label>
+                      <input
+                        type="password"
+                        id="tse_api_secret"
+                        [(ngModel)]="formData.tse_api_secret"
+                        name="tse_api_secret"
+                        placeholder="••••••••••••••••"
+                        autocomplete="off"
+                      />
+                      <p class="hint">{{ 'SETTINGS.TSE_API_SECRET_HINT' | translate }}</p>
+                    </div>
+                  }
                   
                   <div class="form-group checkbox-row">
                     <label class="switch">
@@ -3040,6 +3044,36 @@ export class SettingsComponent implements OnInit, OnDestroy {
     const code = raw.length === 3 ? raw : 'EUR';
     const sym = this.getPrepaymentCurrencySymbol();
     return sym && sym !== code ? `${code} (${sym})` : code;
+  }
+
+  /**
+   * ISO used for Payments fiscal prep visibility.
+   * Primary: Country (ISO) on Business profile. Fallback: fiscal_country hint (docs/0072).
+   * Currency alone is not used (EUR is multi-country; fiscal modes are ES vs DE per docs/0074).
+   */
+  private fiscalVisibilityCountryIso(): string {
+    const primary = (this.formData.country_code || '').toString().trim().toUpperCase();
+    if (primary.length === 2) {
+      return primary;
+    }
+    const hint = (this.formData.fiscal_country || '').toString().trim().toUpperCase();
+    return hint.length === 2 ? hint : '';
+  }
+
+  /** Spain VeriFactu prep (Settings → Payments). Still shown if fiscal_mode is already on. */
+  showVeriFactuFiscalPrep(): boolean {
+    if (this.formData.fiscal_mode === 'test' || this.formData.fiscal_mode === 'live') {
+      return true;
+    }
+    return this.fiscalVisibilityCountryIso() === 'ES';
+  }
+
+  /** Germany TSE / KassenSichV prep. Still shown if tse_mode is already on. */
+  showGermanyTsePrep(): boolean {
+    if (this.formData.tse_mode === 'test' || this.formData.tse_mode === 'live') {
+      return true;
+    }
+    return this.fiscalVisibilityCountryIso() === 'DE';
   }
 
   onTenantCurrencyCodeChange(): void {

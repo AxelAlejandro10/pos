@@ -12,6 +12,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Changed
 
+- **Settings fiscal sections by country (#392):** Payments shows VeriFactu prep only for Country ISO `ES` (or when `fiscal_mode` is already on) and German TSE / KassenSichV prep only for `DE` (or when `tse_mode` is already on). Currency alone does not gate these blocks.
+
 ### Fixed
 
 ## [2.1.163] - 2026-09-14
