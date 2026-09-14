@@ -30,3 +30,26 @@ Settings → **Loyalty club** should link to **`docs/0066-club-loyalty.md`** so 
 3. Run: `BASE_URL=http://127.0.0.1:4202 HEADLESS=1 npm run test:settings-loyalty-docs --prefix front`
 4. Expect: PASS; href `https://github.com/satisfecho/pos/blob/master/docs/0066-club-loyalty.md`, `target=_blank`.
 5. Manual (optional): Settings → Loyalty club → click the runbook link → GitHub docs page opens.
+
+## Test report
+
+1. **Date/time (UTC):** start 2026-09-14T14:02:58Z, end 2026-09-14T14:03:29Z. Log window: `pos-front` / `pos-back` since ~15m around that interval.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development` @ `2bb8da53`; HAProxy `0.0.0.0:4202`.
+3. **What was tested:** Settings → Loyalty club docs link (href, `target=_blank`, smoke script); front compile health after sidebar/loyalty fixes.
+4. **Results:**
+   - App responds on HAProxy: **PASS** — `curl` `/` → `200`.
+   - Front compile clean at verify time: **PASS** — last success `Application bundle generation complete` at 2026-09-14T14:01:22.747Z; no NG5002 in last 2m. Earlier NG5002 in the 15m window was pre-fix (sidebar `<a>`); resolved before smoke.
+   - Smoke `test:settings-loyalty-docs`: **PASS** — link href `https://github.com/satisfecho/pos/blob/master/docs/0066-club-loyalty.md`, script also asserts `target=_blank`.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Owners can open the club loyalty runbook from Settings without searching the repo. The link matches the Printing docs pattern and opens in a new tab. Good discoverability for a settings-only feature.
+7. **URLs tested:**
+   1. `http://127.0.0.1:4202/` (health / landing)
+   2. `http://127.0.0.1:4202/login` (smoke login)
+   3. `http://127.0.0.1:4202/settings` → Loyalty club section (docs link)
+8. **Relevant log excerpts:**
+   ```
+   Application bundle generation complete. [2.800 seconds] - 2026-09-14T14:01:22.747Z
+   Page reload sent to client(s).
+   >>> RESULT: Settings Loyalty docs link smoke passed.
+   Link OK: https://github.com/satisfecho/pos/blob/master/docs/0066-club-loyalty.md
+   ```
