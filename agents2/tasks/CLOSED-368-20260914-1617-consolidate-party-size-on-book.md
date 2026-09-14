@@ -31,3 +31,23 @@ On the public booking form (`/book/`), **Party size** appears twice with nearly 
 4. Change party size; confirm the calendar still reloads (capacity uses party size).
 5. Optional: staff **Reservations** → New — same single **Party size** label above the grid, no duplicate in the summary.
 6. Smoke: `BASE_URL=http://127.0.0.1:4202 npm run test:landing-version --prefix front` (or `node front/scripts/debug-reservations-public.mjs` for a fuller book flow).
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-14T17:08:49Z → 2026-09-14T17:10:04Z. Log window: `docker logs --since 30m pos-front`.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development`.
+3. **What was tested:** Single **Party size** label on `/book/1`; week summary without duplicate; party-size change reloads calendar; front build clean; landing smoke.
+4. **Results:**
+   - Front build clean — **PASS** — `docker logs --since 30m pos-front` had no `ERROR` / `Application bundle generation failed` / TS/NG compile lines.
+   - Exactly one control label **Party size** — **PASS** — a11y snapshot: one `label`/`spinbutton` "Party size" (`#book-party`); only other "party size" text is hint copy, not a second control label.
+   - Week-grid summary has no **Party size:** — **PASS** — summary keys were `Service:` / `Date:` / `Time slot` only.
+   - Calendar reloads on party size change — **PASS** — DevTools network: `book-month-day-states` and `book-day-slots` with `party_size=2` then `4` then `6` (all 200).
+   - Landing smoke — **PASS** — `npm run test:landing-version --prefix front` → `RESULT: Landing version OK…`.
+   - Staff reservations modal (optional) — **SKIP** — public book criteria passed without it.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Guests now see one clear **Party size** field on `/book/1`. The week summary no longer repeats the same label. Changing guests still refreshes availability as before.
+7. **URLs tested:**
+   1. `http://127.0.0.1:4202/book/1`
+   2. `http://127.0.0.1:4202/` (landing smoke)
+   3. `http://127.0.0.1:4202/dashboard` (landing smoke login)
+8. **Relevant log excerpts:** Front: no compile errors in the test window. Network evidence: `GET …/book-month-day-states?…&party_size=2|4|6` and `GET …/book-day-slots?…&party_size=2|4|6` returned 200. Landing smoke version line: `2.1.174 ee02d6b6`.
