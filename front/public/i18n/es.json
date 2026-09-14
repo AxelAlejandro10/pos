@@ -306,7 +306,8 @@
     "OUTSIDE_RADIUS": "Lo sentimos: esa ubicación está fuera del radio de entrega.",
     "DELIVERY_FEE": "Gastos de envío",
     "SUBTOTAL": "Subtotal",
-    "TRACK_ORDER": "Seguir tu pedido"
+    "TRACK_ORDER": "Seguir tu pedido",
+    "FLOATING_BAR_ARIA": "Total del pedido y continuar"
   },
   "ORDERS_PUBLIC": {
     "TITLE": "Para llevar y pedido a domicilio",

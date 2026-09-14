@@ -498,13 +498,25 @@
           </svg>
           <span class="cart-count-badge">{{ getTotalItems() }}</span>
         </div>
-        <span class="cart-summary-text">{{ getTotalItems() }} {{ 'COMMON.ITEMS' | translate }}</span>
+        <div class="cart-summary-text-block">
+          <span class="cart-summary-text">{{ getTotalItems() }} {{ 'COMMON.ITEMS' | translate }}</span>
+          <span class="cart-summary-total">{{ formatPrice(getTotal()) }}</span>
+        </div>
       </div>
-      <span class="cart-summary-total">{{ formatPrice(getTotal()) }}</span>
-      <svg class="cart-chevron" [class.expanded]="cartExpanded()" width="20" height="20" viewBox="0 0 24 24" fill="none"
+      @if (!cartExpanded()) {
+      <button
+        type="button"
+        class="cart-summary-cta"
+        (click)="openCartCheckout($event)"
+      >
+        {{ 'MENU.CHECKOUT' | translate }}
+      </button>
+      } @else {
+      <svg class="cart-chevron expanded" width="20" height="20" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2">
         <polyline points="18,15 12,9 6,15" />
       </svg>
+      }
     </div>
 
     <!-- Expanded state -->

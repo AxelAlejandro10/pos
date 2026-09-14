@@ -127,16 +127,28 @@ async function main() {
     const addBtn = await page.$('button.delivery-add-btn');
     if (addBtn) {
       await addBtn.click();
-      await page.waitForSelector('button.delivery-cart-btn:not([disabled])', { timeout: 5000 });
-      await page.click('button.delivery-cart-btn');
+      await page.waitForSelector('.delivery-floating-bar button.delivery-floating-cta', {
+        timeout: 5000,
+      });
+      // Floating bar must show total + next-step CTA without scrolling (#360)
+      const floatingOk = await page.evaluate(() => {
+        const bar = document.querySelector('.delivery-floating-bar');
+        if (!bar) return false;
+        const style = window.getComputedStyle(bar);
+        return style.position === 'fixed' && (bar.textContent || '').trim().length > 0;
+      });
+      if (!floatingOk) {
+        throw new Error('Expected fixed floating checkout bar with order total (#360)');
+      }
+      await page.click('button.delivery-floating-cta');
       // Cart step only (not menu "View cart" / Ver carrito copy)
       await page.waitForSelector('ul.delivery-cart-list', { timeout: 10000 });
-      console.log('Cart step OK');
+      console.log('Cart step OK (via floating CTA)');
 
       // Address → create order (regression: TenantProduct menu IDs must not 400)
-      const continueBtn = await page.$('.delivery-actions button.btn-primary');
+      const continueBtn = await page.$('button.delivery-floating-cta');
       if (!continueBtn) {
-        throw new Error('Could not open address step from cart');
+        throw new Error('Could not open address step from cart floating CTA');
       }
       await continueBtn.click();
       await page.waitForSelector('form.delivery-form', { timeout: 10000 });
@@ -154,7 +166,7 @@ async function main() {
           res.request().method() === 'POST',
         { timeout: 30000 },
       );
-      await page.click('form.delivery-form button[type="submit"]');
+      await page.click('button.delivery-floating-cta');
       const createResp = await createRespPromise;
       const createStatus = createResp.status();
       const createBody = await createResp.json().catch(() => ({}));

@@ -10,11 +10,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Added
 
-- **Marketing / Kebab Express:** Registered **satisfecho.de/kebab-express/es/** — manifest entry for **`092_kebabexpress`** (slug **`kebab-express`** matches SPA **`baseHref`**; artifact **`kebab-express-satisfecho-deploy`**; **`deploySubpath`** **`es`**).
-
 ### Changed
 
 ### Fixed
+
+## [2.1.161] - 2026-09-14
+
+### Added
+
+- **Floating order total + CTA (#360):** Satisfecho Delivery shows a fixed bottom bar (item count, total, next-step button) on menu, cart, and address. QR menu cart bar shows total plus a **Checkout** button that opens the order sheet.
+- **Marketing / Kebab Express:** Registered **satisfecho.de/kebab-express/es/** — manifest entry for **`092_kebabexpress`** (slug **`kebab-express`** matches SPA **`baseHref`**; artifact **`kebab-express-satisfecho-deploy`**; **`deploySubpath`** **`es`**).
 
 ## [2.1.160] - 2026-08-26
 
