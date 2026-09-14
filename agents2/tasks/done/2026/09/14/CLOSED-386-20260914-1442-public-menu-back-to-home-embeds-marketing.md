@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Public menu (and delivery) **Back to home** sent guests to marketing `/` inside the app shell.
+- **What was done:** Links now go to `/book/{tenantId}` (invalid tenant → `/features`); `data-testid` hooks added for smoke checks.
+- **What was tested:** Tester PASS on `/public-menu/1` → `/book/1`, no `app-landing`; front compile clean; landing smoke OK.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-14 15:05
+---
+
 # Public menu "Back to home" embeds Satisfecho site (#386)
 
 ## GitHub Issues
