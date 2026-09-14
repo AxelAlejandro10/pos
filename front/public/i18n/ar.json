@@ -2582,7 +2582,11 @@
     "OTP_RECOVERY_REGENERATE": "Generate new recovery codes",
     "OTP_RECOVERY_REGENERATING": "Generating…",
     "OTP_RECOVERY_REGENERATE_PASSWORD": "Enter your account password to generate new recovery codes (invalidates unused ones)",
-    "OTP_RECOVERY_REGENERATE_FAILED": "Could not generate recovery codes. Check your password and try again."
+    "OTP_RECOVERY_REGENERATE_FAILED": "Could not generate recovery codes. Check your password and try again.",
+    "PUBLIC_PRIMARY_COLOR": "Public primary button colour",
+    "PUBLIC_PRIMARY_COLOR_HINT": "Colour for primary actions (Book table, Submit, etc.) on public pages. Default is blue when empty. Background colour stays separate.",
+    "PRESET_PRIMARY_BLUE": "Blue (default)",
+    "PRESET_PRIMARY_GREEN": "Green"
   },
   "PROVIDER_AUTH": {
     "NO_ACCOUNT": "ليس لديك حساب مورد؟",

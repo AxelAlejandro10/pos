@@ -2277,7 +2277,11 @@
     "OTP_RECOVERY_REGENERATE": "Generar nuevos códigos de recuperación",
     "OTP_RECOVERY_REGENERATING": "Generando…",
     "OTP_RECOVERY_REGENERATE_PASSWORD": "Introduce la contraseña de tu cuenta para generar nuevos códigos de recuperación (invalida los no usados)",
-    "OTP_RECOVERY_REGENERATE_FAILED": "No se pudieron generar los códigos de recuperación. Comprueba la contraseña e inténtalo de nuevo."
+    "OTP_RECOVERY_REGENERATE_FAILED": "No se pudieron generar los códigos de recuperación. Comprueba la contraseña e inténtalo de nuevo.",
+    "PUBLIC_PRIMARY_COLOR": "Color primario de botones públicos",
+    "PUBLIC_PRIMARY_COLOR_HINT": "Color de las acciones principales (Reservar mesa, Enviar, etc.) en páginas públicas. Vacío = azul. El color de fondo sigue aparte.",
+    "PRESET_PRIMARY_BLUE": "Azul (predeterminado)",
+    "PRESET_PRIMARY_GREEN": "Verde"
   },
   "PAYMENTS": {
     "PAYMENT": "Pago",

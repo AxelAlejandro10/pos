@@ -22,6 +22,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 - **Public menu Back to home (#386):** `/public-menu/:tenantId` (and delivery) **Back to home** goes to `/book/:tenantId` instead of marketing `/`.
 
+## [2.1.171] - 2026-09-14
+
+### Added
+
+- **Public primary button colour (#370):** Settings → Business profile can set a **primary button colour** for public pages. Empty uses blue (`#2563EB`). Waiting-list link on `/book` is muted (not the same strong colour as Book table). See `docs/0028-tenant-public-branding.md`.
+
 ## [2.1.170] - 2026-09-14
 
 ### Fixed

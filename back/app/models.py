@@ -102,6 +102,8 @@ class Tenant(SQLModel, table=True):
     header_background_filename: str | None = None  # Stored in uploads/{tenant_id}/header/
     # Public-facing pages (book, menu, reservation view): background color as hex (e.g. #1E22AA for RAL5002 Azul)
     public_background_color: str | None = None
+    # Primary CTA / button colour on public pages (hex). Null → front uses blue OOBE default.
+    public_primary_color: str | None = None
     opening_hours: str | None = (
         None  # JSON string: {"monday": {"open": "09:00", "close": "22:00", "closed": false}, ...}
     )
@@ -1885,6 +1887,8 @@ class TenantUpdate(SQLModel):
 
     # Public-facing pages background color (hex, e.g. #1E22AA for RAL5002 Azul)
     public_background_color: str | None = None
+    # Primary CTA / button colour on public pages (hex); empty string clears
+    public_primary_color: str | None = None
 
     # Reservation options (pre-payment, policies, reminders)
     reservation_prepayment_cents: int | None = None

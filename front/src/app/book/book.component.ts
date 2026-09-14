@@ -13,6 +13,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { ReservationWeekSlotGridComponent } from '../shared/reservation-week-slot-grid.component';
+import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
 import { tenantOpeningHoursHasMealSplit } from '../shared/booking-meal-split';
 import { contactEmailValid, contactPhoneValid } from '../shared/contact-validators';
 import { ApiErrorMessageService } from '../services/api-error-message.service';
@@ -107,6 +108,10 @@ export class BookComponent implements OnInit {
   openstreetmapUrl = computed(() => this.tenant()?.public_openstreetmap_url?.trim() || null);
   termsOfServiceUrl = computed(() => this.tenant()?.terms_of_service_url?.trim() || null);
   privacyPolicyUrl = computed(() => this.tenant()?.privacy_policy_url?.trim() || null);
+  /** Primary CTA colour for public book page (#370); blue OOBE when unset. */
+  primaryColorCss = computed(() =>
+    resolvePublicPrimaryColor(this.tenant()?.public_primary_color),
+  );
 
   /** Public booking: ensure http(s) href so the link works when settings omit the scheme. */
   websiteHref = computed((): string | null => {

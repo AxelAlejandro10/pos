@@ -1,4 +1,4 @@
-<div class="book-page" [style.--color-bg]="tenant()?.public_background_color ?? null" [style.--hero-header-bg]="tenant()?.public_background_color ?? null">
+<div class="book-page" [style.--color-bg]="tenant()?.public_background_color ?? null" [style.--hero-header-bg]="tenant()?.public_background_color ?? null" [style.--color-primary]="resolvePublicPrimaryColor(tenant()?.public_primary_color)">
   <app-public-guest-header
     [tenantId]="tenantId()"
     [tenantName]="tenant()?.name ?? null"

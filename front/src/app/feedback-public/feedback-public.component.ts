@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService, TenantSummary } from '../services/api.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
+import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { contactEmailValid, contactPhoneValid } from '../shared/contact-validators';
 import { merge, Subscription } from 'rxjs';
@@ -27,6 +28,7 @@ import { merge, Subscription } from 'rxjs';
   styleUrls: ['../book/book.component.scss', './feedback-public.component.scss'],
 })
 export class FeedbackPublicComponent implements OnInit, OnDestroy {
+  readonly resolvePublicPrimaryColor = resolvePublicPrimaryColor;
   private route = inject(ActivatedRoute);
   private api = inject(ApiService);
   private translate = inject(TranslateService);

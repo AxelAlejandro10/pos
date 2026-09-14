@@ -2414,7 +2414,11 @@
     "OTP_RECOVERY_REGENERATE": "Generate new recovery codes",
     "OTP_RECOVERY_REGENERATING": "Generating…",
     "OTP_RECOVERY_REGENERATE_PASSWORD": "Enter your account password to generate new recovery codes (invalidates unused ones)",
-    "OTP_RECOVERY_REGENERATE_FAILED": "Could not generate recovery codes. Check your password and try again."
+    "OTP_RECOVERY_REGENERATE_FAILED": "Could not generate recovery codes. Check your password and try again.",
+    "PUBLIC_PRIMARY_COLOR": "公开页主按钮颜色",
+    "PUBLIC_PRIMARY_COLOR_HINT": "用于公开页主操作（预订餐桌、提交等）的颜色。留空则为蓝色。背景色单独设置。",
+    "PRESET_PRIMARY_BLUE": "蓝色（默认）",
+    "PRESET_PRIMARY_GREEN": "绿色"
   },
   "PAYMENTS": {
     "PAYMENT": "支付",

@@ -20,6 +20,7 @@ import {
   TenantSummary,
 } from '../services/api.service';
 import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
+import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
 import { LanguageService } from '../services/language.service';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { formatMoneyCents } from '../shared/currency-symbol';
@@ -32,6 +33,7 @@ import { formatMoneyCents } from '../shared/currency-symbol';
   styleUrls: ['../book/book.component.scss', './public-menu.component.scss'],
 })
 export class PublicMenuComponent implements OnInit, OnDestroy {
+  readonly resolvePublicPrimaryColor = resolvePublicPrimaryColor;
   private route = inject(ActivatedRoute);
   private api = inject(ApiService);
   private translate = inject(TranslateService);

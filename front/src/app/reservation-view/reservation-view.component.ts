@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 import { ConfirmationModalComponent } from '../shared/confirmation-modal.component';
 import { reservationDietaryNotesDisplay } from '../shared/reservation-dietary-notes';
 import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
+import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
 
 @Component({
   selector: 'app-reservation-view',
@@ -17,6 +18,7 @@ import { PublicGuestHeaderComponent } from '../shared/public-guest-header.compon
   styleUrl: './reservation-view.component.scss',
 })
 export class ReservationViewComponent implements OnInit {
+  readonly resolvePublicPrimaryColor = resolvePublicPrimaryColor;
   private route = inject(ActivatedRoute);
   private api = inject(ApiService);
   private translate = inject(TranslateService);

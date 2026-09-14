@@ -1,4 +1,4 @@
-<div class="view-page" [style.--hero-header-bg]="tenant()?.public_background_color ?? null">
+<div class="view-page" [style.--hero-header-bg]="tenant()?.public_background_color ?? null" [style.--color-primary]="resolvePublicPrimaryColor(tenant()?.public_primary_color)">
   @if (tenant(); as t) {
     <app-public-guest-header
       [tenantId]="t.id"

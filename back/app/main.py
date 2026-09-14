@@ -831,6 +831,7 @@ class TenantSummary(_BaseModel):
     address: str | None = None
     opening_hours: str | None = None
     public_background_color: str | None = None
+    public_primary_color: str | None = None
     take_away_table_token: str | None = None  # Token for take-away/home ordering if a table is configured
     # Reservation rules (for book page and reservation view)
     reservation_prepayment_cents: int | None = None
@@ -1089,6 +1090,7 @@ def _tenant_to_summary(t: models.Tenant, session: Session) -> TenantSummary:
         address=t.address,
         opening_hours=t.opening_hours,
         public_background_color=t.public_background_color,
+        public_primary_color=getattr(t, "public_primary_color", None),
         take_away_table_token=take_away_token,
         reservation_prepayment_cents=t.reservation_prepayment_cents,
         reservation_prepayment_text=t.reservation_prepayment_text,
@@ -1182,6 +1184,7 @@ def get_public_tenant(
         "address": summary.address,
         "opening_hours": summary.opening_hours,
         "public_background_color": summary.public_background_color,
+        "public_primary_color": summary.public_primary_color,
         "take_away_table_token": summary.take_away_table_token,
         "reservation_prepayment_cents": summary.reservation_prepayment_cents,
         "reservation_prepayment_text": summary.reservation_prepayment_text,
@@ -4383,6 +4386,22 @@ def update_tenant_settings(
                 tenant.public_background_color = None
         else:
             tenant.public_background_color = None
+
+    if tenant_update.public_primary_color is not None:
+        val = (
+            tenant_update.public_primary_color.strip()
+            if isinstance(tenant_update.public_primary_color, str)
+            else None
+        )
+        if val:
+            if not val.startswith("#"):
+                val = "#" + val
+            if len(val) <= 20 and all(c in "0123456789abcdefABCDEF#" for c in val):
+                tenant.public_primary_color = val
+            else:
+                tenant.public_primary_color = None
+        else:
+            tenant.public_primary_color = None
 
     if tenant_update.public_google_review_url is not None:
         tenant.public_google_review_url = _normalize_public_http_url(
@@ -12079,6 +12098,7 @@ def get_menu(
                 "tenant_header_background_filename": tenant.header_background_filename if tenant else None,
                 "tenant_id": table.tenant_id,
                 "tenant_public_background_color": tenant.public_background_color if tenant else None,
+                "tenant_public_primary_color": getattr(tenant, "public_primary_color", None) if tenant else None,
             },
         )
 
@@ -12519,6 +12539,7 @@ def get_menu(
         if tenant
         else False,
         "tenant_public_background_color": tenant.public_background_color if tenant else None,
+        "tenant_public_primary_color": getattr(tenant, "public_primary_color", None) if tenant else None,
         # Table session status (take-away/home ordering tables do not require PIN; staff_access also skips PIN)
         "table_is_active": table.is_active,
         "table_requires_pin": False

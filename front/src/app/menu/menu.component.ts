@@ -11,6 +11,7 @@ import { LanguagePickerComponent } from '../shared/language-picker.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { getSubcategoryLabel as resolveSubcategoryLabel } from '../shared/product-subcategory-label.util';
 import { productStockLeft } from '../shared/product-stock.util';
+import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
 
 interface CartItem {
   product: Product;
@@ -44,6 +45,7 @@ interface PlacedOrder {
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent implements OnInit, OnDestroy {
+  readonly resolvePublicPrimaryColor = resolvePublicPrimaryColor;
   private route = inject(ActivatedRoute);
   private api = inject(ApiService);
   private audio = inject(AudioService);
@@ -78,6 +80,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   tenantCurrencyCode = signal<string>('EUR');
   immediatePaymentRequired = signal(false);
   tenantPublicBackgroundColor = signal<string | null>(null);
+  tenantPublicPrimaryColor = signal<string | null>(null);
   tenantRevolutConfigured = signal(false);
   tenantHeaderBackgroundFilename = signal<string | null>(null);
 
@@ -306,6 +309,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.tenantCurrency.set(data.tenant_currency || '€');
         this.immediatePaymentRequired.set(data.tenant_immediate_payment_required || false);
         this.tenantPublicBackgroundColor.set(data.tenant_public_background_color ?? null);
+        this.tenantPublicPrimaryColor.set(data.tenant_public_primary_color ?? null);
         this.tenantHeaderBackgroundFilename.set(data.tenant_header_background_filename ?? null);
 
         if (data.tenant_stripe_publishable_key) {
@@ -366,6 +370,7 @@ export class MenuComponent implements OnInit, OnDestroy {
           this.closedTenantName.set(detail.tenant_name || '');
           this.closedTenantId.set(detail.tenant_id || null);
           this.tenantPublicBackgroundColor.set(detail.tenant_public_background_color ?? null);
+          this.tenantPublicPrimaryColor.set(detail.tenant_public_primary_color ?? null);
           this.tenantHeaderBackgroundFilename.set(detail.tenant_header_background_filename ?? null);
           if (detail.tenant_logo && detail.tenant_id) {
             this.closedTenantLogo.set(

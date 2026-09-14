@@ -660,6 +660,8 @@ export interface TenantSummary {
   public_google_review_url?: string | null;
   /** Background color for public pages (hex, e.g. #1E22AA for RAL5002 Azul). */
   public_background_color?: string | null;
+  /** Primary CTA / button colour on public pages (hex). Null → front blue OOBE default. */
+  public_primary_color?: string | null;
   /** Google Maps URL (tenant settings). */
   public_google_maps_url?: string | null;
   /** Token for take-away/home ordering when a table is configured (e.g. named "Take away"). */
@@ -1697,6 +1699,7 @@ export interface MenuResponse {
   tenant_revolut_configured?: boolean;
   tenant_immediate_payment_required?: boolean;
   tenant_public_background_color?: string | null;
+  tenant_public_primary_color?: string | null;
   tenant_header_background_filename?: string | null;
   // Table session status
   table_is_active?: boolean;
@@ -1798,6 +1801,8 @@ export interface TenantSettings {
   /** Background color for public-facing pages (hex, e.g. #1E22AA for RAL5002 Azul). */
   public_google_review_url?: string | null;
   public_background_color?: string | null;
+  /** Primary CTA / button colour on public pages (hex). */
+  public_primary_color?: string | null;
   /** Reservation options (pre-payment, policies, reminders) */
   reservation_prepayment_cents?: number | null;
   reservation_prepayment_text?: string | null;

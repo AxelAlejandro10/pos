@@ -2224,7 +2224,11 @@
     "OTP_RECOVERY_REGENERATE": "Générer de nouveaux codes de récupération",
     "OTP_RECOVERY_REGENERATING": "Génération…",
     "OTP_RECOVERY_REGENERATE_PASSWORD": "Saisissez le mot de passe de votre compte pour générer de nouveaux codes de récupération (invalide les codes inutilisés)",
-    "OTP_RECOVERY_REGENERATE_FAILED": "Impossible de générer les codes de récupération. Vérifiez votre mot de passe et réessayez."
+    "OTP_RECOVERY_REGENERATE_FAILED": "Impossible de générer les codes de récupération. Vérifiez votre mot de passe et réessayez.",
+    "PUBLIC_PRIMARY_COLOR": "Couleur primaire des boutons publics",
+    "PUBLIC_PRIMARY_COLOR_HINT": "Couleur des actions principales (Réserver, Envoyer, etc.) sur les pages publiques. Vide = bleu. La couleur de fond reste séparée.",
+    "PRESET_PRIMARY_BLUE": "Bleu (par défaut)",
+    "PRESET_PRIMARY_GREEN": "Vert"
   },
   "PAYMENTS": {
     "PAYMENT": "Paiement",

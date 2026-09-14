@@ -2414,7 +2414,11 @@
     "OTP_RECOVERY_REGENERATE": "Generate new recovery codes",
     "OTP_RECOVERY_REGENERATING": "Generating…",
     "OTP_RECOVERY_REGENERATE_PASSWORD": "Enter your account password to generate new recovery codes (invalidates unused ones)",
-    "OTP_RECOVERY_REGENERATE_FAILED": "Could not generate recovery codes. Check your password and try again."
+    "OTP_RECOVERY_REGENERATE_FAILED": "Could not generate recovery codes. Check your password and try again.",
+    "PUBLIC_PRIMARY_COLOR": "सार्वजनिक प्राथमिक बटन रंग",
+    "PUBLIC_PRIMARY_COLOR_HINT": "सार्वजनिक पृष्ठों पर मुख्य क्रियाओं (टेबल बुक करें, जमा करें आदि) का रंग। खाली = नीला। पृष्ठभूमि रंग अलग रहता है।",
+    "PRESET_PRIMARY_BLUE": "नीला (डिफ़ॉल्ट)",
+    "PRESET_PRIMARY_GREEN": "हरा"
   },
   "PAYMENTS": {
     "PAYMENT": "भुगतान",

@@ -2414,7 +2414,11 @@
     "OTP_RECOVERY_REGENERATE": "Genera nous codis de recuperació",
     "OTP_RECOVERY_REGENERATING": "Generant…",
     "OTP_RECOVERY_REGENERATE_PASSWORD": "Introdueix la contrasenya del compte per generar nous codis de recuperació (invalida els no usats)",
-    "OTP_RECOVERY_REGENERATE_FAILED": "No s’han pogut generar els codis de recuperació. Comprova la contrasenya i torna-ho a provar."
+    "OTP_RECOVERY_REGENERATE_FAILED": "No s’han pogut generar els codis de recuperació. Comprova la contrasenya i torna-ho a provar.",
+    "PUBLIC_PRIMARY_COLOR": "Color primari dels botons públics",
+    "PUBLIC_PRIMARY_COLOR_HINT": "Color de les accions principals (Reservar taula, Enviar, etc.) a les pàgines públiques. Buit = blau. El color de fons continua a part.",
+    "PRESET_PRIMARY_BLUE": "Blau (per defecte)",
+    "PRESET_PRIMARY_GREEN": "Verd"
   },
   "PAYMENTS": {
     "PAYMENT": "Pagament",

@@ -1,4 +1,4 @@
-<div class="menu-page" [style.--hero-header-bg]="tenantPublicBackgroundColor() ?? null">
+<div class="menu-page" [style.--hero-header-bg]="tenantPublicBackgroundColor() ?? null" [style.--color-bg]="tenantPublicBackgroundColor() ?? null" [style.--color-primary]="resolvePublicPrimaryColor(tenantPublicPrimaryColor())">
   @if (loading()) {
   <div class="loading-screen">
     <div class="loading-content">

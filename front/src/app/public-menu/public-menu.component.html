@@ -2,6 +2,7 @@
   class="book-page public-menu-page"
   [style.--color-bg]="tenant()?.public_background_color ?? null"
   [style.--hero-header-bg]="tenant()?.public_background_color ?? null"
+  [style.--color-primary]="resolvePublicPrimaryColor(tenant()?.public_primary_color)"
 >
   <app-public-guest-header
     [tenantId]="tenantId()"

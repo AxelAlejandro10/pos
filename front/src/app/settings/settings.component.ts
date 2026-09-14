@@ -1051,6 +1051,45 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
                   </div>
 
                   <div class="form-group">
+                    <label for="public_primary_color">{{ 'SETTINGS.PUBLIC_PRIMARY_COLOR' | translate }}</label>
+                    <div class="background-color-row">
+                      <input
+                        type="color"
+                        id="public_primary_color"
+                        [value]="formData.public_primary_color || '#2563EB'"
+                        (input)="formData.public_primary_color = $any($event.target).value"
+                        class="color-input"
+                        data-testid="settings-public-primary-color"
+                      />
+                      <input
+                        type="text"
+                        [(ngModel)]="formData.public_primary_color"
+                        name="public_primary_color_hex"
+                        placeholder="#2563EB"
+                        class="hex-input"
+                        data-testid="settings-public-primary-color-hex"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-secondary btn-sm"
+                        (click)="formData.public_primary_color = '#2563EB'"
+                        [attr.title]="'SETTINGS.PRESET_PRIMARY_BLUE' | translate"
+                      >
+                        {{ 'SETTINGS.PRESET_PRIMARY_BLUE' | translate }}
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-secondary btn-sm"
+                        (click)="formData.public_primary_color = '#16A34A'"
+                        [attr.title]="'SETTINGS.PRESET_PRIMARY_GREEN' | translate"
+                      >
+                        {{ 'SETTINGS.PRESET_PRIMARY_GREEN' | translate }}
+                      </button>
+                    </div>
+                    <small class="field-hint">{{ 'SETTINGS.PUBLIC_PRIMARY_COLOR_HINT' | translate }}</small>
+                  </div>
+
+                  <div class="form-group">
                     <label for="timezone">{{ 'SETTINGS.TIMEZONE' | translate }}</label>
                     <div class="timezone-select-wrapper">
                       <input
@@ -3511,6 +3550,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     reservation_confirmation_email_subject: null,
     reservation_confirmation_email_body: null,
     public_background_color: null,
+    public_primary_color: null,
     reservation_prepayment_cents: null,
     reservation_prepayment_text: null,
     reservation_cancellation_policy: null,
@@ -3654,6 +3694,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           reservation_confirmation_email_subject: settings.reservation_confirmation_email_subject ?? null,
           reservation_confirmation_email_body: settings.reservation_confirmation_email_body ?? null,
           public_background_color: settings.public_background_color ?? null,
+          public_primary_color: settings.public_primary_color ?? null,
           reservation_prepayment_cents: settings.reservation_prepayment_cents ?? null,
           reservation_prepayment_text: settings.reservation_prepayment_text ?? null,
           reservation_cancellation_policy: settings.reservation_cancellation_policy ?? null,

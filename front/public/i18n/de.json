@@ -2243,7 +2243,11 @@
     "OTP_RECOVERY_REGENERATE": "Neue Wiederherstellungscodes erzeugen",
     "OTP_RECOVERY_REGENERATING": "Erzeugen…",
     "OTP_RECOVERY_REGENERATE_PASSWORD": "Geben Sie Ihr Kontopasswort ein, um neue Wiederherstellungscodes zu erzeugen (ungültig macht unbenutzte)",
-    "OTP_RECOVERY_REGENERATE_FAILED": "Wiederherstellungscodes konnten nicht erzeugt werden. Prüfen Sie Ihr Passwort und versuchen Sie es erneut."
+    "OTP_RECOVERY_REGENERATE_FAILED": "Wiederherstellungscodes konnten nicht erzeugt werden. Prüfen Sie Ihr Passwort und versuchen Sie es erneut.",
+    "PUBLIC_PRIMARY_COLOR": "Öffentliche Primärfarbe der Schaltflächen",
+    "PUBLIC_PRIMARY_COLOR_HINT": "Farbe für Hauptaktionen (Tisch buchen, Absenden usw.) auf öffentlichen Seiten. Leer = Blau. Hintergrundfarbe bleibt getrennt.",
+    "PRESET_PRIMARY_BLUE": "Blau (Standard)",
+    "PRESET_PRIMARY_GREEN": "Grün"
   },
   "PAYMENTS": {
     "PAYMENT": "Zahlung",
