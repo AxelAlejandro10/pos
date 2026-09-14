@@ -4,6 +4,12 @@
 - **Issue:** (none — enhancement reviewer)
 - **0**
 
+## Status
+
+- **WIP → UNTESTED:** ROADMAP Shipped refreshed through **2026-09-14** from CHANGELOG **2.1.149–2.1.162** and `agents2/tasks/done/2026/08/` CLOSED tasks.
+- **`docs/0032-github-issues-roadmap.md`:** No edit — #52–#54 rows already match shipped MVPs; Aug–Sep items are not umbrella contradictions.
+- No product code. No GitHub issue comment (issue **0**).
+
 ## Problem / goal
 
 Root **`ROADMAP.md`** still frames shipped work as “through **2026-07-31**”. Many user-visible slices landed in **Aug–Sep 2026** (CHANGELOG **2.1.153–2.1.161** and closed tasks). Contributors reading ROADMAP miss shared QR cart, session-scoped order history, `/features`, user manual, stock alerts, platform login counts, pricing QR Menu tier, and floating delivery/QR CTA. The file’s own weekly checklist asks for this refresh; last substantive roadmap pass was **#341** (2026-08-01).
@@ -31,3 +37,19 @@ Root **`ROADMAP.md`** still frames shipped work as “through **2026-07-31**”.
 - Align **`docs/0032-github-issues-roadmap.md`** only where a #52–#54 status contradicts shipped MVPs (do not invent umbrella status)
 - Keep the weekly checklist; no bulk `docs/` rewrite; no product code
 - Pass/fail: ROADMAP no longer claims shipped surface stops at 2026-07-31; `rg` hits the new Aug–Sep themes; CHANGELOG/closed-task evidence only
+
+## What changed
+
+- **`ROADMAP.md` Shipped:** Date through **2026-09-14**; new/updated rows for dine-in QR cart & history, delivery floating CTA, stock alerts, marketing `/features` + `/manual-usuario`, pricing QR Menu free + platform login counts, staff tenant ID, README starter paths, sticky guest header (shipped in 2.1.162).
+
+## Testing instructions
+
+1. Open root **`ROADMAP.md`**. Confirm Shipped intro says through **2026-09-14** (not **2026-07-31**).
+2. From repo root, run:
+   ```bash
+   rg -n 'shared draft cart|order history|/features|manual-usuario|login counts|stock alert|QR Menu — free|floating order total|Tenant ID|Start with one feature' ROADMAP.md
+   ```
+   Expect hits for each theme.
+3. Confirm `rg -n 'through \*\*2026-07-31\*\*' ROADMAP.md` returns no match.
+4. Confirm **`docs/0032-github-issues-roadmap.md`** was not rewritten for this task (optional: skim #52–#54 table still coherent).
+5. No app/runtime smoke required (docs-only).
