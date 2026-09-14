@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Staff sidebar **POS** brand did not navigate to `/dashboard`.
+- **What was done:** Linked **POS** to `/dashboard` via `routerLink` in sidebar and mobile header (`sidebar.component.ts`); version control still opens changelog.
+- **What was tested:** Puppeteer brand → `/dashboard` **PASS**; version → changelog **PASS**; landing smoke and front compile **PASS**.
+- **Why closed:** All criteria passed; tester overall **PASS**.
+- **Closed at (UTC):** 2026-09-14 16:10
+---
+
 # Hyperlink sidebar POS brand to `/dashboard` (#390)
 
 ## GitHub Issues
