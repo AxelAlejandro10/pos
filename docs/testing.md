@@ -270,7 +270,7 @@ npm run debug:working-plan-calendar --prefix front
 
 ### 2c. Changelog (What's new)
 
-Smoke test for the dashboard "What's new" tile and changelog modal. Logs in, opens the dashboard, clicks the What's new tile, and asserts the changelog is loaded from the API and shown (no 404).
+Smoke test for the dashboard "What's new" tile, the staff sidebar version control, and the changelog modal. Logs in, opens the dashboard, clicks the What's new tile, then closes the modal and clicks the sidebar version. Both paths must load changelog content from the API (no 404).
 
 ```bash
 npm run test:changelog --prefix front
@@ -279,7 +279,7 @@ npm run test:changelog --prefix front
 ```
 
 - **Env:** `BASE_URL`, `LOGIN_EMAIL`/`LOGIN_PASSWORD` or `DEMO_LOGIN_EMAIL`/`DEMO_LOGIN_PASSWORD` (from `.env`). `TENANT_ID` (default `1`). `HEADLESS`.
-- **Asserts:** After login, dashboard "What's new" tile is present; clicking it opens the modal; changelog content loads (no error); body contains version-like headings or "Unreleased". Requires backend to serve `CHANGELOG.md` (single file at project root; Docker: `./CHANGELOG.md` mounted at `/app/CHANGELOG.md` in back container).
+- **Asserts:** After login, dashboard "What's new" tile is present; clicking it opens the modal; changelog content loads (no error); body contains version-like headings or "Unreleased". Then the modal is closed and the sidebar version (`data-testid="sidebar-version-changelog"`) opens the same modal. Requires backend to serve `CHANGELOG.md` (single file at project root; Docker: `./CHANGELOG.md` mounted at `/app/CHANGELOG.md` in back container).
 
 ---
 
@@ -771,7 +771,7 @@ From repo root: `npm run <script> --prefix front`. From `front/`: `npm run <scri
 | `test:guided-signup-wizard` | `scripts/test-guided-signup-wizard.mjs` (guided `/register` wizard: step 0 intro → Get started → account fields + Back/Next; no tenant create) |
 | `test:reports` | `scripts/test-reports.mjs` (Reports page smoke; owner/admin) |
 | `test:order-tip-flows` | `scripts/test-order-tip-flows.mjs` (Settings tip entry mode + Reports tips card; owner/admin) |
-| `test:changelog` | `scripts/test-changelog.mjs` (Dashboard What's new → changelog modal; API serves CHANGELOG.md) |
+| `test:changelog` | `scripts/test-changelog.mjs` (Dashboard What's new + sidebar version → changelog modal; API serves CHANGELOG.md) |
 | `test:settings-providers` | `scripts/test-settings-providers.mjs` (Settings → Providers tab; personal providers smoke; uses .env, tenant=1) |
 | `test:settings-printing-docs` | `scripts/test-settings-printing-docs.mjs` (Settings → Printing runbook link to docs/0070 on GitHub; #397) |
 | `test:bartender-role` | `scripts/test-bartender-role.mjs` (Users → Add user → role dropdown includes Bartender) |

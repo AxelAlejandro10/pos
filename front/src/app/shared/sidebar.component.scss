@@ -74,6 +74,27 @@
     margin-top: 2px;
 }
 
+.version-btn {
+    font-family: inherit;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+}
+
+.version-btn:hover,
+.version-btn:focus-visible {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+.version-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
 .commit-hash,
 .tenant-id {
     margin-left: 4px;

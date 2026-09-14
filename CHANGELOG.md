@@ -10,6 +10,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Added
 
+- **Sidebar version opens changelog (#399):** The version string under **POS** in the staff sidebar is a button. It opens the same changelog modal as Dashboard **What's new**. Smoke: `npm run test:changelog --prefix front`.
+
 - **Settings → Printing docs link (#397):** Hardware printing tab links to the runbook on GitHub (`docs/0070-hardware-printing.md`). Smoke: `npm run test:settings-printing-docs --prefix front`.
 
 ### Changed

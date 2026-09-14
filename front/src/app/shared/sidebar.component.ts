@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, computed, AfterViewInit, OnDestroy, ViewChild, ElementRef, DestroyRef } from '@angular/core';
+import { Component, inject, signal, OnInit, computed, AfterViewInit, OnDestroy, ViewChild, ElementRef, DestroyRef, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 import { ApiService, TenantUiModuleKey, User } from '../services/api.service';
 import { PermissionService, Permission } from '../services/permission.service';
 import { environment } from '../../environments/environment';
+import { ChangelogModalComponent } from './changelog-modal.component';
 import { LanguagePickerComponent } from './language-picker.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TablesAreaPreferenceService } from '../services/tables-area-preference.service';
@@ -18,7 +19,7 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, LanguagePickerComponent, TranslateModule],
+  imports: [RouterLink, RouterLinkActive, LanguagePickerComponent, ChangelogModalComponent, TranslateModule],
   template: `
     <div class="layout" [class.sidebar-open]="sidebarOpen()" [class.layout--nav-collapsed]="staffLayout.sidebarCollapsed()">
       <header class="mobile-header">
@@ -41,13 +42,19 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
         <div class="sidebar-header">
           <div class="logo-container" [attr.title]="brandTitle()" [attr.aria-label]="brandTitle()">
             <span class="logo">POS</span>
-            <span class="version">
+            <button
+              type="button"
+              class="version version-btn"
+              (click)="openChangelog()"
+              [attr.aria-label]="'DASHBOARD.CHANGELOG_TITLE' | translate"
+              data-testid="sidebar-version-changelog"
+            >
               {{ version }}
               <span class="commit-hash">{{ commitHash }}</span>
               @if (tenantId(); as tid) {
                 <span class="tenant-id" title="Tenant ID">{{ tid }}</span>
               }
-            </span>
+            </button>
             @if (tenantOrgName()) {
               <span class="sidebar-org-name" [attr.title]="tenantOrgName()!" [attr.aria-label]="tenantOrgName()!">{{
                 tenantOrgName()
@@ -355,6 +362,7 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
         }
         <ng-content></ng-content>
       </main>
+      <app-changelog-modal #changelogModal />
     </div>
   `,
   styleUrl: './sidebar.component.scss'
@@ -371,6 +379,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly offlineQueue = inject(OfflineOrderQueueService);
 
   @ViewChild('navScroll') navScroll?: ElementRef<HTMLElement>;
+  private changelogModal = viewChild.required<ChangelogModalComponent>('changelogModal');
 
   user = signal<User | null>(null);
   sidebarOpen = signal(false);
@@ -434,6 +443,10 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     const org = this.tenantOrgName();
     return org ? `POS (${org})` : 'POS';
   });
+
+  openChangelog() {
+    this.changelogModal().show();
+  }
 
   ngOnInit() {
     this.api.ensureTenantUiModulesLoaded().subscribe();
