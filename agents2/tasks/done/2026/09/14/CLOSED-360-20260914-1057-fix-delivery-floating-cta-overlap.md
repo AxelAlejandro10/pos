@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Delivery floating total/CTA covered cart and address content after 2.1.161.
+- **What was done:** Floating bar shows only on the menu step when the cart has items; cart/address keep inline total and actions.
+- **What was tested:** Delivery checkout smoke PASS; menu bar present; cart/address have no floating bar; order create OK.
+- **Why closed:** All acceptance criteria passed; tester overall PASS.
+- **Closed at (UTC):** 2026-09-14 11:34
+---
+
 # Fix delivery floating CTA overlapping the cart (#360)
 
 ## GitHub Issues
