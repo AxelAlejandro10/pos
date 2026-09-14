@@ -53,3 +53,19 @@ Root **`ROADMAP.md`** still frames shipped work as “through **2026-07-31**”.
 3. Confirm `rg -n 'through \*\*2026-07-31\*\*' ROADMAP.md` returns no match.
 4. Confirm **`docs/0032-github-issues-roadmap.md`** was not rewritten for this task (optional: skim #52–#54 table still coherent).
 5. No app/runtime smoke required (docs-only).
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-14T16:35:21Z start → 2026-09-14T16:35:42Z end. Log window N/A (docs-only; no container checks).
+2. **Environment:** Local git repo on branch `development` (synced via `./scripts/git-sync-development.sh`). No Docker / `BASE_URL` (docs-only).
+3. **What was tested:** ROADMAP Shipped date and Aug–Sep theme coverage; absence of old `2026-07-31` shipped cutoff; `docs/0032-github-issues-roadmap.md` not rewritten for this task.
+4. **Results:**
+   - Shipped intro through **2026-09-14**: **PASS** — `ROADMAP.md` L26: “through **2026-09-14**”.
+   - Theme coverage (instruction #2): **PASS** — hits for order history, `/features`, `manual-usuario`, login counts, stock alert, `QR Menu — free`, floating order total, Tenant ID, Start with one feature. Shared-cart theme present as “Shared live draft cart” (exact substring `shared draft cart` does not match; wording is equivalent).
+   - No `through **2026-07-31**` in ROADMAP: **PASS** — `rg` returned no match.
+   - `docs/0032-github-issues-roadmap.md` not rewritten: **PASS** — commit `609fb000` touched only `ROADMAP.md` + this task file; #52–#54 sections still present and coherent.
+   - App/runtime smoke: **N/A** — docs-only per instructions.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** ROADMAP now states shipped work through 2026-09-14 and lists the Aug–Sep product slices contributors need. No product code change. Issue **0** — no GitHub label/comment.
+7. **URLs tested:** N/A — no browser
+8. **Relevant log excerpts:** N/A — no container logs for docs-only verification.
