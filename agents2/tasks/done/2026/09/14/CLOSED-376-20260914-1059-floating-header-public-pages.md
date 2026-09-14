@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Guests on public pages like `/book/1` lost branding and cross-links while scrolling.
+- **What was done:** A sticky compact guest header with tenant branding, language picker, and public nav links was added and reused across book, menu, waitlist, and delivery pages.
+- **What was tested:** Sticky header, scroll behavior, Menu/Waitlist/Delivery links, mobile CTA clearance, and `test:public-guest-header` — all PASS (tester 2026-09-14).
+- **Why closed:** All acceptance criteria passed; tester overall PASS.
+- **Closed at (UTC):** 2026-09-14 12:59
+---
+
 # Add floating header on public pages (#376)
 
 ## GitHub Issues
