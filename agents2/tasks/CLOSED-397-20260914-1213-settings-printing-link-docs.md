@@ -28,3 +28,23 @@ Settings → **Printing** should link users to **`docs/0070-hardware-printing.md
 2. Run: `BASE_URL=http://127.0.0.1:4202 npm run test:settings-printing-docs --prefix front` (needs `DEMO_LOGIN_*` or `LOGIN_*`).
 3. Manual: log in → Settings → Printing → click the runbook link → GitHub opens `docs/0070-hardware-printing.md`.
 4. Confirm print agent create/list UI still works; check `docker logs --since 10m pos-front` for compile errors.
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-14T17:29:12Z start → 2026-09-14T17:30:28Z end. Log window: `docker logs --since 10m` / `--since 30m` during verification.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development`; `HEADLESS=1`.
+3. **What was tested:** Settings → Printing docs link to `docs/0070-hardware-printing.md`; smoke `test:settings-printing-docs`; print agent UI still present; front compile health.
+4. **Results:**
+   - Smoke `npm run test:settings-printing-docs`: **PASS** — link href `https://github.com/satisfecho/pos/blob/master/docs/0070-hardware-printing.md`, `target=_blank`.
+   - GitHub runbook URL HTTP: **PASS** — `curl` → `200`.
+   - Print agent create/list UI: **PASS** — `[data-testid=print-agent-create]`, device id, display name, Refresh/Revoke, existing `print-agent-7` still on `/settings?section=printing`.
+   - Front build logs: **PASS** — no TS/NG / bundle errors in `pos-front` for the window; app `/` → `200`.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Owners can open the hardware printing runbook from Settings → Printing in one click. The agent/token controls stay usable. No further product change needed for this issue.
+7. **URLs tested:**
+   1. http://127.0.0.1:4202/
+   2. http://127.0.0.1:4202/login?tenant=1
+   3. http://127.0.0.1:4202/settings
+   4. http://127.0.0.1:4202/settings?section=printing
+   5. https://github.com/satisfecho/pos/blob/master/docs/0070-hardware-printing.md
+8. **Relevant log excerpts:** `pos-front` / `pos-back` greps for error|TS|NG|500 in the verification window returned no matching lines. App health: `curl http://127.0.0.1:4202/` → `200`.
