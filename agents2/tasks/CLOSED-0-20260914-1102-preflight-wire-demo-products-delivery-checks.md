@@ -74,3 +74,33 @@ rg -n 'demo_products_check|check_demo_products|008 soft watch' \
 
 - **Pass:** readonly digest shows the three new status lines; healthy stack `ok` + no demo bump for them; ownership skip and unowned SIGNAL behave as above; docs mention 008 soft watch / the three checks.
 - **Fail:** checks missing from digest, hard script exit when back is down, meta task owns its own SIGNAL, or docs omit the watch note.
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-14T13:35:07Z – 2026-09-14T13:36:22Z. Log window: same (script stdout + `tmp/008-*.txt` digests).
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; branch `development`; `BASE_URL` N/A (no browser). Back container up (`pos-back`).
+3. **What was tested:** Criteria 1–5 from Testing instructions (readonly digest lines, healthy `ok` + no demo bump, unowned/owned fail SIGNAL behavior, meta non-ownership, docs soft watch).
+4. **Results:**
+   - Criterion 1 — **PASS** — readonly digest includes `demo_products_check`, `demo_delivery_orders_check`, `demo_delivery_settings_check` (all `ok`).
+   - Criterion 2 — **PASS** — healthy stack: three checks `ok`, `G008_DEMO_SIGNALS=0`.
+   - Criterion 3 — **PASS** — forced products fail (patched copy): unowned → `SIGNAL demo_products_check=fail` and `G008_DEMO_SIGNALS=1`; with synthetic `NEW-0-20990101-0000-repair-demo-products-verify-owner.md` → owned fail, no SIGNAL, `G008_DEMO_SIGNALS=0`.
+   - Criterion 4 — **PASS** — `open_demo_products_repair_owner` skips basename containing `preflight-wire-demo-products` (owner empty with only this TESTING meta task).
+   - Criterion 5 — **PASS** — `docs/testing.md` has **008 soft watch**; `docs/agent-loop.md` 008 row lists products / delivery orders / delivery settings.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** 008 now soft-watches the three missing demo seed checks with the same ownership pattern as tables. Healthy demos stay quiet; unowned gaps raise `G008_DEMO_SIGNALS` without hard-failing preflight.
+7. **URLs tested:** N/A — no browser
+8. **Relevant log excerpts (last section):**
+```
+demo_tables_check=ok
+demo_waiting_list_check=ok
+demo_products_check=ok
+demo_delivery_orders_check=ok
+demo_delivery_settings_check=ok
+G008_DEMO_SIGNALS=0
+--- unowned forced fail ---
+SIGNAL demo_products_check=fail (run seed_demo_products)
+G008_DEMO_SIGNALS=1
+--- owned forced fail ---
+demo_products_check=fail (owned by open task NEW-0-20990101-0000-repair-demo-products-verify-owner.md)
+G008_DEMO_SIGNALS=0
+```
