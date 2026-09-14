@@ -656,9 +656,23 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
               <div class="form-card">
                 <p class="otp-enabled-msg">{{ 'SETTINGS.OTP_ENABLED' | translate }}</p>
                 <div class="form-group">
-                  <label for="otp-disable-code">{{ 'SETTINGS.OTP_DISABLE_ENTER_CODE' | translate }}</label>
-                  <input id="otp-disable-code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" [(ngModel)]="otpDisableCode" name="otpDisableCode" [placeholder]="'SETTINGS.OTP_CODE_PLACEHOLDER' | translate" />
-                  <button type="button" class="btn btn-secondary" (click)="disableOtp()" [disabled]="!otpDisableCode || otpDisableCode.length !== 6 || otpDisabling()">
+                  <label for="otp-disable-password">{{ 'SETTINGS.OTP_DISABLE_ENTER_PASSWORD' | translate }}</label>
+                  <input
+                    id="otp-disable-password"
+                    type="password"
+                    autocomplete="current-password"
+                    [(ngModel)]="otpDisablePassword"
+                    name="otpDisablePassword"
+                    data-testid="otp-disable-password"
+                    [placeholder]="'AUTH.PASSWORD' | translate"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-testid="otp-disable-submit"
+                    (click)="disableOtp()"
+                    [disabled]="!otpDisablePassword.trim() || otpDisabling()"
+                  >
                     {{ otpDisabling() ? ('SETTINGS.OTP_DISABLING' | translate) : ('SETTINGS.OTP_DISABLE' | translate) }}
                   </button>
                 </div>
@@ -3214,7 +3228,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   otpConfirmCode = '';
   otpError = signal<string | null>(null);
   otpConfirming = signal(false);
-  otpDisableCode = '';
+  /** Account password for disable (replaces OTP code re-entry while logged in; #401). */
+  otpDisablePassword = '';
   otpDisabling = signal(false);
   otpSettingUp = signal(false);
   /** Brief “Copied” feedback after a successful TOTP secret copy (#377). */
@@ -3978,17 +3993,23 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   disableOtp() {
-    if (!this.otpDisableCode || this.otpDisableCode.length !== 6) return;
+    const password = (this.otpDisablePassword || '').trim();
+    if (!password) return;
     this.otpError.set(null);
     this.otpDisabling.set(true);
-    this.api.disableOtp(this.otpDisableCode).subscribe({
+    this.api.disableOtp(password).subscribe({
       next: () => {
         this.otpStatus.set({ otp_enabled: false });
-        this.otpDisableCode = '';
+        this.otpDisablePassword = '';
         this.otpDisabling.set(false);
       },
       error: (err) => {
-        this.otpError.set(err?.error?.detail || 'Invalid code');
+        const detail = err?.error?.detail;
+        this.otpError.set(
+          typeof detail === 'string'
+            ? detail
+            : detail?.message || this.translate.instant('SETTINGS.OTP_DISABLE_FAILED'),
+        );
         this.otpDisabling.set(false);
       },
     });

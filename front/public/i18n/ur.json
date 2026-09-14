@@ -2057,7 +2057,6 @@
     "OTP_ENABLE": "فعال کریں OTP",
     "OTP_CONFIRMING": "تصدیق ہو رہی ہے…",
     "OTP_ENABLED": "Two-factor تصدیق (OTP) ہے فعال. آپ گا ضرورت کو درج کریں کوڈ سے آپ کا تصدیق کنندہ ایپ ایپ جب signing میں.",
-    "OTP_DISABLE_ENTER_CODE": "درج کریں آپ کا موجودہ OTP کوڈ کو غیر فعال کریں",
     "OTP_DISABLE": "غیر فعال کریں OTP",
     "OTP_DISABLING": "غیر فعال ہو رہا ہے…",
     "OTP_SECRET_COPIED": "کاپی ہو گیا",
@@ -2258,7 +2257,9 @@
     "LOYALTY_MEMBERS_EMPTY_HINT": "مہمانوں کی اندراج کے لیے عوامی جوائن URL شیئر کریں۔",
     "LOYALTY_REFERRAL_INVITEE_HINT": "درست ریفرل کوڈ سے جوائن کرنے والے نئے ممبر کو ملنے والی یونٹس (0 = بند)۔",
     "LOYALTY_WALLET_ENABLED": "Apple / Google Wallet پاس پیش کریں",
-    "LOYALTY_WALLET_ENABLED_HINT": "پلیٹ فارم سرٹیفکیٹ سیٹ ہونے پر ممبرز جوائن پر والیٹ پاس شامل کر سکتے ہیں۔ صرف بیلنس کارڈ کے لیے بند کریں۔"
+    "LOYALTY_WALLET_ENABLED_HINT": "پلیٹ فارم سرٹیفکیٹ سیٹ ہونے پر ممبرز جوائن پر والیٹ پاس شامل کر سکتے ہیں۔ صرف بیلنس کارڈ کے لیے بند کریں۔",
+    "OTP_DISABLE_ENTER_PASSWORD": "دو مرحلہ تصدیق غیر فعال کرنے کے لیے اپنے اکاؤنٹ کا پاس ورڈ درج کریں",
+    "OTP_DISABLE_FAILED": "دو مرحلہ تصدیق غیر فعال نہیں ہو سکی۔ پاس ورڈ چیک کریں اور دوبارہ کوشش کریں۔"
   },
   "PAYMENTS": {
     "PAYMENT": "ادائیگی",

@@ -2205,8 +2205,11 @@ export class ApiService {
     return this.http.post<{ status: string; otp_enabled: boolean }>(`${this.apiUrl}/users/me/otp/confirm`, { code });
   }
 
-  disableOtp(code: string): Observable<{ status: string; otp_enabled: boolean }> {
-    return this.http.post<{ status: string; otp_enabled: boolean }>(`${this.apiUrl}/users/me/otp/disable`, { code });
+  /** Disable OTP with account password re-entry (logged-in session; #401). */
+  disableOtp(password: string): Observable<{ status: string; otp_enabled: boolean }> {
+    return this.http.post<{ status: string; otp_enabled: boolean }>(`${this.apiUrl}/users/me/otp/disable`, {
+      password,
+    });
   }
 
   registerProvider(data: ProviderRegisterData): Observable<RegisterResponse> {

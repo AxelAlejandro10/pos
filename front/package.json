@@ -1,6 +1,6 @@
 {
   "name": "front",
-  "version": "2.1.163",
+  "version": "2.1.164",
   "scripts": {
     "ng": "ng",
     "prebuild": "node scripts/get-commit-hash.js",
@@ -40,6 +40,7 @@
     "test:changelog": "node scripts/test-changelog.mjs",
     "test:settings-logo": "node scripts/test-settings-logo-upload.mjs",
     "test:settings-otp-copy": "node scripts/test-settings-otp-copy.mjs",
+    "test:settings-otp-disable-password": "node scripts/test-settings-otp-disable-password.mjs",
     "test:settings-providers": "node scripts/test-settings-providers.mjs",
     "test:settings-printing-docs": "node scripts/test-settings-printing-docs.mjs",
     "test:bartender-role": "node scripts/test-bartender-role.mjs",

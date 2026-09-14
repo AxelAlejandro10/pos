@@ -2009,7 +2009,6 @@
     "OTP_ENABLE": "Activar OTP",
     "OTP_CONFIRMING": "Verificando…",
     "OTP_ENABLED": "La autenticación de dos factores (OTP) está activada. Deberás introducir un código de tu app al iniciar sesión.",
-    "OTP_DISABLE_ENTER_CODE": "Introduce tu código OTP actual para desactivar",
     "OTP_DISABLE": "Desactivar OTP",
     "OTP_DISABLING": "Desactivando…",
     "OTP_SECRET_COPIED": "Copiado",
@@ -2258,7 +2257,9 @@
     "LOYALTY_MEMBERS_EMPTY_HINT": "Comparta la URL pública de alta para que los clientes puedan registrarse.",
     "LOYALTY_REFERRAL_INVITEE_HINT": "Unidades para el nuevo miembro que se une con un código de referido válido (0 = off).",
     "LOYALTY_WALLET_ENABLED": "Ofrecer pases de Apple / Google Wallet",
-    "LOYALTY_WALLET_ENABLED_HINT": "Si hay certificados de plataforma, los socios pueden añadir un pase al unirse. Desactiva para dejar solo la tarjeta de saldo."
+    "LOYALTY_WALLET_ENABLED_HINT": "Si hay certificados de plataforma, los socios pueden añadir un pase al unirse. Desactiva para dejar solo la tarjeta de saldo.",
+    "OTP_DISABLE_ENTER_PASSWORD": "Introduce la contraseña de tu cuenta para desactivar la autenticación en dos pasos",
+    "OTP_DISABLE_FAILED": "No se pudo desactivar la autenticación en dos pasos. Comprueba la contraseña e inténtalo de nuevo."
   },
   "PAYMENTS": {
     "PAYMENT": "Pago",

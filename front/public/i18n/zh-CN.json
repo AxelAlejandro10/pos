@@ -2194,7 +2194,6 @@
     "OTP_ENABLE": "启用 OTP",
     "OTP_CONFIRMING": "正在验证…",
     "OTP_ENABLED": "双因素认证（OTP）已启用。登录时需要输入身份验证器应用中的验证码。",
-    "OTP_DISABLE_ENTER_CODE": "输入当前 OTP 验证码以禁用",
     "OTP_DISABLE": "禁用 OTP",
     "OTP_DISABLING": "正在禁用…",
     "OTP_SECRET_COPIED": "已复制",
@@ -2395,7 +2394,9 @@
     "LOYALTY_MEMBERS_EMPTY_HINT": "分享公开加入链接，以便顾客注册。",
     "LOYALTY_REFERRAL_INVITEE_HINT": "使用有效推荐码加入的新会员获得的单位（0 = 关闭）。",
     "LOYALTY_WALLET_ENABLED": "提供 Apple / Google 钱包卡",
-    "LOYALTY_WALLET_ENABLED_HINT": "配置平台证书后，会员加入时可添加钱包卡。关闭则仅保留余额链接。"
+    "LOYALTY_WALLET_ENABLED_HINT": "配置平台证书后，会员加入时可添加钱包卡。关闭则仅保留余额链接。",
+    "OTP_DISABLE_ENTER_PASSWORD": "输入账户密码以关闭双重身份验证",
+    "OTP_DISABLE_FAILED": "无法关闭双重身份验证。请检查密码后重试。"
   },
   "PAYMENTS": {
     "PAYMENT": "支付",

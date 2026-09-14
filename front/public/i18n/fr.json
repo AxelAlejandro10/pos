@@ -2004,7 +2004,6 @@
     "OTP_ENABLE": "Activer l'OTP",
     "OTP_CONFIRMING": "Vérification…",
     "OTP_ENABLED": "L'authentification à deux facteurs (OTP) est activée. Vous devrez saisir un code de votre application d'authentification lors de la connexion.",
-    "OTP_DISABLE_ENTER_CODE": "Saisissez votre code OTP actuel pour désactiver",
     "OTP_DISABLE": "Désactiver l'OTP",
     "OTP_DISABLING": "Désactivation…",
     "OTP_SECRET_COPIED": "Copié",
@@ -2205,7 +2204,9 @@
     "LOYALTY_MEMBERS_EMPTY_HINT": "Partagez l'URL publique d'inscription pour que les clients puissent s'enrôler.",
     "LOYALTY_REFERRAL_INVITEE_HINT": "Unités attribuées au nouveau membre qui s'inscrit avec un code de parrainage valide (0 = off).",
     "LOYALTY_WALLET_ENABLED": "Proposer des passes Apple / Google Wallet",
-    "LOYALTY_WALLET_ENABLED_HINT": "Si les certificats plateforme sont configurés, les membres peuvent ajouter une passe à l’inscription. Désactivez pour le lien solde seul."
+    "LOYALTY_WALLET_ENABLED_HINT": "Si les certificats plateforme sont configurés, les membres peuvent ajouter une passe à l’inscription. Désactivez pour le lien solde seul.",
+    "OTP_DISABLE_ENTER_PASSWORD": "Saisissez le mot de passe de votre compte pour désactiver l’authentification à deux facteurs",
+    "OTP_DISABLE_FAILED": "Impossible de désactiver l’authentification à deux facteurs. Vérifiez votre mot de passe et réessayez."
   },
   "PAYMENTS": {
     "PAYMENT": "Paiement",

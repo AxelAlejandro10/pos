@@ -2194,7 +2194,6 @@
     "OTP_ENABLE": "Activar OTP",
     "OTP_CONFIRMING": "Verificant…",
     "OTP_ENABLED": "L'autenticació de dos factors (OTP) està activada. Hauràs d'introduir un codi de la teva app en iniciar sessió.",
-    "OTP_DISABLE_ENTER_CODE": "Introdueix el teu codi OTP actual per desactivar",
     "OTP_DISABLE": "Desactivar OTP",
     "OTP_DISABLING": "Desactivant…",
     "OTP_SECRET_COPIED": "Copiat",
@@ -2395,7 +2394,9 @@
     "LOYALTY_MEMBERS_EMPTY_HINT": "Compartiu l'URL pública d'alta perquè els clients es puguin registrar.",
     "LOYALTY_REFERRAL_INVITEE_HINT": "Unitats per al nou membre que s'uneix amb un codi de referit vàlid (0 = off).",
     "LOYALTY_WALLET_ENABLED": "Oferir passis d’Apple / Google Wallet",
-    "LOYALTY_WALLET_ENABLED_HINT": "Si hi ha certificats de plataforma, els membres poden afegir un pass en unir-se. Desactiva per deixar només l’enllaç de saldo."
+    "LOYALTY_WALLET_ENABLED_HINT": "Si hi ha certificats de plataforma, els membres poden afegir un pass en unir-se. Desactiva per deixar només l’enllaç de saldo.",
+    "OTP_DISABLE_ENTER_PASSWORD": "Introdueix la contrasenya del compte per desactivar l’autenticació de dos factors",
+    "OTP_DISABLE_FAILED": "No s’ha pogut desactivar l’autenticació de dos factors. Comprova la contrasenya i torna-ho a provar."
   },
   "PAYMENTS": {
     "PAYMENT": "Pagament",

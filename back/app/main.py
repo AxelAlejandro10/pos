@@ -3179,6 +3179,12 @@ class OTPConfirmBody(_BaseModel):
     code: str
 
 
+class OTPDisableBody(_BaseModel):
+    """Disable OTP for the authenticated user by re-entering the account password (#401)."""
+
+    password: str = Field(..., min_length=1, max_length=256)
+
+
 @app.post("/users/me/otp/setup")
 def otp_setup(
     current_user: Annotated[models.User, Depends(security.get_current_user)],
@@ -3223,18 +3229,24 @@ def otp_confirm(
 
 @app.post("/users/me/otp/disable")
 def otp_disable(
-    body: OTPConfirmBody,
+    body: OTPDisableBody,
     current_user: Annotated[models.User, Depends(security.get_current_user)],
     session: Session = Depends(get_session),
+    lang: str = Depends(_get_requested_language),
 ) -> dict:
-    """Verify the OTP code and disable OTP for this user."""
-    import pyotp
+    """Disable OTP for the current user after password re-entry (logged-in session; #401).
+
+    Does not require a working authenticator code so lost-device lockout does not block disable.
+    Unauthenticated callers still cannot reach this endpoint (get_current_user).
+    """
     user = session.get(models.User, current_user.id)
     if not user or not getattr(user, "otp_secret", None):
         return {"status": "ok", "otp_enabled": False}
-    totp = pyotp.TOTP(user.otp_secret)
-    if not totp.verify(body.code, valid_window=1):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired code")
+    if not security.verify_password(body.password.strip(), user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=api_error_payload("incorrect_actor_password", lang),
+        )
     user.otp_secret = None
     user.otp_enabled = False
     session.add(user)

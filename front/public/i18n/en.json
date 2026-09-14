@@ -2228,7 +2228,6 @@
     "OTP_ENABLE": "Enable OTP",
     "OTP_CONFIRMING": "Verifying…",
     "OTP_ENABLED": "Two-factor authentication (OTP) is enabled. You will need to enter a code from your authenticator app when signing in.",
-    "OTP_DISABLE_ENTER_CODE": "Enter your current OTP code to disable",
     "OTP_DISABLE": "Disable OTP",
     "OTP_DISABLING": "Disabling…",
     "OTP_SECRET_COPIED": "Copied",
@@ -2429,7 +2428,9 @@
     "LOYALTY_REFERRAL_INVITEE_HINT": "Units awarded to the new member who joins with a valid referral code (0 = off).",
     "LOYALTY_REFERRAL_CODE": "Referral code",
     "LOYALTY_WALLET_ENABLED": "Offer Apple / Google Wallet passes",
-    "LOYALTY_WALLET_ENABLED_HINT": "When platform certificates are configured, members can add a wallet pass on join. Disable to keep balance-card only."
+    "LOYALTY_WALLET_ENABLED_HINT": "When platform certificates are configured, members can add a wallet pass on join. Disable to keep balance-card only.",
+    "OTP_DISABLE_ENTER_PASSWORD": "Enter your account password to disable two-factor authentication",
+    "OTP_DISABLE_FAILED": "Could not disable two-factor authentication. Check your password and try again."
   },
   "PAYMENTS": {
     "PAYMENT": "Payment",

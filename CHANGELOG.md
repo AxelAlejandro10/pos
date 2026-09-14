@@ -10,11 +10,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [2.1.164] - 2026-09-14
+
+### Added
+
 - **Sidebar version opens changelog (#399):** The version string under **POS** in the staff sidebar is a button. It opens the same changelog modal as Dashboard **What's new**. Smoke: `npm run test:changelog --prefix front`.
 
 - **Settings → Printing docs link (#397):** Hardware printing tab links to the runbook on GitHub (`docs/0070-hardware-printing.md`). Smoke: `npm run test:settings-printing-docs --prefix front`.
 
 ### Changed
+
+- **Disable 2FA with password while logged in (#401):** Settings → Security no longer requires an authenticator code to turn off OTP. Re-enter the account password instead (session still required). Smoke: `npm run test:settings-otp-disable-password --prefix front`.
 
 - **Settings fiscal sections by country (#392):** Payments shows VeriFactu prep only for Country ISO `ES` (or when `fiscal_mode` is already on) and German TSE / KassenSichV prep only for `DE` (or when `tse_mode` is already on). Currency alone does not gate these blocks.
 

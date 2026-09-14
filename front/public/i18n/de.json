@@ -2023,7 +2023,6 @@
     "OTP_ENABLE": "OTP aktivieren",
     "OTP_CONFIRMING": "Wird überprüft…",
     "OTP_ENABLED": "Zwei-Faktor-Authentifizierung (OTP) ist aktiviert. Beim Anmelden müssen Sie einen Code aus Ihrer Authenticator-App eingeben.",
-    "OTP_DISABLE_ENTER_CODE": "Geben Sie Ihren aktuellen OTP-Code ein, um zu deaktivieren",
     "OTP_DISABLE": "OTP deaktivieren",
     "OTP_DISABLING": "Wird deaktiviert…",
     "OTP_SECRET_COPIED": "Kopiert",
@@ -2224,7 +2223,9 @@
     "LOYALTY_MEMBERS_EMPTY_HINT": "Teilen Sie die öffentliche Beitritts-URL, damit Gäste sich anmelden können.",
     "LOYALTY_REFERRAL_INVITEE_HINT": "Einheiten für das neue Mitglied, das mit gültigem Empfehlungscode beitritt (0 = aus).",
     "LOYALTY_WALLET_ENABLED": "Apple-/Google-Wallet-Pässe anbieten",
-    "LOYALTY_WALLET_ENABLED_HINT": "Wenn Plattform-Zertifikate konfiguriert sind, können Mitglieder beim Beitritt einen Wallet-Pass hinzufügen. Deaktivieren für nur Guthaben-Link."
+    "LOYALTY_WALLET_ENABLED_HINT": "Wenn Plattform-Zertifikate konfiguriert sind, können Mitglieder beim Beitritt einen Wallet-Pass hinzufügen. Deaktivieren für nur Guthaben-Link.",
+    "OTP_DISABLE_ENTER_PASSWORD": "Geben Sie Ihr Kontopasswort ein, um die Zwei-Faktor-Authentifizierung zu deaktivieren",
+    "OTP_DISABLE_FAILED": "Zwei-Faktor-Authentifizierung konnte nicht deaktiviert werden. Prüfen Sie Ihr Passwort und versuchen Sie es erneut."
   },
   "PAYMENTS": {
     "PAYMENT": "Zahlung",
