@@ -16,6 +16,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+- **Public loyalty Wallet copy (#393):** Guests on `/loyalty/{tenantId}` no longer see operator PassKit / Google issuer setup text. Add-to-Wallet and “Save this card link” show only when Wallet issuance is available; staff Settings still show wallet status detail.
+
 ## [2.1.163] - 2026-09-14
 
 ### Added

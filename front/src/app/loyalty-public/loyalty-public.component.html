@@ -59,13 +59,13 @@
               <code>{{ origin }}/loyalty/{{ tenantId() }}?ref={{ refCode }}</code>
             </p>
           }
-          @if (memberToken()) {
-            <p class="token-hint">{{ 'LOYALTY_PUBLIC.KEEP_LINK' | translate }}</p>
-            <p class="token">
-              <code>{{ origin }}/loyalty/card/{{ memberToken() }}</code>
-            </p>
-          }
           @if (applePkpassUrl() || googleSaveUrl()) {
+            @if (memberToken()) {
+              <p class="token-hint">{{ 'LOYALTY_PUBLIC.KEEP_LINK' | translate }}</p>
+              <p class="token" data-testid="loyalty-card-link">
+                <code>{{ origin }}/loyalty/card/{{ memberToken() }}</code>
+              </p>
+            }
             <div class="wallet-actions" data-testid="loyalty-wallet-actions">
               @if (applePkpassUrl(); as appleUrl) {
                 <a class="btn primary" [href]="appleUrl" data-testid="loyalty-add-apple-wallet">
@@ -84,8 +84,6 @@
                 </a>
               }
             </div>
-          } @else if (walletNote()) {
-            <p class="hint">{{ walletNote() }}</p>
           }
         </div>
       } @else {

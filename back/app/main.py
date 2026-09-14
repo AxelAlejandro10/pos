@@ -1913,7 +1913,7 @@ def public_loyalty_program_info(
             getattr(program, "vip_gold_min_lifetime_units", 0) or 0
         ),
         "referral_bonus_units": int(getattr(program, "referral_bonus_units", 0) or 0),
-        "wallet": loyalty_svc.wallet_pass_status(program),
+        "wallet": loyalty_svc.wallet_pass_status(program, include_detail=False),
     }
 
 
@@ -1963,7 +1963,8 @@ def public_loyalty_join(
         "membership": loyalty_svc.membership_to_dict(
             membership, include_token=True, program=program
         ),
-        "wallet": pass_info.get("wallet") or loyalty_svc.wallet_pass_status(program),
+        "wallet": pass_info.get("wallet")
+        or loyalty_svc.wallet_pass_status(program, include_detail=False),
     }
     if pass_info.get("apple_pkpass_path"):
         payload["apple_pkpass_path"] = pass_info["apple_pkpass_path"]
@@ -1993,7 +1994,7 @@ def public_loyalty_balance(
             membership, include_token=False, program=program
         ),
         "program": loyalty_svc.program_to_dict(program) if program else None,
-        "wallet": loyalty_svc.wallet_pass_status(program),
+        "wallet": loyalty_svc.wallet_pass_status(program, include_detail=False),
     }
 
 
@@ -2013,7 +2014,7 @@ def public_loyalty_wallet_status(
     if not membership:
         raise HTTPException(status_code=404, detail="Membership not found")
     program = session.get(models.LoyaltyProgram, membership.program_id)
-    status_payload = loyalty_svc.wallet_pass_status(program)
+    status_payload = loyalty_svc.wallet_pass_status(program, include_detail=False)
     status_payload["membership_id"] = membership.id
     if status_payload.get("apple_wallet_available"):
         status_payload["apple_pkpass_path"] = (
@@ -2063,11 +2064,11 @@ def public_loyalty_apple_pkpass(
     tenant = session.get(models.Tenant, membership.tenant_id)
     if not program or not tenant:
         raise HTTPException(status_code=404, detail="Membership not found")
-    status = loyalty_svc.wallet_pass_status(program)
+    status = loyalty_svc.wallet_pass_status(program, include_detail=False)
     if not status.get("apple_wallet_available"):
         raise HTTPException(
             status_code=503,
-            detail=status.get("detail") or "Apple Wallet passes are not available",
+            detail="Apple Wallet passes are not available",
         )
     try:
         data = loyalty_wallet.build_pkpass_bytes(
@@ -2106,11 +2107,11 @@ def public_loyalty_google_save(
     tenant = session.get(models.Tenant, membership.tenant_id)
     if not program or not tenant:
         raise HTTPException(status_code=404, detail="Membership not found")
-    status = loyalty_svc.wallet_pass_status(program)
+    status = loyalty_svc.wallet_pass_status(program, include_detail=False)
     if not status.get("google_wallet_available"):
         raise HTTPException(
             status_code=503,
-            detail=status.get("detail") or "Google Wallet passes are not available",
+            detail="Google Wallet passes are not available",
         )
     oid = loyalty_wallet.ensure_google_loyalty_object(
         session, membership=membership, program=program, tenant=tenant

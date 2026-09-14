@@ -115,10 +115,10 @@ Returned on public program/join/balance and staff program GET:
 |-------|---------|
 | `apple_wallet_configured` / `google_wallet_configured` | Env vars non-empty |
 | `apple_wallet_available` / `google_wallet_available` | Env set **and** cert/JSON files exist on disk **and** tenant `wallet_passes_enabled` |
-| `detail` | Human-readable status (fallback explanation when unavailable) |
+| `detail` | Human-readable **operator** status (staff Settings only). Omitted from public guest APIs (#393). |
 | `apple_pkpass_path` / `google_save_url` | Present when download/save is ready for that member |
 
-When unavailable: join still works; balance card is `/loyalty/card/{memberToken}`. No error on join.
+When unavailable: join still works; balance card URL `/loyalty/card/{memberToken}` still works if the guest has the link. Public `/loyalty/{tenantId}` does **not** show certificate/issuer setup copy or Add-to-Wallet buttons when Wallet is unavailable (#393). The post-join “Save this card link” block is shown only when at least one Wallet action is available.
 
 ### Issuance + push-update
 

@@ -264,10 +264,19 @@ class TestClubLoyalty(PgClientTestCase):
             json={"display_name": "Wal", "email": "wal.loyalty@amvara.de"},
         ).json()
         token = join["membership"]["member_token"]
+        self.assertNotIn("detail", join.get("wallet") or {})
         r = self.client.get(f"/public/loyalty/members/{token}/wallet")
         self.assertEqual(r.status_code, 200)
-        self.assertFalse(r.json()["apple_wallet_available"])
-        self.assertFalse(r.json()["google_wallet_available"])
+        body = r.json()
+        self.assertFalse(body["apple_wallet_available"])
+        self.assertFalse(body["google_wallet_available"])
+        self.assertNotIn("detail", body)
+        pub = self.client.get(f"/public/tenants/{self.tenant.id}/loyalty")
+        self.assertEqual(pub.status_code, 200)
+        self.assertNotIn("detail", (pub.json().get("wallet") or {}))
+        staff = self.client.get("/loyalty/program", headers=_bearer_headers(self.admin))
+        self.assertEqual(staff.status_code, 200)
+        self.assertIn("detail", (staff.json().get("wallet") or {}))
 
     def test_birthday_bonus_on_paid_order(self):
         """Birthday bonus folds into earn once per year (#331)."""

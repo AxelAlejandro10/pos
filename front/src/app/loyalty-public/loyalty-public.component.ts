@@ -34,7 +34,6 @@ export class LoyaltyPublicComponent implements OnInit {
   submitError = signal<string | null>(null);
   memberToken = signal<string | null>(null);
   balance = signal(0);
-  walletNote = signal('');
   applePkpassUrl = signal<string | null>(null);
   googleSaveUrl = signal<string | null>(null);
   origin =
@@ -87,7 +86,6 @@ export class LoyaltyPublicComponent implements OnInit {
     this.api.getPublicLoyaltyProgram(id).subscribe({
       next: (p) => {
         this.program.set(p);
-        this.walletNote.set(p.wallet?.detail || '');
         this.loading.set(false);
         this.updateDocumentTitle();
       },
@@ -132,14 +130,17 @@ export class LoyaltyPublicComponent implements OnInit {
           this.balance.set(res.membership.balance);
           this.vipTier.set(res.membership.vip_tier ?? null);
           this.ownReferralCode.set(res.membership.referral_code ?? null);
-          this.walletNote.set(res.wallet?.detail || this.walletNote());
           const applePath = res.apple_pkpass_path || res.wallet?.apple_pkpass_path;
           this.applePkpassUrl.set(
             token && (res.wallet?.apple_wallet_available || applePath)
               ? this.api.getPublicLoyaltyApplePkpassUrl(token)
               : null,
           );
-          this.googleSaveUrl.set(res.google_save_url || res.wallet?.google_save_url || null);
+          this.googleSaveUrl.set(
+            res.wallet?.google_wallet_available
+              ? res.google_save_url || res.wallet?.google_save_url || null
+              : null,
+          );
         },
         error: (err) => {
           this.submitting.set(false);

@@ -572,8 +572,12 @@ def adjust_balance(
     )
 
 
-def wallet_pass_status(program: models.LoyaltyProgram | None = None) -> dict:
+def wallet_pass_status(
+    program: models.LoyaltyProgram | None = None,
+    *,
+    include_detail: bool = True,
+) -> dict:
     """Operational status for Apple/Google Wallet (certs required; see docs/0066)."""
     from . import loyalty_wallet
 
-    return loyalty_wallet.wallet_pass_status(program)
+    return loyalty_wallet.wallet_pass_status(program, include_detail=include_detail)
