@@ -2418,7 +2418,13 @@
     "PUBLIC_PRIMARY_COLOR": "Color primari dels botons públics",
     "PUBLIC_PRIMARY_COLOR_HINT": "Color de les accions principals (Reservar taula, Enviar, etc.) a les pàgines públiques. Buit = blau. El color de fons continua a part.",
     "PRESET_PRIMARY_BLUE": "Blau (per defecte)",
-    "PRESET_PRIMARY_GREEN": "Verd"
+    "PRESET_PRIMARY_GREEN": "Verd",
+    "LOYALTY_MEMBERS_SEARCH": "Cerca un membre",
+    "LOYALTY_MEMBERS_SEARCH_HINT": "Cerca per nom, correu o telèfon",
+    "LOYALTY_MEMBERS_SEARCH_EMPTY": "Cap membre no coincideix amb aquesta cerca.",
+    "LOYALTY_CARD_LINK": "Enllaç de targeta",
+    "LOYALTY_COPY_CARD": "Copia l’enllaç",
+    "LOYALTY_COPIED": "Copiat"
   },
   "PAYMENTS": {
     "PAYMENT": "Pagament",
@@ -2944,7 +2950,14 @@
     "REFERRAL_CODE": "Codi de referit (opcional)",
     "REFERRAL_SHARE": "Comparteix aquest enllaç perquè amics s'uneixin amb el teu referit:",
     "ADD_APPLE_WALLET": "Afegir a Apple Wallet",
-    "ADD_GOOGLE_WALLET": "Afegir a Google Wallet"
+    "ADD_GOOGLE_WALLET": "Afegir a Google Wallet",
+    "ALREADY_MEMBER": "Ja ets membre?",
+    "RECOVER_HINT": "Introdueix el correu o el telèfon amb què et vas unir per obrir la targeta de nou.",
+    "FIND_CARD": "Troba la meva targeta",
+    "FINDING": "Cercant…",
+    "FOUND": "Hem trobat la teva afiliació.",
+    "NOT_FOUND": "No s’ha trobat cap afiliació amb aquest correu o telèfon.",
+    "OPEN_CARD": "Obre la meva targeta"
   },
   "ABOUT_PAGE": {
     "BADGE": "Empresa",

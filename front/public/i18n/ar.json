@@ -1411,7 +1411,14 @@
     "REFERRAL_CODE": "كود الإحالة (اختياري)",
     "REFERRAL_SHARE": "شارك هذا الرابط حتى ينضم أصدقاؤك عبر إحالتك:",
     "ADD_APPLE_WALLET": "إضافة إلى Apple Wallet",
-    "ADD_GOOGLE_WALLET": "إضافة إلى Google Wallet"
+    "ADD_GOOGLE_WALLET": "إضافة إلى Google Wallet",
+    "ALREADY_MEMBER": "هل أنت عضو بالفعل؟",
+    "RECOVER_HINT": "أدخل البريد أو الهاتف الذي استخدمته عند الانضمام لفتح بطاقتك مرة أخرى.",
+    "FIND_CARD": "اعثر على بطاقتي",
+    "FINDING": "جارٍ البحث…",
+    "FOUND": "وجدنا عضويتك.",
+    "NOT_FOUND": "لم يُعثر على عضوية بهذا البريد أو الهاتف.",
+    "OPEN_CARD": "افتح بطاقتي"
   },
   "USERS": {
     "TITLE": "إدارة المستخدمين",
@@ -2586,7 +2593,13 @@
     "PUBLIC_PRIMARY_COLOR": "Public primary button colour",
     "PUBLIC_PRIMARY_COLOR_HINT": "Colour for primary actions (Book table, Submit, etc.) on public pages. Default is blue when empty. Background colour stays separate.",
     "PRESET_PRIMARY_BLUE": "Blue (default)",
-    "PRESET_PRIMARY_GREEN": "Green"
+    "PRESET_PRIMARY_GREEN": "Green",
+    "LOYALTY_MEMBERS_SEARCH": "ابحث عن عضو",
+    "LOYALTY_MEMBERS_SEARCH_HINT": "ابحث بالاسم أو البريد أو الهاتف",
+    "LOYALTY_MEMBERS_SEARCH_EMPTY": "لا يوجد أعضاء مطابقون لهذا البحث.",
+    "LOYALTY_CARD_LINK": "رابط البطاقة",
+    "LOYALTY_COPY_CARD": "نسخ رابط البطاقة",
+    "LOYALTY_COPIED": "تم النسخ"
   },
   "PROVIDER_AUTH": {
     "NO_ACCOUNT": "ليس لديك حساب مورد؟",

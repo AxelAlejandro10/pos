@@ -44,7 +44,11 @@
 
       @if (submitted()) {
         <div class="success" data-testid="loyalty-join-success">
-          <p>{{ 'LOYALTY_PUBLIC.JOINED' | translate }}</p>
+          <p>
+            {{
+              (recovered() ? 'LOYALTY_PUBLIC.FOUND' : 'LOYALTY_PUBLIC.JOINED') | translate
+            }}
+          </p>
           <p>
             {{ 'LOYALTY_PUBLIC.BALANCE' | translate }}: <strong>{{ balance() }}</strong>
           </p>
@@ -59,13 +63,22 @@
               <code>{{ origin }}/loyalty/{{ tenantId() }}?ref={{ refCode }}</code>
             </p>
           }
+          @if (memberToken()) {
+            <p class="token-hint">{{ 'LOYALTY_PUBLIC.KEEP_LINK' | translate }}</p>
+            <p class="token" data-testid="loyalty-card-link">
+              <code>{{ origin }}/loyalty/card/{{ memberToken() }}</code>
+            </p>
+            <p>
+              <a
+                class="btn primary"
+                [routerLink]="['/loyalty/card', memberToken()]"
+                data-testid="loyalty-open-card"
+              >
+                {{ 'LOYALTY_PUBLIC.OPEN_CARD' | translate }}
+              </a>
+            </p>
+          }
           @if (applePkpassUrl() || googleSaveUrl()) {
-            @if (memberToken()) {
-              <p class="token-hint">{{ 'LOYALTY_PUBLIC.KEEP_LINK' | translate }}</p>
-              <p class="token" data-testid="loyalty-card-link">
-                <code>{{ origin }}/loyalty/card/{{ memberToken() }}</code>
-              </p>
-            }
             <div class="wallet-actions" data-testid="loyalty-wallet-actions">
               @if (applePkpassUrl(); as appleUrl) {
                 <a class="btn primary" [href]="appleUrl" data-testid="loyalty-add-apple-wallet">
@@ -87,7 +100,7 @@
           }
         </div>
       } @else {
-        <form (ngSubmit)="submit()" class="join-form">
+        <form (ngSubmit)="submit()" class="join-form" data-testid="loyalty-join-form">
           <label>
             <span>{{ 'LOYALTY_PUBLIC.NAME' | translate }}</span>
             <input type="text" [(ngModel)]="displayName" name="displayName" required />
@@ -146,6 +159,46 @@
             }}
           </button>
         </form>
+
+        <section class="recover-block" data-testid="loyalty-recover-section">
+          <h2 class="recover-title">{{ 'LOYALTY_PUBLIC.ALREADY_MEMBER' | translate }}</h2>
+          <p class="hint">{{ 'LOYALTY_PUBLIC.RECOVER_HINT' | translate }}</p>
+          <form (ngSubmit)="recover()" class="join-form recover-form">
+            <label>
+              <span>{{ 'LOYALTY_PUBLIC.EMAIL' | translate }}</span>
+              <input
+                type="email"
+                [(ngModel)]="recoverEmail"
+                name="recoverEmail"
+                data-testid="loyalty-recover-email"
+              />
+            </label>
+            <label>
+              <span>{{ 'LOYALTY_PUBLIC.PHONE' | translate }}</span>
+              <input
+                type="tel"
+                [(ngModel)]="recoverPhone"
+                name="recoverPhone"
+                data-testid="loyalty-recover-phone"
+              />
+            </label>
+            @if (recoverError()) {
+              <p class="error" data-testid="loyalty-recover-error">{{ recoverError() }}</p>
+            }
+            <button
+              type="submit"
+              class="btn"
+              [disabled]="!canRecover() || recovering()"
+              data-testid="loyalty-recover-submit"
+            >
+              {{
+                recovering()
+                  ? ('LOYALTY_PUBLIC.FINDING' | translate)
+                  : ('LOYALTY_PUBLIC.FIND_CARD' | translate)
+              }}
+            </button>
+          </form>
+        </section>
       }
     </main>
   }

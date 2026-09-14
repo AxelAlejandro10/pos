@@ -1561,6 +1561,13 @@ class LoyaltyJoinCreate(SQLModel):
     referral_code: str | None = Field(default=None, max_length=32)
 
 
+class LoyaltyRecoverCreate(SQLModel):
+    """Public recover body: find existing membership by email or phone (#372)."""
+
+    email: str | None = Field(default=None, max_length=320)
+    phone: str | None = Field(default=None, max_length=40)
+
+
 class LoyaltyAdjustCreate(SQLModel):
     """Staff manual balance adjustment (owner/admin)."""
 

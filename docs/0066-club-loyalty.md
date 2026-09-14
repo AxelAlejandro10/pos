@@ -58,11 +58,18 @@ Membership API payloads include `vip_tier` (`null` \| `"silver"` \| `"gold"`). S
 
 ## APIs (summary)
 
-- Public: `GET/POST /public/tenants/{id}/loyalty`, `GET /public/loyalty/members/{token}`, wallet status, `…/wallet/apple.pkpass`, `…/wallet/google`
+- Public: `GET/POST /public/tenants/{id}/loyalty`, `POST /public/tenants/{id}/loyalty/recover` (email/phone → card token, #372), `GET /public/loyalty/members/{token}`, wallet status, `…/wallet/apple.pkpass`, `…/wallet/google`
 - PassKit web service: `/public/passkit/v1/devices/…`, `/public/passkit/v1/passes/…`, `/public/passkit/v1/log`
-- Staff: `GET/PUT /loyalty/program` (includes `wallet_passes_enabled`), memberships list/detail/adjust, order link + redeem
+- Staff: `GET/PUT /loyalty/program` (includes `wallet_passes_enabled`), memberships list/detail/adjust (`GET /loyalty/memberships?search=`), order link + redeem
 
-Public loyalty GETs use `@public_menu_ip_limit()` (not `@limiter.limit(public_menu_ip_limit)` — that passes the helper function instead of a rate string and 500s under live SlowAPI). Join uses a dedicated per-hour limit. All SlowAPI-wrapped handlers take `request: Request` and `response: Response` so rate-limit headers inject correctly.
+Public loyalty GETs use `@public_menu_ip_limit()` (not `@limiter.limit(public_menu_ip_limit)` — that passes the helper function instead of a rate string and 500s under live SlowAPI). Join and recover use a dedicated per-hour limit. All SlowAPI-wrapped handlers take `request: Request` and `response: Response` so rate-limit headers inject correctly.
+
+### Recovering a lost card (#372)
+
+- Guests who lost wallet/bookmark use **Already a member?** on `/loyalty/{tenantId}` with the same email or phone used at join. `POST …/loyalty/recover` returns the opaque `member_token` and card URL (does not create a new membership).
+- Re-joining with the same email/phone still returns the existing membership (unchanged).
+- Staff: Settings → Loyalty club member list supports search (name/email/phone) and **Copy card link** to share `/loyalty/card/{token}` without pasting raw tokens into docs.
+- After join/recover, the public page always shows the balance card link (not only when Wallet buttons are available).
 
 ## Interaction with #322 (price promos)
 

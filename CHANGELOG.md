@@ -22,6 +22,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 - **Public menu Back to home (#386):** `/public-menu/:tenantId` (and delivery) **Back to home** goes to `/book/:tenantId` instead of marketing `/`.
 
+## [2.1.172] - 2026-09-14
+
+### Added
+
+- **Loyalty recover lost card (#372):** Public `/loyalty/{tenantId}` has **Already a member?** (email/phone → card link via `POST …/loyalty/recover`). Join/recover always show the balance card link. Staff Settings → Loyalty club: member search + copy card link. Smoke: `npm run test:loyalty-recover --prefix front`.
+
 ## [2.1.171] - 2026-09-14
 
 ### Added

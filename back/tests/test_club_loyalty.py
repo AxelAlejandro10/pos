@@ -132,6 +132,78 @@ class TestClubLoyalty(PgClientTestCase):
         self.assertEqual(bal.json()["membership"]["balance"], 0)
         self.assertEqual(bal.json()["program"]["program_name"], "Cafe Club")
 
+    def test_public_recover_by_email_and_phone(self):
+        """Lost-card recovery by email/phone returns the same token (#372)."""
+        self._enable_program()
+        join = self.client.post(
+            f"/public/tenants/{self.tenant.id}/loyalty/join",
+            json={
+                "display_name": "Recover Guest",
+                "email": "recover.loyalty@amvara.de",
+                "phone": "+34600999888",
+            },
+        )
+        self.assertEqual(join.status_code, 200, join.text)
+        token = join.json()["membership"]["member_token"]
+        mid = join.json()["membership"]["id"]
+
+        by_email = self.client.post(
+            f"/public/tenants/{self.tenant.id}/loyalty/recover",
+            json={"email": "recover.loyalty@amvara.de"},
+        )
+        self.assertEqual(by_email.status_code, 200, by_email.text)
+        self.assertEqual(by_email.json()["membership"]["id"], mid)
+        self.assertEqual(by_email.json()["membership"]["member_token"], token)
+
+        by_phone = self.client.post(
+            f"/public/tenants/{self.tenant.id}/loyalty/recover",
+            json={"phone": "+34600999888"},
+        )
+        self.assertEqual(by_phone.status_code, 200, by_phone.text)
+        self.assertEqual(by_phone.json()["membership"]["member_token"], token)
+
+        missing = self.client.post(
+            f"/public/tenants/{self.tenant.id}/loyalty/recover",
+            json={"email": "nobody.loyalty@amvara.de"},
+        )
+        self.assertEqual(missing.status_code, 404)
+
+        empty = self.client.post(
+            f"/public/tenants/{self.tenant.id}/loyalty/recover",
+            json={},
+        )
+        self.assertEqual(empty.status_code, 400)
+
+        # Other tenant cannot recover this membership
+        other = self.client.post(
+            f"/public/tenants/{self.other.id}/loyalty/recover",
+            json={"email": "recover.loyalty@amvara.de"},
+        )
+        # Program may be disabled on other → 404 either way
+        self.assertEqual(other.status_code, 404)
+
+    def test_staff_membership_search(self):
+        """Staff list search filters by name/email (#372)."""
+        self._enable_program()
+        self.client.post(
+            f"/public/tenants/{self.tenant.id}/loyalty/join",
+            json={"display_name": "Search Alpha", "email": "alpha.loyalty@amvara.de"},
+        )
+        self.client.post(
+            f"/public/tenants/{self.tenant.id}/loyalty/join",
+            json={"display_name": "Search Beta", "email": "beta.loyalty@amvara.de"},
+        )
+        h = _bearer_headers(self.admin)
+        all_rows = self.client.get("/loyalty/memberships", headers=h)
+        self.assertEqual(all_rows.status_code, 200)
+        filtered = self.client.get(
+            "/loyalty/memberships", params={"search": "alpha.loyalty"}, headers=h
+        )
+        self.assertEqual(filtered.status_code, 200)
+        rows = filtered.json()
+        self.assertTrue(all("alpha.loyalty" in (r.get("email") or "") for r in rows))
+        self.assertTrue(all(r.get("member_token") for r in rows))
+
     def test_earn_once_on_mark_paid(self):
         self._enable_program(earn_units_per_order=2)
         join = self.client.post(

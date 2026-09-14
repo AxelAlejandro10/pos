@@ -2228,7 +2228,13 @@
     "PUBLIC_PRIMARY_COLOR": "Couleur primaire des boutons publics",
     "PUBLIC_PRIMARY_COLOR_HINT": "Couleur des actions principales (Réserver, Envoyer, etc.) sur les pages publiques. Vide = bleu. La couleur de fond reste séparée.",
     "PRESET_PRIMARY_BLUE": "Bleu (par défaut)",
-    "PRESET_PRIMARY_GREEN": "Vert"
+    "PRESET_PRIMARY_GREEN": "Vert",
+    "LOYALTY_MEMBERS_SEARCH": "Rechercher un membre",
+    "LOYALTY_MEMBERS_SEARCH_HINT": "Rechercher par nom, e-mail ou téléphone",
+    "LOYALTY_MEMBERS_SEARCH_EMPTY": "Aucun membre ne correspond à cette recherche.",
+    "LOYALTY_CARD_LINK": "Lien de carte",
+    "LOYALTY_COPY_CARD": "Copier le lien",
+    "LOYALTY_COPIED": "Copié"
   },
   "PAYMENTS": {
     "PAYMENT": "Paiement",
@@ -2944,7 +2950,14 @@
     "REFERRAL_CODE": "Code de parrainage (optionnel)",
     "REFERRAL_SHARE": "Partagez ce lien pour que vos amis rejoignent avec votre parrainage :",
     "ADD_APPLE_WALLET": "Ajouter à Apple Wallet",
-    "ADD_GOOGLE_WALLET": "Ajouter à Google Wallet"
+    "ADD_GOOGLE_WALLET": "Ajouter à Google Wallet",
+    "ALREADY_MEMBER": "Déjà membre ?",
+    "RECOVER_HINT": "Saisissez l’e-mail ou le téléphone utilisés à l’inscription pour rouvrir votre carte.",
+    "FIND_CARD": "Retrouver ma carte",
+    "FINDING": "Recherche…",
+    "FOUND": "Nous avons trouvé votre adhésion.",
+    "NOT_FOUND": "Aucune adhésion trouvée pour cet e-mail ou téléphone.",
+    "OPEN_CARD": "Ouvrir ma carte"
   },
   "ABOUT_PAGE": {
     "BADGE": "Entreprise",

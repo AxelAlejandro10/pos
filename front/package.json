@@ -1,6 +1,6 @@
 {
   "name": "front",
-  "version": "2.1.171",
+  "version": "2.1.172",
   "scripts": {
     "ng": "ng",
     "prebuild": "node scripts/get-commit-hash.js",
@@ -49,6 +49,7 @@
     "test:settings-vertical-nav": "node scripts/test-settings-vertical-nav.mjs",
     "test:settings-printing-docs": "node scripts/test-settings-printing-docs.mjs",
     "test:settings-loyalty-docs": "node scripts/test-settings-loyalty-docs.mjs",
+    "test:loyalty-recover": "node scripts/test-loyalty-recover.mjs",
     "test:bartender-role": "node scripts/test-bartender-role.mjs",
     "test:support-access": "node scripts/test-support-access.mjs",
     "test:kitchen-status-dropdown": "node scripts/test-kitchen-status-dropdown.mjs",

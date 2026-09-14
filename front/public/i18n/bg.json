@@ -2281,7 +2281,13 @@
     "PUBLIC_PRIMARY_COLOR": "Public primary button colour",
     "PUBLIC_PRIMARY_COLOR_HINT": "Colour for primary actions (Book table, Submit, etc.) on public pages. Default is blue when empty. Background colour stays separate.",
     "PRESET_PRIMARY_BLUE": "Blue (default)",
-    "PRESET_PRIMARY_GREEN": "Green"
+    "PRESET_PRIMARY_GREEN": "Green",
+    "LOYALTY_MEMBERS_SEARCH": "Намери член",
+    "LOYALTY_MEMBERS_SEARCH_HINT": "Търсене по име, имейл или телефон",
+    "LOYALTY_MEMBERS_SEARCH_EMPTY": "Няма членове, които да съвпадат с търсенето.",
+    "LOYALTY_CARD_LINK": "Линк към карта",
+    "LOYALTY_COPY_CARD": "Копирай линка",
+    "LOYALTY_COPIED": "Копирано"
   },
   "PAYMENTS": {
     "PAYMENT": "Плащане:",
@@ -2944,7 +2950,14 @@
     "REFERRAL_CODE": "Код за препоръка (по избор)",
     "REFERRAL_SHARE": "Споделете тази връзка, за да се присъединят приятели с вашата препоръка:",
     "ADD_APPLE_WALLET": "Добави в Apple Wallet",
-    "ADD_GOOGLE_WALLET": "Добави в Google Wallet"
+    "ADD_GOOGLE_WALLET": "Добави в Google Wallet",
+    "ALREADY_MEMBER": "Вече сте член?",
+    "RECOVER_HINT": "Въведете имейла или телефона, с които сте се присъединили, за да отворите картата отново.",
+    "FIND_CARD": "Намери картата ми",
+    "FINDING": "Търсене…",
+    "FOUND": "Намерихме членството ви.",
+    "NOT_FOUND": "Няма членство за този имейл или телефон.",
+    "OPEN_CARD": "Отвори картата ми"
   },
   "ABOUT_PAGE": {
     "BADGE": "Компания",

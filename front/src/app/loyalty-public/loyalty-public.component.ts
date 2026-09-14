@@ -49,6 +49,11 @@ export class LoyaltyPublicComponent implements OnInit {
   referralCode = '';
   vipTier = signal<string | null>(null);
   ownReferralCode = signal<string | null>(null);
+  recovered = signal(false);
+  recoverEmail = '';
+  recoverPhone = '';
+  recovering = signal(false);
+  recoverError = signal<string | null>(null);
 
   constructor() {
     afterNextRender(() => this.updateDocumentTitle());
@@ -106,10 +111,55 @@ export class LoyaltyPublicComponent implements OnInit {
     return true;
   }
 
+  canRecover(): boolean {
+    const hasEmail = !!this.recoverEmail.trim();
+    const hasPhone = !!this.recoverPhone.trim();
+    if (!hasEmail && !hasPhone) return false;
+    if (hasEmail && !contactEmailValid(this.recoverEmail)) return false;
+    if (hasPhone && !contactPhoneValid(this.recoverPhone)) return false;
+    return true;
+  }
+
+  private applyMembershipResult(res: {
+    membership: {
+      member_token?: string;
+      balance: number;
+      vip_tier?: string | null;
+      referral_code?: string | null;
+    };
+    wallet?: {
+      apple_wallet_available?: boolean;
+      google_wallet_available?: boolean;
+      apple_pkpass_path?: string | null;
+      google_save_url?: string | null;
+    };
+    apple_pkpass_path?: string;
+    google_save_url?: string;
+  }): void {
+    const token = res.membership.member_token ?? null;
+    this.memberToken.set(token);
+    this.balance.set(res.membership.balance);
+    this.vipTier.set(res.membership.vip_tier ?? null);
+    this.ownReferralCode.set(res.membership.referral_code ?? null);
+    const applePath = res.apple_pkpass_path || res.wallet?.apple_pkpass_path;
+    this.applePkpassUrl.set(
+      token && (res.wallet?.apple_wallet_available || applePath)
+        ? this.api.getPublicLoyaltyApplePkpassUrl(token)
+        : null,
+    );
+    this.googleSaveUrl.set(
+      res.wallet?.google_wallet_available
+        ? res.google_save_url || res.wallet?.google_save_url || null
+        : null,
+    );
+    this.submitted.set(true);
+  }
+
   submit(): void {
     if (!this.canSubmit() || this.submitting()) return;
     this.submitting.set(true);
     this.submitError.set(null);
+    this.recovered.set(false);
     const month = Number(this.birthdayMonth);
     const day = Number(this.birthdayDay);
     this.api
@@ -124,27 +174,38 @@ export class LoyaltyPublicComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.submitting.set(false);
-          this.submitted.set(true);
-          const token = res.membership.member_token ?? null;
-          this.memberToken.set(token);
-          this.balance.set(res.membership.balance);
-          this.vipTier.set(res.membership.vip_tier ?? null);
-          this.ownReferralCode.set(res.membership.referral_code ?? null);
-          const applePath = res.apple_pkpass_path || res.wallet?.apple_pkpass_path;
-          this.applePkpassUrl.set(
-            token && (res.wallet?.apple_wallet_available || applePath)
-              ? this.api.getPublicLoyaltyApplePkpassUrl(token)
-              : null,
-          );
-          this.googleSaveUrl.set(
-            res.wallet?.google_wallet_available
-              ? res.google_save_url || res.wallet?.google_save_url || null
-              : null,
-          );
+          this.applyMembershipResult(res);
         },
         error: (err) => {
           this.submitting.set(false);
           this.submitError.set(err?.error?.detail || 'Join failed');
+        },
+      });
+  }
+
+  recover(): void {
+    if (!this.canRecover() || this.recovering()) return;
+    this.recovering.set(true);
+    this.recoverError.set(null);
+    this.api
+      .recoverPublicLoyalty(this.tenantId(), {
+        email: this.recoverEmail.trim() || undefined,
+        phone: this.recoverPhone.trim() || undefined,
+      })
+      .subscribe({
+        next: (res) => {
+          this.recovering.set(false);
+          this.recovered.set(true);
+          this.applyMembershipResult(res);
+        },
+        error: (err) => {
+          this.recovering.set(false);
+          const detail = err?.error?.detail;
+          this.recoverError.set(
+            typeof detail === 'string' && detail
+              ? detail
+              : this.translate.instant('LOYALTY_PUBLIC.NOT_FOUND'),
+          );
         },
       });
   }

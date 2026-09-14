@@ -2418,7 +2418,13 @@
     "PUBLIC_PRIMARY_COLOR": "सार्वजनिक प्राथमिक बटन रंग",
     "PUBLIC_PRIMARY_COLOR_HINT": "सार्वजनिक पृष्ठों पर मुख्य क्रियाओं (टेबल बुक करें, जमा करें आदि) का रंग। खाली = नीला। पृष्ठभूमि रंग अलग रहता है।",
     "PRESET_PRIMARY_BLUE": "नीला (डिफ़ॉल्ट)",
-    "PRESET_PRIMARY_GREEN": "हरा"
+    "PRESET_PRIMARY_GREEN": "हरा",
+    "LOYALTY_MEMBERS_SEARCH": "सदस्य खोजें",
+    "LOYALTY_MEMBERS_SEARCH_HINT": "नाम, ईमेल या फ़ोन से खोजें",
+    "LOYALTY_MEMBERS_SEARCH_EMPTY": "उस खोज से कोई सदस्य मेल नहीं खाता।",
+    "LOYALTY_CARD_LINK": "कार्ड लिंक",
+    "LOYALTY_COPY_CARD": "कार्ड लिंक कॉपी करें",
+    "LOYALTY_COPIED": "कॉपी हो गया"
   },
   "PAYMENTS": {
     "PAYMENT": "भुगतान",
@@ -2944,7 +2950,14 @@
     "REFERRAL_CODE": "रेफ़रल कोड (वैकल्पिक)",
     "REFERRAL_SHARE": "यह लिंक साझा करें ताकि मित्र आपके रेफ़रल से जुड़ें:",
     "ADD_APPLE_WALLET": "Apple Wallet में जोड़ें",
-    "ADD_GOOGLE_WALLET": "Google Wallet में जोड़ें"
+    "ADD_GOOGLE_WALLET": "Google Wallet में जोड़ें",
+    "ALREADY_MEMBER": "पहले से सदस्य हैं?",
+    "RECOVER_HINT": "कार्ड फिर खोलने के लिए वही ईमेल या फ़ोन दर्ज करें जिससे आप जुड़े थे।",
+    "FIND_CARD": "मेरा कार्ड खोजें",
+    "FINDING": "खोज रहे हैं…",
+    "FOUND": "हमने आपकी सदस्यता पा ली।",
+    "NOT_FOUND": "उस ईमेल या फ़ोन की कोई सदस्यता नहीं मिली।",
+    "OPEN_CARD": "मेरा कार्ड खोलें"
   },
   "ABOUT_PAGE": {
     "BADGE": "कंपनी",

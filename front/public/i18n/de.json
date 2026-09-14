@@ -2247,7 +2247,13 @@
     "PUBLIC_PRIMARY_COLOR": "Öffentliche Primärfarbe der Schaltflächen",
     "PUBLIC_PRIMARY_COLOR_HINT": "Farbe für Hauptaktionen (Tisch buchen, Absenden usw.) auf öffentlichen Seiten. Leer = Blau. Hintergrundfarbe bleibt getrennt.",
     "PRESET_PRIMARY_BLUE": "Blau (Standard)",
-    "PRESET_PRIMARY_GREEN": "Grün"
+    "PRESET_PRIMARY_GREEN": "Grün",
+    "LOYALTY_MEMBERS_SEARCH": "Mitglied suchen",
+    "LOYALTY_MEMBERS_SEARCH_HINT": "Nach Name, E-Mail oder Telefon suchen",
+    "LOYALTY_MEMBERS_SEARCH_EMPTY": "Keine Mitglieder passen zu dieser Suche.",
+    "LOYALTY_CARD_LINK": "Kartenlink",
+    "LOYALTY_COPY_CARD": "Kartenlink kopieren",
+    "LOYALTY_COPIED": "Kopiert"
   },
   "PAYMENTS": {
     "PAYMENT": "Zahlung",
@@ -2944,7 +2950,14 @@
     "REFERRAL_CODE": "Empfehlungscode (optional)",
     "REFERRAL_SHARE": "Teile diesen Link, damit Freunde mit deiner Empfehlung beitreten:",
     "ADD_APPLE_WALLET": "Zu Apple Wallet hinzufügen",
-    "ADD_GOOGLE_WALLET": "Zu Google Wallet hinzufügen"
+    "ADD_GOOGLE_WALLET": "Zu Google Wallet hinzufügen",
+    "ALREADY_MEMBER": "Schon Mitglied?",
+    "RECOVER_HINT": "Gib die E-Mail oder Telefonnummer ein, mit der du beigetreten bist, um deine Karte wieder zu öffnen.",
+    "FIND_CARD": "Meine Karte finden",
+    "FINDING": "Suche…",
+    "FOUND": "Wir haben deine Mitgliedschaft gefunden.",
+    "NOT_FOUND": "Keine Mitgliedschaft für diese E-Mail oder Telefonnummer gefunden.",
+    "OPEN_CARD": "Meine Karte öffnen"
   },
   "ABOUT_PAGE": {
     "BADGE": "Unternehmen",

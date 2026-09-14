@@ -3864,6 +3864,26 @@ export class ApiService {
     }>(`${this.apiUrl}/public/tenants/${tenantId}/loyalty/join`, body);
   }
 
+  /** Find existing membership by email or phone and return card token (#372). */
+  recoverPublicLoyalty(
+    tenantId: number,
+    body: { email?: string; phone?: string },
+  ): Observable<{
+    ok: boolean;
+    membership: LoyaltyMembership;
+    wallet?: LoyaltyWalletStatus;
+    apple_pkpass_path?: string;
+    google_save_url?: string;
+  }> {
+    return this.http.post<{
+      ok: boolean;
+      membership: LoyaltyMembership;
+      wallet?: LoyaltyWalletStatus;
+      apple_pkpass_path?: string;
+      google_save_url?: string;
+    }>(`${this.apiUrl}/public/tenants/${tenantId}/loyalty/recover`, body);
+  }
+
   getPublicLoyaltyApplePkpassUrl(memberToken: string): string {
     return `${this.apiUrl}/public/loyalty/members/${encodeURIComponent(memberToken)}/wallet/apple.pkpass`;
   }

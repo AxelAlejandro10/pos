@@ -2418,7 +2418,13 @@
     "PUBLIC_PRIMARY_COLOR": "公开页主按钮颜色",
     "PUBLIC_PRIMARY_COLOR_HINT": "用于公开页主操作（预订餐桌、提交等）的颜色。留空则为蓝色。背景色单独设置。",
     "PRESET_PRIMARY_BLUE": "蓝色（默认）",
-    "PRESET_PRIMARY_GREEN": "绿色"
+    "PRESET_PRIMARY_GREEN": "绿色",
+    "LOYALTY_MEMBERS_SEARCH": "查找会员",
+    "LOYALTY_MEMBERS_SEARCH_HINT": "按姓名、邮箱或电话搜索",
+    "LOYALTY_MEMBERS_SEARCH_EMPTY": "没有符合该搜索的会员。",
+    "LOYALTY_CARD_LINK": "会员卡链接",
+    "LOYALTY_COPY_CARD": "复制会员卡链接",
+    "LOYALTY_COPIED": "已复制"
   },
   "PAYMENTS": {
     "PAYMENT": "支付",
@@ -2944,7 +2950,14 @@
     "REFERRAL_CODE": "推荐码（可选）",
     "REFERRAL_SHARE": "分享此链接，让好友用你的推荐加入：",
     "ADD_APPLE_WALLET": "添加到 Apple 钱包",
-    "ADD_GOOGLE_WALLET": "添加到 Google 钱包"
+    "ADD_GOOGLE_WALLET": "添加到 Google 钱包",
+    "ALREADY_MEMBER": "已经是会员？",
+    "RECOVER_HINT": "输入加入时使用的邮箱或电话，即可再次打开会员卡。",
+    "FIND_CARD": "查找我的会员卡",
+    "FINDING": "正在查找…",
+    "FOUND": "已找到您的会员资格。",
+    "NOT_FOUND": "未找到该邮箱或电话对应的会员。",
+    "OPEN_CARD": "打开我的会员卡"
   },
   "ABOUT_PAGE": {
     "BADGE": "公司",

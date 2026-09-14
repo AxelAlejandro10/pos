@@ -2281,7 +2281,13 @@
     "PUBLIC_PRIMARY_COLOR": "Public primary button colour",
     "PUBLIC_PRIMARY_COLOR_HINT": "Colour for primary actions (Book table, Submit, etc.) on public pages. Default is blue when empty. Background colour stays separate.",
     "PRESET_PRIMARY_BLUE": "Blue (default)",
-    "PRESET_PRIMARY_GREEN": "Green"
+    "PRESET_PRIMARY_GREEN": "Green",
+    "LOYALTY_MEMBERS_SEARCH": "رکن تلاش کریں",
+    "LOYALTY_MEMBERS_SEARCH_HINT": "نام، ای میل یا فون سے تلاش کریں",
+    "LOYALTY_MEMBERS_SEARCH_EMPTY": "اس تلاش سے کوئی رکن نہیں ملا۔",
+    "LOYALTY_CARD_LINK": "کارڈ لنک",
+    "LOYALTY_COPY_CARD": "کارڈ لنک کاپی کریں",
+    "LOYALTY_COPIED": "کاپی ہو گیا"
   },
   "PAYMENTS": {
     "PAYMENT": "ادائیگی",
@@ -2944,7 +2950,14 @@
     "REFERRAL_CODE": "ریفرل کوڈ (اختیاری)",
     "REFERRAL_SHARE": "یہ لنک شیئر کریں تاکہ دوست آپ کے ریفرل سے جوائن کریں:",
     "ADD_APPLE_WALLET": "Apple Wallet میں شامل کریں",
-    "ADD_GOOGLE_WALLET": "Google Wallet میں شامل کریں"
+    "ADD_GOOGLE_WALLET": "Google Wallet میں شامل کریں",
+    "ALREADY_MEMBER": "پہلے سے رکن ہیں؟",
+    "RECOVER_HINT": "اپنا کارڈ دوبارہ کھولنے کے لیے وہی ای میل یا فون درج کریں جس سے آپ شامل ہوئے۔",
+    "FIND_CARD": "میرا کارڈ تلاش کریں",
+    "FINDING": "تلاش ہو رہی ہے…",
+    "FOUND": "ہم نے آپ کی رکنیت تلاش کر لی۔",
+    "NOT_FOUND": "اس ای میل یا فون کی کوئی رکنیت نہیں ملی۔",
+    "OPEN_CARD": "میرا کارڈ کھولیں"
   },
   "ABOUT_PAGE": {
     "BADGE": "کمپنی",

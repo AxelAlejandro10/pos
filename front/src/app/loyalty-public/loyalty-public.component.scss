@@ -17,6 +17,18 @@
     gap: 0.25rem;
   }
 
+  .recover-block {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border, #ddd);
+    max-width: 24rem;
+  }
+
+  .recover-title {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+  }
+
   .success {
     max-width: 36rem;
   }

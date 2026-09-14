@@ -1977,6 +1977,59 @@ def public_loyalty_join(
     return payload
 
 
+@app.post("/public/tenants/{tenant_id}/loyalty/recover")
+@limiter.limit(
+    f"{getattr(settings, 'rate_limit_loyalty_join_per_hour', 20)}/hour",
+    key_func=_rate_limit_key,
+)
+def public_loyalty_recover(
+    request: Request,
+    response: Response,
+    tenant_id: int,
+    body: models.LoyaltyRecoverCreate,
+    session: Session = Depends(get_session),
+) -> dict:
+    """Find an existing membership by email or phone and return the card token (#372)."""
+    tenant = session.get(models.Tenant, tenant_id)
+    if not tenant:
+        raise HTTPException(status_code=404, detail="Tenant not found")
+    program = loyalty_svc.get_program(session, tenant_id)
+    if not program or not program.enabled:
+        raise HTTPException(status_code=404, detail="Loyalty program is not enabled")
+    email = normalize_email_address(body.email) if body.email else None
+    phone = None
+    if body.phone:
+        try:
+            phone = normalize_phone_e164(body.phone, settings.default_phone_country)
+        except ValueError:
+            phone = body.phone.strip()[:40] or None
+    if not email and not phone:
+        raise HTTPException(status_code=400, detail="email or phone is required")
+    membership = loyalty_svc.find_membership_by_contact(
+        session, tenant_id=tenant_id, email=email, phone=phone
+    )
+    if not membership:
+        raise HTTPException(status_code=404, detail="Membership not found")
+    pass_info = loyalty_wallet.prepare_passes_on_join(
+        session, membership=membership, program=program, tenant=tenant
+    )
+    session.commit()
+    session.refresh(membership)
+    payload = {
+        "ok": True,
+        "membership": loyalty_svc.membership_to_dict(
+            membership, include_token=True, program=program
+        ),
+        "wallet": pass_info.get("wallet")
+        or loyalty_svc.wallet_pass_status(program, include_detail=False),
+    }
+    if pass_info.get("apple_pkpass_path"):
+        payload["apple_pkpass_path"] = pass_info["apple_pkpass_path"]
+    if pass_info.get("google_save_url"):
+        payload["google_save_url"] = pass_info["google_save_url"]
+    return payload
+
+
 @app.get("/public/loyalty/members/{member_token}")
 @public_menu_ip_limit()
 def public_loyalty_balance(

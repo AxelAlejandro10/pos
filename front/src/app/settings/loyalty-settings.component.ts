@@ -317,7 +317,7 @@ import { ApiService, LoyaltyMembership, LoyaltyProgram } from '../services/api.s
           <h3 id="loyalty-members-heading" class="subsection-title">
             {{ 'SETTINGS.LOYALTY_MEMBERS' | translate }}
           </h3>
-          @if (members().length === 0) {
+          @if (members().length === 0 && !memberSearch.trim()) {
             <div class="members-empty" data-testid="loyalty-members-empty">
               <span class="members-empty-icon" aria-hidden="true">◎</span>
               <p>{{ 'SETTINGS.LOYALTY_MEMBERS_EMPTY' | translate }}</p>
@@ -327,32 +327,68 @@ import { ApiService, LoyaltyMembership, LoyaltyProgram } from '../services/api.s
               }
             </div>
           } @else {
-            <div class="table-wrap">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>{{ 'COMMON.NAME' | translate }}</th>
-                    <th>{{ 'COMMON.EMAIL' | translate }}</th>
-                    <th>{{ 'SETTINGS.LOYALTY_BALANCE' | translate }}</th>
-                    <th>{{ 'SETTINGS.LOYALTY_VIP_TIER' | translate }}</th>
-                    <th>{{ 'SETTINGS.LOYALTY_REFERRAL_CODE' | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (m of members(); track m.id) {
+            <label class="members-search">
+              <span>{{ 'SETTINGS.LOYALTY_MEMBERS_SEARCH' | translate }}</span>
+              <input
+                type="search"
+                [(ngModel)]="memberSearch"
+                (ngModelChange)="onMemberSearch($event)"
+                name="loyaltyMemberSearch"
+                data-testid="loyalty-members-search"
+                [placeholder]="'SETTINGS.LOYALTY_MEMBERS_SEARCH_HINT' | translate"
+              />
+            </label>
+            @if (members().length === 0) {
+              <p class="hint" data-testid="loyalty-members-search-empty">
+                {{ 'SETTINGS.LOYALTY_MEMBERS_SEARCH_EMPTY' | translate }}
+              </p>
+            } @else {
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
                     <tr>
-                      <td>{{ m.display_name }}</td>
-                      <td>{{ m.email || m.phone || '—' }}</td>
-                      <td>{{ m.balance }}</td>
-                      <td data-testid="loyalty-member-tier">{{ tierLabel(m.vip_tier) }}</td>
-                      <td>
-                        <code>{{ m.referral_code || '—' }}</code>
-                      </td>
+                      <th>{{ 'COMMON.NAME' | translate }}</th>
+                      <th>{{ 'COMMON.EMAIL' | translate }}</th>
+                      <th>{{ 'SETTINGS.LOYALTY_BALANCE' | translate }}</th>
+                      <th>{{ 'SETTINGS.LOYALTY_VIP_TIER' | translate }}</th>
+                      <th>{{ 'SETTINGS.LOYALTY_REFERRAL_CODE' | translate }}</th>
+                      <th>{{ 'SETTINGS.LOYALTY_CARD_LINK' | translate }}</th>
                     </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    @for (m of members(); track m.id) {
+                      <tr>
+                        <td>{{ m.display_name }}</td>
+                        <td>{{ m.email || m.phone || '—' }}</td>
+                        <td>{{ m.balance }}</td>
+                        <td data-testid="loyalty-member-tier">{{ tierLabel(m.vip_tier) }}</td>
+                        <td>
+                          <code>{{ m.referral_code || '—' }}</code>
+                        </td>
+                        <td>
+                          @if (m.member_token) {
+                            <button
+                              type="button"
+                              class="btn btn-secondary btn-sm"
+                              data-testid="loyalty-copy-card-link"
+                              (click)="copyCardLink(m.member_token)"
+                            >
+                              {{
+                                copiedToken() === m.member_token
+                                  ? ('SETTINGS.LOYALTY_COPIED' | translate)
+                                  : ('SETTINGS.LOYALTY_COPY_CARD' | translate)
+                              }}
+                            </button>
+                          } @else {
+                            —
+                          }
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
           }
         </section>
       }
@@ -522,6 +558,21 @@ import { ApiService, LoyaltyMembership, LoyaltyProgram } from '../services/api.s
         padding: 0.4rem 0.5rem;
         border-bottom: 1px solid var(--border, var(--color-border, #ddd));
       }
+      .members-search {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        max-width: 24rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+      }
+      .members-search input {
+        padding: 0.4rem 0.5rem;
+      }
+      .btn-sm {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+      }
     `,
   ],
 })
@@ -537,6 +588,9 @@ export class LoyaltySettingsComponent implements OnInit {
   members = signal<LoyaltyMembership[]>([]);
   joinUrl = signal('');
   walletDetail = signal('');
+  memberSearch = '';
+  copiedToken = signal<string | null>(null);
+  private searchTimer: ReturnType<typeof setTimeout> | null = null;
 
   enabled = false;
   programName = 'Club';
@@ -559,6 +613,39 @@ export class LoyaltySettingsComponent implements OnInit {
     if (tier === 'gold') return 'Gold';
     if (tier === 'silver') return 'Silver';
     return '—';
+  }
+
+  cardUrl(token: string): string {
+    if (typeof window === 'undefined') return `/loyalty/card/${token}`;
+    return `${window.location.origin}/loyalty/card/${token}`;
+  }
+
+  copyCardLink(token: string): void {
+    const url = this.cardUrl(token);
+    const done = () => {
+      this.copiedToken.set(token);
+      setTimeout(() => {
+        if (this.copiedToken() === token) this.copiedToken.set(null);
+      }, 2000);
+    };
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(url).then(done).catch(() => done());
+    } else {
+      done();
+    }
+  }
+
+  onMemberSearch(value: string): void {
+    this.memberSearch = value;
+    if (this.searchTimer) clearTimeout(this.searchTimer);
+    this.searchTimer = setTimeout(() => this.loadMembers(), 250);
+  }
+
+  loadMembers(): void {
+    this.api.listLoyaltyMemberships(this.memberSearch || undefined).subscribe({
+      next: (rows) => this.members.set(rows || []),
+      error: () => this.members.set([]),
+    });
   }
 
   reload(): void {
@@ -592,10 +679,7 @@ export class LoyaltySettingsComponent implements OnInit {
         this.saveError.set('Failed to load loyalty program');
       },
     });
-    this.api.listLoyaltyMemberships().subscribe({
-      next: (rows) => this.members.set(rows || []),
-      error: () => this.members.set([]),
-    });
+    this.loadMembers();
   }
 
   save(): void {
