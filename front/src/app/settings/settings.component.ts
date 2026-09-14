@@ -425,47 +425,49 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
               <div class="form-card" style="margin-bottom: 1rem;">
                 <button type="button" class="btn btn-primary" data-testid="settings-add-provider-btn" (click)="openAddProviderModal()">{{ 'SETTINGS.ADD_PROVIDER' | translate }}</button>
               </div>
-              <table class="settings-table">
-                <thead>
-                  <tr>
-                    <th>{{ 'SETTINGS.PROVIDER_NAME' | translate }}</th>
-                    <th>{{ 'SETTINGS.PROVIDER_TYPE' | translate }}</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (p of providers(); track p.id) {
+              @if (providers().length > 0) {
+                <table class="settings-table" data-testid="settings-providers-table">
+                  <thead>
                     <tr>
-                      <td>{{ p.name }}</td>
-                      <td>{{ isOwnProvider(p) ? ('SETTINGS.PROVIDER_PERSONAL' | translate) : ('SETTINGS.PROVIDER_CATALOG' | translate) }}</td>
-                      <td>
-                        @if (isOwnProvider(p)) {
-                          <button type="button" class="btn btn-sm btn-secondary" (click)="openEditProviderModal(p)" data-testid="settings-edit-provider-btn">{{ 'SETTINGS.EDIT_PROVIDER' | translate }}</button>
-                          <button type="button" class="btn btn-sm btn-secondary" (click)="openAddProductModal(p)" style="margin-left: 0.25rem;">{{ 'SETTINGS.ADD_PRODUCT_TO_PROVIDER' | translate }}</button>
-                          <button type="button" class="btn btn-sm btn-secondary" (click)="toggleProviderProducts(p)" style="margin-left: 0.25rem;">
-                            {{ (p.id != null && providerProductsExpanded().has(p.id)) ? ('SETTINGS.HIDE_PRODUCTS' | translate) : ('SETTINGS.SHOW_PRODUCTS' | translate) }}
-                          </button>
-                        }
-                      </td>
+                      <th>{{ 'SETTINGS.PROVIDER_NAME' | translate }}</th>
+                      <th>{{ 'SETTINGS.PROVIDER_TYPE' | translate }}</th>
+                      <th></th>
                     </tr>
-                    @if (isOwnProvider(p) && p.id != null && providerProductsExpanded().has(p.id)) {
+                  </thead>
+                  <tbody>
+                    @for (p of providers(); track p.id) {
                       <tr>
-                        <td colspan="3" style="padding-left: 1.5rem;">
-                          @if ((providerProductsMap()[p.id] || []).length === 0) {
-                            <span class="hint">{{ 'SETTINGS.NO_PRODUCTS_YET' | translate }}</span>
-                          } @else {
-                            <ul class="provider-products-list">
-                              @for (prod of providerProductsMap()[p.id] || []; track prod.id) {
-                                <li>{{ prod.name }} – {{ formatProviderPrice(prod.price_cents) }}</li>
-                              }
-                            </ul>
+                        <td>{{ p.name }}</td>
+                        <td>{{ isOwnProvider(p) ? ('SETTINGS.PROVIDER_PERSONAL' | translate) : ('SETTINGS.PROVIDER_CATALOG' | translate) }}</td>
+                        <td>
+                          @if (isOwnProvider(p)) {
+                            <button type="button" class="btn btn-sm btn-secondary" (click)="openEditProviderModal(p)" data-testid="settings-edit-provider-btn">{{ 'SETTINGS.EDIT_PROVIDER' | translate }}</button>
+                            <button type="button" class="btn btn-sm btn-secondary" (click)="openAddProductModal(p)" style="margin-left: 0.25rem;">{{ 'SETTINGS.ADD_PRODUCT_TO_PROVIDER' | translate }}</button>
+                            <button type="button" class="btn btn-sm btn-secondary" (click)="toggleProviderProducts(p)" style="margin-left: 0.25rem;">
+                              {{ (p.id != null && providerProductsExpanded().has(p.id)) ? ('SETTINGS.HIDE_PRODUCTS' | translate) : ('SETTINGS.SHOW_PRODUCTS' | translate) }}
+                            </button>
                           }
                         </td>
                       </tr>
+                      @if (isOwnProvider(p) && p.id != null && providerProductsExpanded().has(p.id)) {
+                        <tr>
+                          <td colspan="3" style="padding-left: 1.5rem;">
+                            @if ((providerProductsMap()[p.id] || []).length === 0) {
+                              <span class="hint">{{ 'SETTINGS.NO_PRODUCTS_YET' | translate }}</span>
+                            } @else {
+                              <ul class="provider-products-list">
+                                @for (prod of providerProductsMap()[p.id] || []; track prod.id) {
+                                  <li>{{ prod.name }} – {{ formatProviderPrice(prod.price_cents) }}</li>
+                                }
+                              </ul>
+                            }
+                          </td>
+                        </tr>
+                      }
                     }
-                  }
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              }
               @if (providersError()) {
                 <p class="field-error">{{ providersError() }}</p>
               }
