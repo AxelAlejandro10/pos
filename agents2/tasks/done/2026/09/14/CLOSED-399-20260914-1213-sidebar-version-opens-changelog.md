@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Staff sidebar version under POS was not clickable; staff expected the same changelog modal as Dashboard What's new (#399).
+- **What was done:** Shared `ChangelogModalComponent` on the sidebar; version is a button that opens the same flow as Dashboard What's new; smoke and docs updated.
+- **What was tested:** `test:changelog` PASS (What's new + sidebar); Escape and Close dismiss; front logs clean in the 10m window.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-14 17:21
+---
+
 # Sidebar version opens changelog like Dashboard What's new (#399)
 
 ## GitHub Issues
