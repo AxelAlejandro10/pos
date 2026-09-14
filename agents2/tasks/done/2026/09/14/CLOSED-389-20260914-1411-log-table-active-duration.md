@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Staff could not see how long a table had been Active or when that session started.
+- **What was done:** Exposed `activated_at` on `GET /tables/with-status` and showed live duration plus start time on Tables tiles/list (tenant TZ); no closed-session history.
+- **What was tested:** Pytest `test_activated_at_exposed_when_table_active`, Puppeteer `test-table-active-duration.mjs`, and front compile — all PASS (tester 2026-09-14).
+- **Why closed:** All acceptance criteria passed; tester overall PASS.
+- **Closed at (UTC):** 2026-09-14 14:35
+---
+
 # Log how long a table was or has been Active (#389)
 
 ## GitHub Issues
