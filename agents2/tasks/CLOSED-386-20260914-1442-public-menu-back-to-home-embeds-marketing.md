@@ -32,3 +32,27 @@ On `/public-menu/{tenantId}` (e.g. `/public-menu/1`), **Back to home** lands use
 5. Optional: `BASE_URL=http://127.0.0.1:4202 node tmp/smoke-public-menu-back-home.mjs`
 6. Optional: `BASE_URL=http://127.0.0.1:4202 npm run test:landing-version --prefix front`
 7. Coder verified: smoke PASS (href `/book/1`, no `app-landing`); landing smoke PASS; front rebuild complete without TS errors.
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-14T15:03:40Z → 2026-09-14T15:04:32Z. Log window: `docker logs --since 15m pos-front`.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development` @ `df111bb4`.
+3. **What was tested:** Public menu footer **Back to home** destination; no marketing `app-landing` embed; front compile health; optional landing smoke.
+4. **Results:**
+   - Back-home href `/book/1` on `/public-menu/1` (`data-testid="public-menu-back-home"`) — **PASS** (href=`/book/1`).
+   - Click navigates to `/book/1` with book-a-table form (Party size, Book table) — **PASS**.
+   - No `app-landing` on destination — **PASS** (`hasAppLanding=false`).
+   - Front logs: no TS/Angular compile failures in window (only existing NG8107 warnings elsewhere) — **PASS**.
+   - Optional `npm run test:landing-version` — **PASS** (`RESULT: Landing version OK…`).
+   - Optional `tmp/smoke-public-menu-back-home.mjs` — **N/A** (file not present); browser check covered the same assert.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Guests leave the public menu on a tenant book page, not the marketing embed. The fix matches the logout/loyalty pattern. Ready to close.
+7. **URLs tested:**
+   1. http://127.0.0.1:4202/public-menu/1
+   2. http://127.0.0.1:4202/book/1 (via Back to home)
+8. **Relevant log excerpts:**
+```
+Component update sent to client(s).
+# No "Application bundle generation failed"; no TS#### errors in --since 15m window.
+# Landing smoke: >>> RESULT: Landing version OK; demo restaurant card OK; demo login (tenant=1) OK; sidebar nav OK.
+```
