@@ -42,6 +42,14 @@
     flex: 1;
 }
 
+.logo-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+    width: 100%;
+}
+
 .logo {
     font-size: 1.25rem;
     font-weight: 700;
@@ -55,6 +63,10 @@
         text-decoration: underline;
         outline: none;
     }
+}
+
+.sidebar-lang {
+    flex-shrink: 0;
 }
 
 .sidebar-org-name {
@@ -348,7 +360,6 @@
 }
 
 .user-info {
-    margin-top: var(--space-4);
     margin-bottom: var(--space-3);
 }
 

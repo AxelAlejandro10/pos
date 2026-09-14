@@ -46,13 +46,16 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
       <aside class="sidebar">
         <div class="sidebar-header">
           <div class="logo-container" [attr.title]="brandTitle()">
-            <a
-              routerLink="/dashboard"
-              class="logo"
-              [attr.aria-label]="brandTitle()"
-              data-testid="sidebar-brand-home"
-              (click)="closeSidebar()"
-            >POS</a>
+            <div class="logo-row">
+              <a
+                routerLink="/dashboard"
+                class="logo"
+                [attr.aria-label]="brandTitle()"
+                data-testid="sidebar-brand-home"
+                (click)="closeSidebar()"
+              >POS</a>
+              <app-language-picker appearance="icon" class="sidebar-lang"></app-language-picker>
+            </div>
             <button
               type="button"
               class="version version-btn"
@@ -334,7 +337,6 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
         </nav>
 
         <div class="sidebar-footer">
-          <app-language-picker></app-language-picker>
           @if (user()) {
             <div class="user-info">
               <span class="user-email">{{ user()?.email }}</span>
