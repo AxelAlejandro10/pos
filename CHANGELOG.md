@@ -15,6 +15,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Changed
 
+- **Sidebar Log Out as icon (#383):** Staff sidebar Log Out is a compact icon left of `POS` (not a full-width footer button). Logout still goes to staff `/login`. Smoke: `npm run test:sidebar-logout --prefix front`.
 - **Sidebar language as flat icon (#384):** Staff sidebar language control is a compact globe+code icon to the right of `POS` (not a full select in the footer). Other pages keep the select picker.
 
 ### Fixed

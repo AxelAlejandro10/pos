@@ -47,6 +47,20 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
         <div class="sidebar-header">
           <div class="logo-container" [attr.title]="brandTitle()">
             <div class="logo-row">
+              <button
+                type="button"
+                class="logout-icon-btn"
+                (click)="logout()"
+                [attr.aria-label]="'NAV.LOGOUT' | translate"
+                [attr.title]="'NAV.LOGOUT' | translate"
+                data-testid="sidebar-logout"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                  <polyline points="16,17 21,12 16,7"/>
+                  <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+              </button>
               <a
                 routerLink="/dashboard"
                 class="logo"
@@ -336,22 +350,14 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
           }
         </nav>
 
-        <div class="sidebar-footer">
-          @if (user()) {
+        @if (user()) {
+          <div class="sidebar-footer">
             <div class="user-info">
               <span class="user-email">{{ user()?.email }}</span>
               <span class="user-role">{{ getRoleDisplayName() }}</span>
             </div>
-          }
-          <button class="logout-btn" (click)="logout()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
-              <polyline points="16,17 21,12 16,7"/>
-              <line x1="21" y1="12" x2="9" y2="12"/>
-            </svg>
-            <span>{{ 'NAV.LOGOUT' | translate }}</span>
-          </button>
-        </div>
+          </div>
+        }
       </aside>
 
       <div class="overlay" (click)="closeSidebar()"></div>
