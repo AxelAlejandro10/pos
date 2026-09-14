@@ -139,7 +139,7 @@ ITEMS_EN: dict[str, dict[str, str]] = {
         "HOW_3": "Review responses in the staff app and act on recurring themes.",
     },
     "kitchen-display": {
-        "HERO_TITLE": "Kitchen display",
+        "HERO_TITLE": "Kitchen Display",
         "HERO_SUBTITLE": "Full-screen kitchen view filtered to main courses and food items — clear tickets, faster prep, less paper.",
         "BENEFIT_1": "Kitchen staff see only food items — no drink tickets cluttering the screen.",
         "BENEFIT_2": "Order comments and modifiers show on each ticket.",
