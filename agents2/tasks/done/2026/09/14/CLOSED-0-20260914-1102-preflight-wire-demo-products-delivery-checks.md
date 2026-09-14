@@ -1,3 +1,12 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** 008 preflight did not soft-watch demo products or Satisfecho Delivery seed checks for tenant 1.
+- **What was done:** Wired `check_demo_products`, `check_demo_delivery_orders`, and `check_demo_delivery_settings` into `scripts/enhancement-reviewer-preflight.sh` with ownership skip and docs notes.
+- **What was tested:** Readonly preflight, healthy `ok` / no demo bump, unowned vs owned fail SIGNAL paths, meta non-ownership, and docs — overall **PASS**.
+- **Why closed:** All tester criteria passed.
+- **Closed at (UTC):** 2026-09-14 13:37
+---
 # Wire demo products + delivery checks into 008 preflight
 
 ## GitHub Issues

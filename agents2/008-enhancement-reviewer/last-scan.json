@@ -194,8 +194,8 @@
       "note": "changelog_sparse false positive post-2.1.147 (empty Unreleased, 0 commits after version date); queued NEW-0-20260812-0005 preflight suppress; demo ok; weekly_due=no; NEW backlog=0"
     },
     {
-      "iso": "2026-09-14T11:03:01Z",
       "feat": 1,
+      "iso": "2026-09-14T11:03:01Z",
       "new": 1,
       "note": "weekly_due=yes (16d); no SIGNAL lines; demo ok; queued FEAT-0 roadmap Aug-Sep + NEW-0 preflight wire products/delivery checks; FEAT=4 from 001 left alone"
     }
@@ -203,7 +203,7 @@
   "g008_signals": 1,
   "last_agent_iso": "2026-09-14T11:03:01Z",
   "last_agent_run_iso": "2026-09-14T11:03:01Z",
-  "last_run": "2026-09-14T11:03:01Z",
-  "last_signals": 1,
+  "last_run": "2026-09-14T13:09:35Z",
+  "last_signals": 0,
   "new_created": 1
 }
