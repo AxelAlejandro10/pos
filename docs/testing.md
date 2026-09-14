@@ -605,9 +605,9 @@ npm run test:amvara9-smoke --prefix front
 
 ---
 
-### 11d. Settings → Contact default tax dropdown
+### 11d. Settings → Taxes default tax dropdown
 
-Login, open Settings → Contact information, assert the default tax select has at least one IVA option (not an empty wrapper).
+Login, open Settings → Taxes, assert the default tax select has at least one IVA option (not an empty wrapper), change to IVA 0%, save, reload, and assert the value sticks.
 
 ```bash
 npm run test:settings-contact-tax --prefix front
@@ -815,7 +815,7 @@ From repo root: `npm run <script> --prefix front`. From `front/`: `npm run <scri
 | `test:websocket` | `scripts/test-websocket.mjs` (post-login WS on `/orders`; needs ws-bridge + `LOGIN_*` / `DEMO_LOGIN_*`) |
 | `test:amvara9-smoke` | `scripts/test-amvara9-smoke.mjs` (prod smoke: landing/login/book + `/api/health`; **default `BASE_URL=https://www.satisfecho.de`**) |
 | `test:menu-logo` | `scripts/test-menu-logo.mjs` (customer `/menu/:token` shows restaurant logo; needs `LOGIN_*` or `TABLE_TOKEN`) |
-| `test:settings-contact-tax` | `scripts/test-settings-contact-tax-dropdown.mjs` (Settings → Contact default tax IVA options; needs `LOGIN_*` / `DEMO_LOGIN_*`) |
+| `test:settings-contact-tax` | `scripts/test-settings-contact-tax-dropdown.mjs` (Settings → Taxes default tax IVA options + save persistence; needs `LOGIN_*` / `DEMO_LOGIN_*`) |
 | `test:staff-menu-link` | `scripts/test-staff-menu-link-puppeteer.mjs` (staff Open menu → place order without PIN modal; needs open order + `LOGIN_*`) |
 
 ---
@@ -919,7 +919,7 @@ GO_AHEAD_LOOP=1 DURATION_SECONDS=120 INTERVAL_SECONDS=60 SKIP_TESTS=1 ./scripts/
 | **WebSocket** | `test:websocket` | Post-login WS (ws-bridge required). |
 | **API docs** | `test:api-docs` | `/api/docs` Swagger + OpenAPI (no login). |
 | **amvara9 prod smoke** | `test:amvara9-smoke` | Default BASE_URL is production (`www.satisfecho.de`). |
-| **Settings contact tax** | `test:settings-contact-tax` | Default tax dropdown has IVA options. |
+| **Settings default tax** | `test:settings-contact-tax` | Default tax dropdown has IVA options; save persists. |
 | **Staff menu link** | `test:staff-menu-link` | Open menu from staff orders skips PIN. |
 | **Rate limiting** | `test-rate-limit.mjs`, `test-rate-limit-puppeteer.mjs` | API: 429 after limit; Puppeteer: login page shows error banner (e.g. "Too many login attempts") when rate limited. See `docs/0020-rate-limiting-production.md` for all limits (login, register, payment, public menu, upload, admin). |
 | **SaaS signup paywall** | `test-paywall.mjs` | Requires `SAAS_PAYWALL_ENABLED=true` (see `docs/0052-saas-signup-paywall.md`). Registers a new tenant, asserts `/paywall` + localized copy (no raw `PAYWALL.*`), starts free trial, confirms `/dashboard` unlocks. Skips with exit 0 when paywall is off; set `REQUIRE_PAYWALL=1` to fail instead. |

@@ -4155,8 +4155,8 @@ def update_tenant_settings(
         )
     if tenant_update.immediate_payment_required is not None:
         tenant.immediate_payment_required = tenant_update.immediate_payment_required
-    if tenant_update.default_tax_id is not None:
-        # Validate tax belongs to tenant
+    # Use model_fields_set so explicit null clears the default (None alone is the unset default).
+    if "default_tax_id" in tenant_update.model_fields_set:
         if tenant_update.default_tax_id:
             tax = session.get(models.Tax, tenant_update.default_tax_id)
             if not tax or tax.tenant_id != current_user.tenant_id:

@@ -190,7 +190,8 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
           
           <button 
             type="button" 
-            class="settings-nav-item" 
+            class="settings-nav-item"
+            data-testid="settings-taxes-tab"
             [class.active]="activeSection() === 'taxes'"
             (click)="selectSection('taxes')">
             <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -392,10 +393,51 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
           </div>
         } @else if (activeSection() === 'taxes') {
           <!-- Taxes (IVA) Section -->
-          <div class="section">
+          <div class="section" data-testid="settings-taxes-section">
             <div class="section-header">
               <h2>{{ 'SETTINGS.TAXES' | translate }}</h2>
               <p>{{ 'SETTINGS.TAXES_SUBTITLE' | translate }}</p>
+            </div>
+            <div class="form-card" style="margin-bottom: 1rem;">
+              <form (ngSubmit)="saveDefaultTax()" class="settings-form">
+                <div class="form-group">
+                  <label for="default_tax_id">{{ 'SETTINGS.DEFAULT_TAX' | translate }}</label>
+                  <select
+                    id="default_tax_id"
+                    data-testid="settings-default-tax-select"
+                    [(ngModel)]="formData.default_tax_id"
+                    name="default_tax_id"
+                  >
+                    <option [ngValue]="null">{{ 'SETTINGS.NO_DEFAULT_TAX' | translate }}</option>
+                    @for (t of taxes(); track t.id) {
+                      <option [ngValue]="t.id">{{ t.name }} ({{ t.rate_percent }}%)</option>
+                    }
+                  </select>
+                  <small class="field-hint">{{ 'SETTINGS.DEFAULT_TAX_HINT' | translate }}</small>
+                </div>
+                <div class="form-actions" style="margin-top: 0.75rem;">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    data-testid="settings-default-tax-save"
+                    [disabled]="saving()"
+                  >
+                    {{ saving() ? ('SETTINGS.SAVING' | translate) : ('SETTINGS.SAVE_CHANGES' | translate) }}
+                  </button>
+                </div>
+              </form>
+              @if (error()) {
+                <div class="toast error">
+                  <span>{{ error() }}</span>
+                  <button type="button" class="toast-close" (click)="error.set(null)" aria-label="Dismiss">×</button>
+                </div>
+              }
+              @if (success()) {
+                <div class="toast success">
+                  <span>{{ success() }}</span>
+                  <button type="button" class="toast-close" (click)="dismissSuccessToast()" aria-label="Dismiss">×</button>
+                </div>
+              }
             </div>
             <div class="taxes-list">
               <table class="settings-table">
@@ -1231,21 +1273,6 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
                       autocomplete="off"
                     />
                     <small class="field-hint">{{ 'SETTINGS.CCC_HINT' | translate }}</small>
-                  </div>
-                  <div class="form-group">
-                    <label for="default_tax_id">{{ 'SETTINGS.DEFAULT_TAX' | translate }}</label>
-                    <select
-                      id="default_tax_id"
-                      data-testid="settings-default-tax-select"
-                      [(ngModel)]="formData.default_tax_id"
-                      name="default_tax_id"
-                    >
-                      <option [ngValue]="null">{{ 'SETTINGS.NO_DEFAULT_TAX' | translate }}</option>
-                      @for (t of taxes(); track t.id) {
-                        <option [ngValue]="t.id">{{ t.name }} ({{ t.rate_percent }}%)</option>
-                      }
-                    </select>
-                    <small class="field-hint">{{ 'SETTINGS.DEFAULT_TAX_HINT' | translate }}</small>
                   </div>
                 </div>
               }
@@ -4803,6 +4830,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.api.updateTenantSettings(updateData).subscribe({
       next: (updatedSettings) => {
         this.settings.set(updatedSettings);
+        this.formData.default_tax_id = updatedSettings.default_tax_id ?? null;
         this.api.applyTenantUiModulesFromSettings(updatedSettings);
         this.success.set('Settings saved successfully!');
         this.scheduleSuccessDismiss();
@@ -4813,6 +4841,28 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.saving.set(false);
         console.error('Error updating settings:', err);
       }
+    });
+  }
+
+  /** Persist default tax (IVA) from the Taxes section without a full settings save. */
+  saveDefaultTax(): void {
+    this.saving.set(true);
+    this.error.set(null);
+    this.clearSuccessDismissTimer();
+    this.success.set(null);
+    this.api.updateTenantSettings({ default_tax_id: this.formData.default_tax_id ?? null }).subscribe({
+      next: (updatedSettings) => {
+        this.settings.set(updatedSettings);
+        this.formData.default_tax_id = updatedSettings.default_tax_id ?? null;
+        this.success.set(this.translate.instant('SETTINGS.SAVE_CHANGES'));
+        this.scheduleSuccessDismiss();
+        this.saving.set(false);
+      },
+      error: (err) => {
+        this.error.set('Failed to save settings. Please try again.');
+        this.saving.set(false);
+        console.error('Error updating default tax:', err);
+      },
     });
   }
 

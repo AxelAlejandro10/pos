@@ -14,6 +14,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+## [2.1.168] - 2026-09-14
+
+### Changed
+
+- **Settings default tax placement (#371):** **Default tax (IVA)** moves from Contact Information to **Settings → Taxes**, with its own Save control.
+
+### Fixed
+
+- **Default tax (IVA) save (#371):** `PUT /tenant/settings` now clears `default_tax_id` when the client sends `null` (previously ignored). Changing the default rate and saving persists across reload.
+
 ## [2.1.167] - 2026-09-14
 
 ### Added
