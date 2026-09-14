@@ -1,6 +1,6 @@
 {
   "name": "front",
-  "version": "2.1.168",
+  "version": "2.1.169",
   "scripts": {
     "ng": "ng",
     "prebuild": "node scripts/get-commit-hash.js",
@@ -38,6 +38,7 @@
     "test:working-plan-calendar": "node scripts/test-working-plan-calendar.mjs",
     "debug:working-plan-calendar": "node scripts/debug-working-plan-calendar.mjs",
     "test:changelog": "node scripts/test-changelog.mjs",
+    "test:sidebar-brand-home": "node scripts/test-sidebar-brand-home.mjs",
     "test:settings-logo": "node scripts/test-settings-logo-upload.mjs",
     "test:settings-otp-copy": "node scripts/test-settings-otp-copy.mjs",
     "test:settings-otp-disable-password": "node scripts/test-settings-otp-disable-password.mjs",

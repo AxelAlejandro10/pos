@@ -28,9 +28,12 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
           <span></span>
           <span></span>
         </button>
-        <div class="mobile-brand" [attr.title]="brandTitle()" [attr.aria-label]="brandTitle()">
-          <span class="header-title">POS</span>
-          @if (tenantOrgName()) {
+        <div class="mobile-brand" [attr.title]="brandTitle()">
+          <a
+            routerLink="/dashboard"
+            class="header-title"
+            [attr.aria-label]="brandTitle()"
+            data-testid="mobile-brand-home"
             <span class="header-org-name" [attr.title]="tenantOrgName()!" [attr.aria-label]="tenantOrgName()!">{{
               tenantOrgName()
             }}</span>
@@ -40,8 +43,14 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
 
       <aside class="sidebar">
         <div class="sidebar-header">
-          <div class="logo-container" [attr.title]="brandTitle()" [attr.aria-label]="brandTitle()">
-            <span class="logo">POS</span>
+          <div class="logo-container" [attr.title]="brandTitle()">
+            <a
+              routerLink="/dashboard"
+              class="logo"
+              [attr.aria-label]="brandTitle()"
+              data-testid="sidebar-brand-home"
+              (click)="closeSidebar()"
+            >POS</a>
             <button
               type="button"
               class="version version-btn"

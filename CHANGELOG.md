@@ -14,6 +14,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+## [2.1.169] - 2026-09-14
+
+### Added
+
+- **Sidebar POS → dashboard (#390):** The staff sidebar (and mobile header) **POS** brand is a link to `/dashboard`. Version control still opens the changelog. Smoke: `npm run test:sidebar-brand-home --prefix front`.
+
 ## [2.1.168] - 2026-09-14
 
 ### Changed

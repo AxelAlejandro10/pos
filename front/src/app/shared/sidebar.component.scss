@@ -48,6 +48,13 @@
     color: var(--color-primary);
     line-height: 1.2;
     display: block;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        text-decoration: underline;
+        outline: none;
+    }
 }
 
 .sidebar-org-name {
@@ -437,6 +444,13 @@
     font-size: 1rem;
     color: var(--color-primary);
     min-width: 0;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        text-decoration: underline;
+        outline: none;
+    }
 }
 
 .header-org-name {

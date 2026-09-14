@@ -785,6 +785,7 @@ From repo root: `npm run <script> --prefix front`. From `front/`: `npm run <scri
 | `test:reports` | `scripts/test-reports.mjs` (Reports page smoke; owner/admin) |
 | `test:order-tip-flows` | `scripts/test-order-tip-flows.mjs` (Settings tip entry mode + Reports tips card; owner/admin) |
 | `test:changelog` | `scripts/test-changelog.mjs` (Dashboard What's new + sidebar version → changelog modal; API serves CHANGELOG.md) |
+| `test:sidebar-brand-home` | `scripts/test-sidebar-brand-home.mjs` (sidebar POS brand → `/dashboard`; #390) |
 | `test:settings-providers` | `scripts/test-settings-providers.mjs` (Settings → Providers tab; personal providers smoke; uses .env, tenant=1) |
 | `test:settings-vertical-nav` | `scripts/test-settings-vertical-nav.mjs` (Settings vertical section menu + `?section=` deep link; #395) |
 | `test:settings-printing-docs` | `scripts/test-settings-printing-docs.mjs` (Settings → Printing runbook link to docs/0070 on GitHub; #397) |
