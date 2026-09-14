@@ -34,10 +34,12 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
             class="header-title"
             [attr.aria-label]="brandTitle()"
             data-testid="mobile-brand-home"
+            (click)="closeSidebar()"
+          >
             <span class="header-org-name" [attr.title]="tenantOrgName()!" [attr.aria-label]="tenantOrgName()!">{{
               tenantOrgName()
             }}</span>
-          }
+          </a>
         </div>
       </header>
 

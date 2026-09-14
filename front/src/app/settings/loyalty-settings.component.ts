@@ -15,6 +15,16 @@ import { ApiService, LoyaltyMembership, LoyaltyProgram } from '../services/api.s
         <p>{{ 'SETTINGS.LOYALTY_SUBTITLE' | translate }}</p>
       </div>
 
+      <p class="hint docs">
+        <a
+          class="docs-link"
+          href="https://github.com/satisfecho/pos/blob/master/docs/0066-club-loyalty.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-testid="settings-loyalty-docs-link"
+        >{{ 'SETTINGS.LOYALTY_DOCS_LINK' | translate }}</a>
+      </p>
+
       @if (loading()) {
         <p class="hint">{{ 'COMMON.LOADING' | translate }}</p>
       } @else if (program()) {
@@ -357,6 +367,14 @@ import { ApiService, LoyaltyMembership, LoyaltyProgram } from '../services/api.s
       .hint {
         color: var(--text-muted, var(--color-text-muted, #666));
         margin: 0 0 1rem;
+      }
+      .docs-link {
+        color: #0369a1;
+        font-weight: 600;
+        text-decoration: underline;
+      }
+      .docs-link:hover {
+        color: #0c4a6e;
       }
       .loyalty-block {
         margin-bottom: 0.5rem;

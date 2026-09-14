@@ -2120,6 +2120,7 @@
     "LOYALTY_TAB": "Treueclub",
     "LOYALTY_TITLE": "Treueclub",
     "LOYALTY_SUBTITLE": "Punkte oder Stempel bei bezahlten Bestellungen. Gäste treten über einen öffentlichen Link bei; Personal löst an der Kasse ein.",
+    "LOYALTY_DOCS_LINK": "Club-Loyalty-Runbook (docs/0066)",
     "LOYALTY_ENABLED": "Treueprogramm aktivieren",
     "LOYALTY_PROGRAM_NAME": "Programmname",
     "LOYALTY_MODE": "Modus",

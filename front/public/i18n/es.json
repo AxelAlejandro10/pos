@@ -2154,6 +2154,7 @@
     "LOYALTY_TAB": "Club de fidelidad",
     "LOYALTY_TITLE": "Club de fidelidad",
     "LOYALTY_SUBTITLE": "Puntos o sellos al pagar. Los clientes se unen con un enlace público; el personal canjea en caja.",
+    "LOYALTY_DOCS_LINK": "Guía del club de fidelidad (docs/0066)",
     "LOYALTY_ENABLED": "Activar programa de fidelidad",
     "LOYALTY_PROGRAM_NAME": "Nombre del programa",
     "LOYALTY_MODE": "Modo",

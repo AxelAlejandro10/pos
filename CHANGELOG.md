@@ -10,6 +10,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Added
 
+- **Settings → Loyalty club docs link (#394):** Loyalty club tab links to the runbook on GitHub (`docs/0066-club-loyalty.md`). Smoke: `npm run test:settings-loyalty-docs --prefix front`.
+- **Sidebar mobile brand link fix (#390):** Close the broken mobile header `<a>` so the Angular template compiles again (desktop POS → dashboard link was already correct).
+
 ### Changed
 
 ### Fixed

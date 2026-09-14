@@ -2291,6 +2291,7 @@
     "LOYALTY_TAB": "Loyalty club",
     "LOYALTY_TITLE": "Club loyalty",
     "LOYALTY_SUBTITLE": "Points or stamps earned on paid orders. Guests join via a public link; staff redeem rewards at checkout.",
+    "LOYALTY_DOCS_LINK": "Guia del club de fidelitat (docs/0066)",
     "LOYALTY_ENABLED": "Enable loyalty program",
     "LOYALTY_PROGRAM_NAME": "Program name",
     "LOYALTY_MODE": "Mode",

@@ -325,6 +325,20 @@ npm run test:settings-printing-docs --prefix front
 
 ---
 
+### 2f. Settings → Loyalty club docs link
+
+Smoke test for the club loyalty runbook link (#394). Logs in, opens Settings → Loyalty club, and asserts `data-testid="settings-loyalty-docs-link"` points at `docs/0066-club-loyalty.md` on GitHub (`target="_blank"`).
+
+```bash
+npm run test:settings-loyalty-docs --prefix front
+# Or: BASE_URL=http://127.0.0.1:4202 HEADLESS=1 npm run test:settings-loyalty-docs --prefix front
+```
+
+- **Env:** `BASE_URL`, `LOGIN_EMAIL`/`LOGIN_PASSWORD` or `DEMO_LOGIN_*`. `TENANT_ID` (default `1`). `HEADLESS`.
+- **Asserts:** Loyalty club tab and docs link present; href is `https://github.com/satisfecho/pos/blob/master/docs/0066-club-loyalty.md`.
+
+---
+
 ### 3. Tables page (view toggle and table view)
 
 Login, open `/tables`, then if the view toggle is present (tables exist), switch to Table view and assert the data table with columns is shown.
@@ -789,6 +803,7 @@ From repo root: `npm run <script> --prefix front`. From `front/`: `npm run <scri
 | `test:settings-providers` | `scripts/test-settings-providers.mjs` (Settings → Providers tab; personal providers smoke; uses .env, tenant=1) |
 | `test:settings-vertical-nav` | `scripts/test-settings-vertical-nav.mjs` (Settings vertical section menu + `?section=` deep link; #395) |
 | `test:settings-printing-docs` | `scripts/test-settings-printing-docs.mjs` (Settings → Printing runbook link to docs/0070 on GitHub; #397) |
+| `test:settings-loyalty-docs` | `scripts/test-settings-loyalty-docs.mjs` (Settings → Loyalty club runbook link to docs/0066 on GitHub; #394) |
 | `test:bartender-role` | `scripts/test-bartender-role.mjs` (Users → Add user → role dropdown includes Bartender) |
 | `test:kitchen-status-dropdown` | `scripts/test-kitchen-status-dropdown.mjs` (Kitchen display: status dropdown visible, not clipped) |
 | `test:bar-display` | `scripts/test-bar-display.mjs` (Bar display `/bar`: route + chrome + Bar title) |

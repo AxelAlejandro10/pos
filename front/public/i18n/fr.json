@@ -2101,6 +2101,7 @@
     "LOYALTY_TAB": "Club fidélité",
     "LOYALTY_TITLE": "Club fidélité",
     "LOYALTY_SUBTITLE": "Points ou tampons sur les commandes payées. Les clients rejoignent via un lien public ; le personnel échange en caisse.",
+    "LOYALTY_DOCS_LINK": "Guide club fidélité (docs/0066)",
     "LOYALTY_ENABLED": "Activer le programme de fidélité",
     "LOYALTY_PROGRAM_NAME": "Nom du programme",
     "LOYALTY_MODE": "Mode",
