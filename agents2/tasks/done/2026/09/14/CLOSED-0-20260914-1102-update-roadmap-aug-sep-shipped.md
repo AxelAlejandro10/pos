@@ -1,3 +1,12 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Root `ROADMAP.md` still framed shipped work through 2026-07-31 while Aug–Sep slices were already live.
+- **What was done:** Refreshed Shipped through 2026-09-14 with Aug–Sep themes (QR cart/history, `/features`, manual, stock alerts, pricing QR Menu, floating CTA, and related rows). Left `docs/0032-github-issues-roadmap.md` unchanged.
+- **What was tested:** Docs checks for Shipped date, theme coverage, and no old 2026-07-31 cutoff — overall **PASS**.
+- **Why closed:** All tester criteria passed.
+- **Closed at (UTC):** 2026-09-14 16:36
+---
 # Update ROADMAP for Aug–Sep 2026 shipped work
 
 ## GitHub Issues
