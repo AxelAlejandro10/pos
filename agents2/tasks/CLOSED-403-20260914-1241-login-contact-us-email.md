@@ -26,3 +26,26 @@ The login page footer **Contact us** link uses `mailto:hello@satisfecho.de` (`fr
 2. In the footer, confirm **Contact us** (`[data-testid="login-contact-us"]`) has `href="mailto:support@satisfecho.de"`.
 3. Open `/` and confirm landing **Contact us** still uses `mailto:hello@satisfecho.de` (`npm run test:landing-provider-links --prefix front` with `BASE_URL=http://127.0.0.1:4202`).
 4. Confirm no Angular compile errors after the change: `docker logs --since 10m pos-front` shows a successful bundle for the login edit (no new TS/NG errors from this change).
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-14T16:47:32Z start → 2026-09-14T16:47:59Z end. Log window: `docker logs --since 15m pos-front`.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development` @ `ab2a0d42`.
+3. **What was tested:** Login footer Contact us mailto → `support@satisfecho.de`; landing Contact us still `hello@satisfecho.de`; front logs for compile errors attributable to #403.
+4. **Results:**
+   - Login Contact us mailto `support@satisfecho.de`: **PASS** — Chrome DevTools on `/login`: `[data-testid="login-contact-us"]` href=`mailto:support@satisfecho.de`.
+   - Landing Contact us unchanged: **PASS** — `/` href=`mailto:hello@satisfecho.de`; `npm run test:landing-provider-links` RESULT OK.
+   - No new TS/NG errors from this change: **PASS** — login page rendered; source shows support mailto. Unrelated `NG5002` errors in `reservation-week-slot-grid.component.html` (#368 HTML comment) appear in the same log window; not caused by #403.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Login help now points to support. Marketing landing still uses hello@. Self-hosted staff get the right inbox without changing public marketing contact.
+7. **URLs tested:**
+   1. http://127.0.0.1:4202/login
+   2. http://127.0.0.1:4202/
+8. **Relevant log excerpts:**
+```
+# landing smoke
+>>> RESULT: Landing shows provider login, register, contact, terms, and privacy links; register link works.
+
+# pos-front (same window): NG5002 in reservation-week-slot-grid (#368) — unrelated to login mailto
+# login page still served 200; evaluate_script confirmed mailto:support@satisfecho.de
+```
