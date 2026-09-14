@@ -111,6 +111,66 @@ try {
   await page.waitForSelector('[data-testid="settings-payments-tab"].active', { timeout: 10000 });
   console.log('payments active after reload');
 
+  // #396: Delivery nav + legacy alias deep-link
+  await page.click('[data-testid="settings-delivery-tab"]');
+  await page.waitForSelector('[data-testid="settings-delivery-section"]', { timeout: 10000 });
+  await page.waitForFunction(() => location.search.includes('section=delivery'), { timeout: 5000 });
+  const deliveryOk = await page.evaluate(() => {
+    const section = document.querySelector('[data-testid="settings-delivery-section"]');
+    const fee = document.querySelector('#delivery_fee_cents');
+    const integrations = document.querySelector('[data-testid="settings-delivery-integrations-section"]');
+    return {
+      hasSection: !!section,
+      hasFee: !!fee,
+      hasIntegrations: !!integrations,
+    };
+  });
+  console.log('delivery', deliveryOk);
+  if (!deliveryOk.hasSection || !deliveryOk.hasFee || !deliveryOk.hasIntegrations) {
+    console.error('FAIL: Delivery section missing Satisfecho fields or marketplace block');
+    failed = true;
+  }
+
+  await page.click('[data-testid="settings-payments-tab"]');
+  await page.waitForFunction(() => location.search.includes('section=payments'), { timeout: 5000 });
+  await page.waitForFunction(
+    () =>
+      !document.querySelector('[data-testid="settings-delivery-section"]') &&
+      !!document.querySelector('#currency_code'),
+    { timeout: 10000 }
+  );
+  const paymentsClean = await page.evaluate(() => ({
+    hasDeliveryFee: !!document.querySelector('#delivery_fee_cents'),
+    hasLocationCheck: !!document.querySelector('input[name="location_check_enabled"]'),
+    hasDeliverySection: !!document.querySelector('[data-testid="settings-delivery-section"]'),
+  }));
+  console.log('payments clean of delivery/location', paymentsClean);
+  if (paymentsClean.hasDeliveryFee || paymentsClean.hasLocationCheck || paymentsClean.hasDeliverySection) {
+    console.error('FAIL: Payment Settings still shows Delivery or Location Verification');
+    failed = true;
+  }
+
+  await page.goto(`${baseUrl}/settings?section=delivery-integrations`, { waitUntil: 'networkidle2' });
+  await page.waitForSelector('[data-testid="settings-delivery-section"]', { timeout: 10000 });
+  const aliasOk = await page.evaluate(
+    () => !!document.querySelector('[data-testid="settings-delivery-tab"].active')
+  );
+  console.log('legacy delivery-integrations alias', aliasOk);
+  if (!aliasOk) {
+    console.error('FAIL: ?section=delivery-integrations should open Delivery');
+    failed = true;
+  }
+
+  await page.goto(`${baseUrl}/settings?section=general`, { waitUntil: 'networkidle2' });
+  const locationInGeneral = await page.evaluate(
+    () => !!document.querySelector('input[name="location_check_enabled"]')
+  );
+  console.log('location verification in business profile', locationInGeneral);
+  if (!locationInGeneral) {
+    console.error('FAIL: Location Verification should be under Business Profile');
+    failed = true;
+  }
+
   await page.setViewport({ width: 390, height: 844 });
   await page.goto(`${baseUrl}/settings?section=security`, { waitUntil: 'networkidle2' });
   const mobile = await page.evaluate(() => {

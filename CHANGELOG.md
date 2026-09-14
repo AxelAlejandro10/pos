@@ -14,6 +14,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+## [2.1.166] - 2026-09-14
+
+### Changed
+
+- **Settings Payment / Delivery regroup (#396):** Payment Settings keeps currency, gateways, fiscal, and tips. **Delivery** is its own nav section (Satisfecho Delivery + marketplace integrations). **Location Verification** moves under Business Profile. Legacy `?section=delivery-integrations` opens Delivery. Smoke: `npm run test:settings-vertical-nav --prefix front`.
+
 ## [2.1.165] - 2026-09-14
 
 ### Changed

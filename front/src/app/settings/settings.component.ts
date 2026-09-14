@@ -38,6 +38,7 @@ type SettingsSectionId =
   | 'contact'
   | 'hours'
   | 'payments'
+  | 'delivery'
   | 'email'
   | 'reservations'
   | 'taxes'
@@ -46,13 +47,17 @@ type SettingsSectionId =
   | 'printing'
   | 'promos'
   | 'restaurant-group'
-  | 'delivery-integrations'
   | 'social-posts'
   | 'contract-templates'
   | 'providers'
   | 'translations'
   | 'security'
   | 'data-privacy';
+
+/** Legacy deep-link id from before Delivery regroup (#396). */
+const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
+  'delivery-integrations': 'delivery',
+};
 
 @Component({
   selector: 'app-settings',
@@ -246,14 +251,14 @@ type SettingsSectionId =
           <button
             type="button"
             class="settings-nav-item"
-            data-testid="settings-delivery-integrations-tab"
-            [class.active]="activeSection() === 'delivery-integrations'"
-            (click)="selectSection('delivery-integrations')">
+            data-testid="settings-delivery-tab"
+            [class.active]="activeSection() === 'delivery'"
+            (click)="selectSection('delivery')">
             <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
               <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
             </svg>
-            <span>{{ 'SETTINGS.DELIVERY_INTEGRATIONS_TAB' | translate }}</span>
+            <span>{{ 'SETTINGS.DELIVERY_TAB' | translate }}</span>
           </button>
           <button
             type="button"
@@ -620,8 +625,6 @@ type SettingsSectionId =
           <app-print-settings />
         } @else if (activeSection() === 'promos') {
           <app-promo-settings />
-        } @else if (activeSection() === 'delivery-integrations') {
-          <app-delivery-integrations-settings />
         } @else if (activeSection() === 'social-posts') {
           <app-social-posts-settings />
         } @else if (activeSection() === 'contract-templates') {
@@ -977,6 +980,49 @@ type SettingsSectionId =
                     />
                     <small class="field-hint">{{ 'SETTINGS.COUNTRY_CODE_HINT' | translate }}</small>
                   </div>
+
+                  <div class="divider"></div>
+
+                  <h3>{{ 'SETTINGS.LOCATION_VERIFICATION' | translate }}</h3>
+                  <p class="section-desc">{{ 'SETTINGS.LOCATION_VERIFICATION_DESC' | translate }}</p>
+
+                  <div class="form-group checkbox-row">
+                    <label class="switch">
+                      <input type="checkbox" [(ngModel)]="formData.location_check_enabled" name="location_check_enabled">
+                      <span class="slider round"></span>
+                    </label>
+                    <div>
+                      <label class="check-label">{{ 'SETTINGS.ENABLE_LOCATION_CHECK' | translate }}</label>
+                      <p class="hint">{{ 'SETTINGS.ENABLE_LOCATION_CHECK_HINT' | translate }}</p>
+                    </div>
+                  </div>
+
+                  @if (formData.location_check_enabled) {
+                    <div class="location-settings">
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label>{{ 'SETTINGS.LATITUDE' | translate }}</label>
+                          <input type="number" step="0.000001" [(ngModel)]="formData.latitude" name="latitude" placeholder="e.g. 41.385064" />
+                        </div>
+                        <div class="form-group">
+                          <label>{{ 'SETTINGS.LONGITUDE' | translate }}</label>
+                          <input type="number" step="0.000001" [(ngModel)]="formData.longitude" name="longitude" placeholder="e.g. 2.173404" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>{{ 'SETTINGS.LOCATION_RADIUS' | translate }}</label>
+                        <input type="number" [(ngModel)]="formData.location_radius_meters" name="location_radius_meters" placeholder="100" />
+                        <p class="hint">{{ 'SETTINGS.LOCATION_RADIUS_HINT' | translate }}</p>
+                      </div>
+                      <button type="button" class="btn btn-secondary btn-sm" (click)="useCurrentLocation()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="12" cy="12" r="10"/>
+                          <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        {{ 'SETTINGS.USE_CURRENT_LOCATION' | translate }}
+                      </button>
+                    </div>
+                  }
                 </div>
               }
 
@@ -1549,51 +1595,17 @@ type SettingsSectionId =
                     </select>
                     <p class="hint">{{ 'SETTINGS.TIP_ENTRY_MODE_HINT' | translate }}</p>
                   </div>
+                </div>
+              }
 
-                  <div class="divider"></div>
-                  
-                  <h3>{{ 'SETTINGS.LOCATION_VERIFICATION' | translate }}</h3>
-                  <p class="section-desc">{{ 'SETTINGS.LOCATION_VERIFICATION_DESC' | translate }}</p>
-                  
-                  <div class="form-group checkbox-row">
-                    <label class="switch">
-                      <input type="checkbox" [(ngModel)]="formData.location_check_enabled" name="location_check_enabled">
-                      <span class="slider round"></span>
-                    </label>
-                    <div>
-                      <label class="check-label">{{ 'SETTINGS.ENABLE_LOCATION_CHECK' | translate }}</label>
-                      <p class="hint">{{ 'SETTINGS.ENABLE_LOCATION_CHECK_HINT' | translate }}</p>
-                    </div>
+              <!-- Delivery Section (first-party + marketplace integrations) -->
+              @if (activeSection() === 'delivery') {
+                <div class="section" data-testid="settings-delivery-section">
+                  <div class="section-header">
+                    <h2>{{ 'SETTINGS.DELIVERY_TAB' | translate }}</h2>
+                    <p>{{ 'SETTINGS.DELIVERY_SECTION_SUBTITLE' | translate }}</p>
                   </div>
-                  
-                  @if (formData.location_check_enabled) {
-                    <div class="location-settings">
-                      <div class="form-row">
-                        <div class="form-group">
-                          <label>{{ 'SETTINGS.LATITUDE' | translate }}</label>
-                          <input type="number" step="0.000001" [(ngModel)]="formData.latitude" name="latitude" placeholder="e.g. 41.385064" />
-                        </div>
-                        <div class="form-group">
-                          <label>{{ 'SETTINGS.LONGITUDE' | translate }}</label>
-                          <input type="number" step="0.000001" [(ngModel)]="formData.longitude" name="longitude" placeholder="e.g. 2.173404" />
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>{{ 'SETTINGS.LOCATION_RADIUS' | translate }}</label>
-                        <input type="number" [(ngModel)]="formData.location_radius_meters" name="location_radius_meters" placeholder="100" />
-                        <p class="hint">{{ 'SETTINGS.LOCATION_RADIUS_HINT' | translate }}</p>
-                      </div>
-                      <button type="button" class="btn btn-secondary btn-sm" (click)="useCurrentLocation()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <circle cx="12" cy="12" r="10"/>
-                          <circle cx="12" cy="12" r="3"/>
-                        </svg>
-                        {{ 'SETTINGS.USE_CURRENT_LOCATION' | translate }}
-                      </button>
-                    </div>
-                  }
 
-                  <div class="divider"></div>
                   <h3>{{ 'SETTINGS.SATISFECHO_DELIVERY_TITLE' | translate }}</h3>
                   <p class="section-desc">{{ 'SETTINGS.SATISFECHO_DELIVERY_DESC' | translate }}</p>
                   <div class="form-group">
@@ -1633,6 +1645,9 @@ type SettingsSectionId =
                     ></textarea>
                     <p class="hint">{{ 'SETTINGS.DELIVERY_POSTAL_CODES_HINT' | translate }}</p>
                   </div>
+
+                  <div class="divider"></div>
+                  <app-delivery-integrations-settings />
                 </div>
               }
 
@@ -3176,7 +3191,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     'printing',
     'promos',
     'restaurant-group',
-    'delivery-integrations',
+    'delivery',
     'social-posts',
     'contract-templates',
     'providers',
@@ -3453,14 +3468,18 @@ export class SettingsComponent implements OnInit, OnDestroy {
     if (!section || typeof section !== 'string') {
       return;
     }
-    if (!(SettingsComponent.SETTINGS_SECTION_IDS as readonly string[]).includes(section)) {
+    const resolved =
+      SETTINGS_SECTION_ALIASES[section] ??
+      ((SettingsComponent.SETTINGS_SECTION_IDS as readonly string[]).includes(section)
+        ? (section as SettingsSectionId)
+        : null);
+    if (!resolved) {
       return;
     }
-    const id = section as SettingsSectionId;
-    if (this.activeSection() === id) {
+    if (this.activeSection() === resolved) {
       return;
     }
-    this.selectSection(id, false);
+    this.selectSection(resolved, false);
   }
 
   settingsModuleTabVisible(key: TenantUiModuleKey): boolean {
