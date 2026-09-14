@@ -149,7 +149,7 @@ ITEMS_EN: dict[str, dict[str, str]] = {
         "HOW_3": "Bump tickets when ready; bar display handles beverages separately.",
     },
     "bar-display": {
-        "HERO_TITLE": "Bar display",
+        "HERO_TITLE": "Bar Display",
         "HERO_SUBTITLE": "Separate bar screen for beverages and drinks-only tickets — keep bar and kitchen workflows independent.",
         "BENEFIT_1": "Bar staff focus on drinks without food tickets on the same screen.",
         "BENEFIT_2": "Faster drink service during busy periods.",
