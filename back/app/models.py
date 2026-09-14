@@ -301,6 +301,23 @@ class User(SQLModel, table=True):
     employee_number: str | None = Field(default=None, max_length=64)
 
 
+class UserOtpRecoveryCode(SQLModel, table=True):
+    """Hashed single-use recovery code for OTP lockout (#400). Plaintext is never stored."""
+
+    __tablename__ = "user_otp_recovery_code"
+
+    id: int | None = Field(default=None, primary_key=True)
+    user_id: int = Field(foreign_key="user.id", index=True)
+    code_hash: str = Field(max_length=64, index=True)
+    used_at: datetime | None = Field(
+        default=None, sa_column=Column(DateTime(timezone=True), nullable=True)
+    )
+    created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        sa_column=Column(DateTime(timezone=True), nullable=False),
+    )
+
+
 class PasswordResetToken(SQLModel, table=True):
     """Single-use token for self-service password reset (raw token is emailed; only hash is stored)."""
 

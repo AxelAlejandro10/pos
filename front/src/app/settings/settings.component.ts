@@ -647,6 +647,51 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
             </div>
             @if (otpStatusLoading()) {
               <div class="loading-state"><div class="spinner"></div><p>{{ 'SETTINGS.LOADING_SETTINGS' | translate }}</p></div>
+            } @else if (otpRecoveryCodes()?.length) {
+              <div class="form-card" data-testid="otp-recovery-codes-panel">
+                <h3>{{ 'SETTINGS.OTP_RECOVERY_TITLE' | translate }}</h3>
+                <p class="hint">{{ 'SETTINGS.OTP_RECOVERY_HINT' | translate }}</p>
+                <ul class="otp-recovery-list" data-testid="otp-recovery-codes-list">
+                  @for (code of otpRecoveryCodes(); track code) {
+                    <li><code>{{ code }}</code></li>
+                  }
+                </ul>
+                <div class="otp-secret-row" style="margin-top: 0.75rem;">
+                  <button type="button" class="btn btn-secondary btn-sm" data-testid="otp-recovery-copy" (click)="copyOtpRecoveryCodes()">
+                    {{
+                      otpRecoveryCopied()
+                        ? ('SETTINGS.OTP_RECOVERY_COPIED' | translate)
+                        : ('SETTINGS.OTP_RECOVERY_COPY_ALL' | translate)
+                    }}
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-testid="otp-recovery-download" (click)="downloadOtpRecoveryCodes()">
+                    {{ 'SETTINGS.OTP_RECOVERY_DOWNLOAD' | translate }}
+                  </button>
+                </div>
+                <div class="form-group checkbox-row" style="margin-top: 1rem;">
+                  <label class="checkbox-label">
+                    <input
+                      type="checkbox"
+                      [(ngModel)]="otpRecoverySavedConfirm"
+                      name="otpRecoverySavedConfirm"
+                      data-testid="otp-recovery-saved-confirm"
+                    />
+                    {{ 'SETTINGS.OTP_RECOVERY_SAVED_CONFIRM' | translate }}
+                  </label>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-testid="otp-recovery-continue"
+                  (click)="dismissOtpRecoveryCodes()"
+                  [disabled]="!otpRecoverySavedConfirm"
+                >
+                  {{ 'SETTINGS.OTP_RECOVERY_CONTINUE' | translate }}
+                </button>
+                @if (otpError()) {
+                  <p class="field-error">{{ otpError() }}</p>
+                }
+              </div>
             } @else if (otpSetupResult()) {
               <div class="form-card">
                 <h3>{{ 'SETTINGS.OTP_SCAN_OR_ENTER' | translate }}</h3>
@@ -668,8 +713,8 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
                   <label for="otp-confirm-code">{{ 'SETTINGS.OTP_ENTER_CODE' | translate }}</label>
-                  <input id="otp-confirm-code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" [(ngModel)]="otpConfirmCode" name="otpConfirmCode" [placeholder]="'SETTINGS.OTP_CODE_PLACEHOLDER' | translate" />
-                  <button type="button" class="btn btn-primary" (click)="confirmOtpEnable()" [disabled]="!otpConfirmCode || otpConfirmCode.length !== 6 || otpConfirming()">
+                  <input id="otp-confirm-code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" [(ngModel)]="otpConfirmCode" name="otpConfirmCode" data-testid="otp-confirm-code" [placeholder]="'SETTINGS.OTP_CODE_PLACEHOLDER' | translate" />
+                  <button type="button" class="btn btn-primary" data-testid="otp-confirm-submit" (click)="confirmOtpEnable()" [disabled]="!otpConfirmCode || otpConfirmCode.length !== 6 || otpConfirming()">
                     {{ otpConfirming() ? ('SETTINGS.OTP_CONFIRMING' | translate) : ('SETTINGS.OTP_ENABLE' | translate) }}
                   </button>
                   <button type="button" class="btn btn-secondary" (click)="cancelOtpSetup()">{{ 'COMMON.CANCEL' | translate }}</button>
@@ -681,7 +726,38 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
             } @else if (otpStatus()?.otp_enabled) {
               <div class="form-card">
                 <p class="otp-enabled-msg">{{ 'SETTINGS.OTP_ENABLED' | translate }}</p>
-                <div class="form-group">
+                <p class="hint" data-testid="otp-recovery-remaining">
+                  {{
+                    'SETTINGS.OTP_RECOVERY_REMAINING'
+                      | translate: { count: otpStatus()?.recovery_codes_remaining ?? 0 }
+                  }}
+                </p>
+                <div class="form-group" style="margin-top: 1rem;">
+                  <label for="otp-regen-password">{{ 'SETTINGS.OTP_RECOVERY_REGENERATE_PASSWORD' | translate }}</label>
+                  <input
+                    id="otp-regen-password"
+                    type="password"
+                    autocomplete="current-password"
+                    [(ngModel)]="otpRegenPassword"
+                    name="otpRegenPassword"
+                    data-testid="otp-regen-password"
+                    [placeholder]="'AUTH.PASSWORD' | translate"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-testid="otp-regen-submit"
+                    (click)="regenerateOtpRecoveryCodes()"
+                    [disabled]="!otpRegenPassword.trim() || otpRegenerating()"
+                  >
+                    {{
+                      otpRegenerating()
+                        ? ('SETTINGS.OTP_RECOVERY_REGENERATING' | translate)
+                        : ('SETTINGS.OTP_RECOVERY_REGENERATE' | translate)
+                    }}
+                  </button>
+                </div>
+                <div class="form-group" style="margin-top: 1.25rem;">
                   <label for="otp-disable-password">{{ 'SETTINGS.OTP_DISABLE_ENTER_PASSWORD' | translate }}</label>
                   <input
                     id="otp-disable-password"
@@ -2959,6 +3035,20 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
       margin-bottom: var(--space-4);
       color: var(--color-text);
     }
+    .otp-recovery-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.75rem 0 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+      gap: 0.5rem;
+    }
+    .otp-recovery-list code {
+      display: block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.9375rem;
+      letter-spacing: 0.04em;
+    }
 
     /* Security / OTP: separate explanatory copy from actions (GitHub #83) */
     [data-testid='settings-security-section'] .form-card > p.hint {
@@ -3270,7 +3360,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   newProductOnSale = true;
   providerProductError = signal('');
 
-  otpStatus = signal<{ otp_enabled: boolean } | null>(null);
+  otpStatus = signal<{ otp_enabled: boolean; recovery_codes_remaining: number } | null>(null);
   otpStatusLoading = signal(false);
   otpSetupResult = signal<{ secret: string; provisioning_uri: string } | null>(null);
   otpConfirmCode = '';
@@ -3280,6 +3370,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
   otpDisablePassword = '';
   otpDisabling = signal(false);
   otpSettingUp = signal(false);
+  /** One-time plaintext recovery codes after enable/regenerate (#400). */
+  otpRecoveryCodes = signal<string[] | null>(null);
+  otpRecoverySavedConfirm = false;
+  otpRecoveryCopied = signal(false);
+  private otpRecoveryCopiedClearTimer: ReturnType<typeof setTimeout> | null = null;
+  otpRegenPassword = '';
+  otpRegenerating = signal(false);
   /** Brief “Copied” feedback after a successful TOTP secret copy (#377). */
   otpSecretCopied = signal(false);
   private otpSecretCopiedClearTimer: ReturnType<typeof setTimeout> | null = null;
@@ -4032,11 +4129,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.otpError.set(null);
     this.otpConfirming.set(true);
     this.api.confirmOtp(this.otpConfirmCode).subscribe({
-      next: () => {
-        this.otpStatus.set({ otp_enabled: true });
+      next: (res) => {
+        const codes = Array.isArray(res?.recovery_codes) ? res.recovery_codes : [];
+        this.otpStatus.set({
+          otp_enabled: true,
+          recovery_codes_remaining: codes.length,
+        });
         this.otpSetupResult.set(null);
         this.otpConfirmCode = '';
         this.otpConfirming.set(false);
+        this.otpRecoverySavedConfirm = false;
+        this.otpRecoveryCodes.set(codes);
       },
       error: (err) => {
         this.otpError.set(err?.error?.detail || 'Invalid code');
@@ -4057,6 +4160,89 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.loadOtpStatus();
   }
 
+  dismissOtpRecoveryCodes() {
+    if (!this.otpRecoverySavedConfirm) return;
+    this.otpRecoveryCodes.set(null);
+    this.otpRecoverySavedConfirm = false;
+    this.otpRecoveryCopied.set(false);
+    if (this.otpRecoveryCopiedClearTimer) {
+      clearTimeout(this.otpRecoveryCopiedClearTimer);
+      this.otpRecoveryCopiedClearTimer = null;
+    }
+    this.otpRegenPassword = '';
+    this.loadOtpStatus();
+  }
+
+  copyOtpRecoveryCodes() {
+    const codes = this.otpRecoveryCodes();
+    if (!codes?.length) return;
+    this.otpError.set(null);
+    const text = codes.join('\n');
+    const onOk = () => {
+      if (this.otpRecoveryCopiedClearTimer) {
+        clearTimeout(this.otpRecoveryCopiedClearTimer);
+        this.otpRecoveryCopiedClearTimer = null;
+      }
+      this.otpRecoveryCopied.set(true);
+      this.otpRecoveryCopiedClearTimer = setTimeout(() => {
+        this.otpRecoveryCopied.set(false);
+        this.otpRecoveryCopiedClearTimer = null;
+      }, 2000);
+    };
+    const onFail = () =>
+      this.otpError.set(this.translate.instant('SETTINGS.OTP_SECRET_COPY_FAILED'));
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(onOk).catch(() => {
+        if (!this.copyTextViaExecCommand(text)) onFail();
+        else onOk();
+      });
+      return;
+    }
+    if (!this.copyTextViaExecCommand(text)) onFail();
+    else onOk();
+  }
+
+  downloadOtpRecoveryCodes() {
+    const codes = this.otpRecoveryCodes();
+    if (!codes?.length) return;
+    const blob = new Blob([codes.join('\n') + '\n'], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'pos-otp-recovery-codes.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  regenerateOtpRecoveryCodes() {
+    const password = (this.otpRegenPassword || '').trim();
+    if (!password) return;
+    this.otpError.set(null);
+    this.otpRegenerating.set(true);
+    this.api.regenerateOtpRecoveryCodes(password).subscribe({
+      next: (res) => {
+        const codes = Array.isArray(res?.recovery_codes) ? res.recovery_codes : [];
+        this.otpRegenPassword = '';
+        this.otpRegenerating.set(false);
+        this.otpRecoverySavedConfirm = false;
+        this.otpRecoveryCodes.set(codes);
+        this.otpStatus.set({
+          otp_enabled: true,
+          recovery_codes_remaining: codes.length,
+        });
+      },
+      error: (err) => {
+        const detail = err?.error?.detail;
+        this.otpError.set(
+          typeof detail === 'string'
+            ? detail
+            : detail?.message || this.translate.instant('SETTINGS.OTP_RECOVERY_REGENERATE_FAILED'),
+        );
+        this.otpRegenerating.set(false);
+      },
+    });
+  }
+
   disableOtp() {
     const password = (this.otpDisablePassword || '').trim();
     if (!password) return;
@@ -4064,9 +4250,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.otpDisabling.set(true);
     this.api.disableOtp(password).subscribe({
       next: () => {
-        this.otpStatus.set({ otp_enabled: false });
+        this.otpStatus.set({ otp_enabled: false, recovery_codes_remaining: 0 });
         this.otpDisablePassword = '';
         this.otpDisabling.set(false);
+        this.otpRecoveryCodes.set(null);
+        this.otpRegenPassword = '';
       },
       error: (err) => {
         const detail = err?.error?.detail;

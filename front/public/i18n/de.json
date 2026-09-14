@@ -527,9 +527,9 @@
     "HIDE_PASSWORD": "Passwort verbergen",
     "ORGANIZATION_PLACEHOLDER": "Name Ihres Restaurants",
     "NAME_PLACEHOLDER": "Max Mustermann",
-    "OTP_ENTER_CODE": "Geben Sie den 6-stelligen Code aus Ihrer Authenticator-App ein",
+    "OTP_ENTER_CODE": "Geben Sie den 6-stelligen Code aus Ihrer Authenticator-App oder einen Wiederherstellungscode ein",
     "OTP_CODE": "Authentifizierungscode",
-    "OTP_CODE_PLACEHOLDER": "000000",
+    "OTP_CODE_PLACEHOLDER": "000000 oder XXXX-XXXX",
     "VERIFY_OTP": "Bestätigen",
     "VERIFYING": "Wird überprüft…",
     "BACK": "Zurück",
@@ -576,7 +576,8 @@
     "SIGNUP_COMPLETE_LEAD": "Teilen Sie diesen QR-Code, damit Gäste Ihr Menü sehen und bestellen können.",
     "SIGNUP_GO_DASHBOARD": "Personal-Dashboard öffnen",
     "SIGNUP_CONTINUE_PAYWALL": "Weiter zu den Plänen",
-    "LOGOUT": "Abmelden"
+    "LOGOUT": "Abmelden",
+    "OTP_RECOVERY_HINT": "Handy verloren? Nutzen Sie einen unbenutzten Wiederherstellungscode. Jeder Wiederherstellungscode funktioniert nur einmal."
   },
   "MENU": {
     "TITLE": "Speisekarte",
@@ -2228,7 +2229,19 @@
     "LOYALTY_WALLET_ENABLED": "Apple-/Google-Wallet-Pässe anbieten",
     "LOYALTY_WALLET_ENABLED_HINT": "Wenn Plattform-Zertifikate konfiguriert sind, können Mitglieder beim Beitritt einen Wallet-Pass hinzufügen. Deaktivieren für nur Guthaben-Link.",
     "OTP_DISABLE_ENTER_PASSWORD": "Geben Sie Ihr Kontopasswort ein, um die Zwei-Faktor-Authentifizierung zu deaktivieren",
-    "OTP_DISABLE_FAILED": "Zwei-Faktor-Authentifizierung konnte nicht deaktiviert werden. Prüfen Sie Ihr Passwort und versuchen Sie es erneut."
+    "OTP_DISABLE_FAILED": "Zwei-Faktor-Authentifizierung konnte nicht deaktiviert werden. Prüfen Sie Ihr Passwort und versuchen Sie es erneut.",
+    "OTP_RECOVERY_TITLE": "Wiederherstellungscodes speichern",
+    "OTP_RECOVERY_HINT": "Bewahren Sie diese Codes sicher auf. Jeder Code kann einmal verwendet werden, wenn Sie den Zugang zur Authenticator-App verlieren. Sie werden nur jetzt angezeigt.",
+    "OTP_RECOVERY_SAVED_CONFIRM": "Ich habe diese Wiederherstellungscodes sicher gespeichert",
+    "OTP_RECOVERY_CONTINUE": "Weiter",
+    "OTP_RECOVERY_COPY_ALL": "Alle kopieren",
+    "OTP_RECOVERY_DOWNLOAD": "Herunterladen",
+    "OTP_RECOVERY_COPIED": "Kopiert",
+    "OTP_RECOVERY_REMAINING": "Unbenutzte Wiederherstellungscodes: {{count}}",
+    "OTP_RECOVERY_REGENERATE": "Neue Wiederherstellungscodes erzeugen",
+    "OTP_RECOVERY_REGENERATING": "Erzeugen…",
+    "OTP_RECOVERY_REGENERATE_PASSWORD": "Geben Sie Ihr Kontopasswort ein, um neue Wiederherstellungscodes zu erzeugen (ungültig macht unbenutzte)",
+    "OTP_RECOVERY_REGENERATE_FAILED": "Wiederherstellungscodes konnten nicht erzeugt werden. Prüfen Sie Ihr Passwort und versuchen Sie es erneut."
   },
   "PAYMENTS": {
     "PAYMENT": "Zahlung",

@@ -14,6 +14,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+## [2.1.167] - 2026-09-14
+
+### Added
+
+- **2FA recovery codes (#400):** Settings → Security shows one-time recovery codes after enabling OTP (copy/download + confirm saved). Login accepts a 6-digit TOTP or an unused recovery code (`XXXX-XXXX`); used codes cannot be reused. Regenerate with account password. Backend: `user_otp_recovery_code` (hashed). Smoke: `npm run test:otp-recovery-codes --prefix front`.
+
 ## [2.1.166] - 2026-09-14
 
 ### Changed

@@ -1,6 +1,6 @@
 {
   "name": "front",
-  "version": "2.1.166",
+  "version": "2.1.167",
   "scripts": {
     "ng": "ng",
     "prebuild": "node scripts/get-commit-hash.js",
@@ -41,6 +41,7 @@
     "test:settings-logo": "node scripts/test-settings-logo-upload.mjs",
     "test:settings-otp-copy": "node scripts/test-settings-otp-copy.mjs",
     "test:settings-otp-disable-password": "node scripts/test-settings-otp-disable-password.mjs",
+    "test:otp-recovery-codes": "node scripts/test-otp-recovery-codes.mjs",
     "test:settings-providers": "node scripts/test-settings-providers.mjs",
     "test:settings-vertical-nav": "node scripts/test-settings-vertical-nav.mjs",
     "test:settings-printing-docs": "node scripts/test-settings-printing-docs.mjs",

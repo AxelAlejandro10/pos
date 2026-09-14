@@ -2193,16 +2193,38 @@ export class ApiService {
     );
   }
 
-  getOtpStatus(): Observable<{ otp_enabled: boolean }> {
-    return this.http.get<{ otp_enabled: boolean }>(`${this.apiUrl}/users/me/otp/status`);
+  getOtpStatus(): Observable<{ otp_enabled: boolean; recovery_codes_remaining: number }> {
+    return this.http.get<{ otp_enabled: boolean; recovery_codes_remaining: number }>(
+      `${this.apiUrl}/users/me/otp/status`,
+    );
   }
 
   setupOtp(): Observable<{ secret: string; provisioning_uri: string }> {
     return this.http.post<{ secret: string; provisioning_uri: string }>(`${this.apiUrl}/users/me/otp/setup`, {});
   }
 
-  confirmOtp(code: string): Observable<{ status: string; otp_enabled: boolean }> {
-    return this.http.post<{ status: string; otp_enabled: boolean }>(`${this.apiUrl}/users/me/otp/confirm`, { code });
+  confirmOtp(code: string): Observable<{
+    status: string;
+    otp_enabled: boolean;
+    recovery_codes: string[];
+  }> {
+    return this.http.post<{ status: string; otp_enabled: boolean; recovery_codes: string[] }>(
+      `${this.apiUrl}/users/me/otp/confirm`,
+      { code },
+    );
+  }
+
+  /** Replace recovery codes after password re-entry (#400). Plaintext returned once. */
+  regenerateOtpRecoveryCodes(password: string): Observable<{
+    status: string;
+    recovery_codes: string[];
+    recovery_codes_remaining: number;
+  }> {
+    return this.http.post<{
+      status: string;
+      recovery_codes: string[];
+      recovery_codes_remaining: number;
+    }>(`${this.apiUrl}/users/me/otp/recovery-codes/regenerate`, { password });
   }
 
   /** Disable OTP with account password re-entry (logged-in session; #401). */

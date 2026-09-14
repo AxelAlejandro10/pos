@@ -652,9 +652,9 @@
     "HIDE_PASSWORD": "पासवर्ड छुपाएं",
     "ORGANIZATION_PLACEHOLDER": "आपके रेस्तरां का नाम",
     "NAME_PLACEHOLDER": "जॉन डो",
-    "OTP_ENTER_CODE": "अपने प्रमाणक ऐप से 6 अंकों का कोड दर्ज करें",
+    "OTP_ENTER_CODE": "Enter the 6-digit code from your authenticator app, or a recovery code",
     "OTP_CODE": "प्रमाणीकरण कोड",
-    "OTP_CODE_PLACEHOLDER": "000000",
+    "OTP_CODE_PLACEHOLDER": "000000 or XXXX-XXXX",
     "VERIFY_OTP": "सत्यापित करें",
     "VERIFYING": "सत्यापित हो रहा है…",
     "BACK": "वापस",
@@ -701,7 +701,8 @@
     "SIGNUP_COMPLETE_LEAD": "यह QR कोड साझा करें ताकि मेहमान मेनू देखकर ऑर्डर कर सकें।",
     "SIGNUP_GO_DASHBOARD": "स्टाफ डैशबोर्ड खोलें",
     "SIGNUP_CONTINUE_PAYWALL": "प्लान पर जारी रखें",
-    "LOGOUT": "लॉग आउट"
+    "LOGOUT": "लॉग आउट",
+    "OTP_RECOVERY_HINT": "Lost your phone? Use one unused recovery code instead. Each recovery code works only once."
   },
   "PAYWALL": {
     "TITLE": "जारी रखने के लिए एक प्लान चुनें",
@@ -2399,7 +2400,19 @@
     "LOYALTY_WALLET_ENABLED": "Apple / Google Wallet पास दें",
     "LOYALTY_WALLET_ENABLED_HINT": "प्लेटफ़ॉर्म प्रमाणपत्र सेट होने पर सदस्य जॉइन पर वॉलेट पास जोड़ सकते हैं। केवल बैलेंस कार्ड के लिए बंद करें।",
     "OTP_DISABLE_ENTER_PASSWORD": "दो-कारक प्रमाणीकरण अक्षम करने के लिए अपना खाता पासवर्ड दर्ज करें",
-    "OTP_DISABLE_FAILED": "दो-कारक प्रमाणीकरण अक्षम नहीं हो सका। पासवर्ड जांचें और फिर कोशिश करें।"
+    "OTP_DISABLE_FAILED": "दो-कारक प्रमाणीकरण अक्षम नहीं हो सका। पासवर्ड जांचें और फिर कोशिश करें।",
+    "OTP_RECOVERY_TITLE": "Save your recovery codes",
+    "OTP_RECOVERY_HINT": "Store these codes in a safe place. Each code can be used once if you lose access to your authenticator app. They are shown only now.",
+    "OTP_RECOVERY_SAVED_CONFIRM": "I have saved these recovery codes in a safe place",
+    "OTP_RECOVERY_CONTINUE": "Continue",
+    "OTP_RECOVERY_COPY_ALL": "Copy all",
+    "OTP_RECOVERY_DOWNLOAD": "Download",
+    "OTP_RECOVERY_COPIED": "Copied",
+    "OTP_RECOVERY_REMAINING": "Unused recovery codes: {{count}}",
+    "OTP_RECOVERY_REGENERATE": "Generate new recovery codes",
+    "OTP_RECOVERY_REGENERATING": "Generating…",
+    "OTP_RECOVERY_REGENERATE_PASSWORD": "Enter your account password to generate new recovery codes (invalidates unused ones)",
+    "OTP_RECOVERY_REGENERATE_FAILED": "Could not generate recovery codes. Check your password and try again."
   },
   "PAYMENTS": {
     "PAYMENT": "भुगतान",

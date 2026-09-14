@@ -36,6 +36,7 @@ from sqlalchemy.exc import IntegrityError, InvalidRequestError, OperationalError
 from sqlmodel import Session, select
 
 from . import models, security
+from . import otp_recovery
 from .db import check_db_connection, create_db_and_tables, get_session, engine
 from .provider_images import (
     provider_product_image_url,
@@ -2924,8 +2925,18 @@ def login_with_otp(
             detail=api_error_payload("otp_session_invalid", lang),
         )
     import pyotp
-    totp = pyotp.TOTP(user.otp_secret)
-    if not totp.verify(body.code, valid_window=1):
+
+    code_ok = False
+    raw_code = (body.code or "").strip()
+    if otp_recovery.looks_like_totp_code(raw_code):
+        totp = pyotp.TOTP(user.otp_secret)
+        code_ok = bool(totp.verify(raw_code, valid_window=1))
+    else:
+        # Single-use recovery code (#400); mark consumed only on success path below.
+        code_ok = otp_recovery.try_consume_recovery_code(session, user.id, raw_code)
+        if code_ok:
+            session.commit()
+    if not code_ok:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=api_error_payload("invalid_otp_code", lang),
@@ -3170,9 +3181,17 @@ def read_users_me(
 @app.get("/users/me/otp/status")
 def get_otp_status(
     current_user: Annotated[models.User, Depends(security.get_current_user)],
+    session: Session = Depends(get_session),
 ) -> dict:
-    """Return whether OTP is enabled for the current user (no secret)."""
-    return {"otp_enabled": getattr(current_user, "otp_enabled", False)}
+    """Return whether OTP is enabled and how many unused recovery codes remain (#400)."""
+    enabled = getattr(current_user, "otp_enabled", False)
+    remaining = 0
+    if enabled and current_user.id is not None:
+        remaining = otp_recovery.unused_recovery_code_count(session, current_user.id)
+    return {
+        "otp_enabled": enabled,
+        "recovery_codes_remaining": remaining,
+    }
 
 
 class OTPConfirmBody(_BaseModel):
@@ -3181,6 +3200,12 @@ class OTPConfirmBody(_BaseModel):
 
 class OTPDisableBody(_BaseModel):
     """Disable OTP for the authenticated user by re-entering the account password (#401)."""
+
+    password: str = Field(..., min_length=1, max_length=256)
+
+
+class OTPRecoveryRegenerateBody(_BaseModel):
+    """Regenerate recovery codes; requires account password (#400)."""
 
     password: str = Field(..., min_length=1, max_length=256)
 
@@ -3202,6 +3227,7 @@ def otp_setup(
     if user:
         user.otp_secret = secret
         user.otp_enabled = False
+        otp_recovery.delete_recovery_codes_for_user(session, user.id)
         session.add(user)
         session.commit()
     return {"secret": secret, "provisioning_uri": provisioning_uri}
@@ -3213,7 +3239,7 @@ def otp_confirm(
     current_user: Annotated[models.User, Depends(security.get_current_user)],
     session: Session = Depends(get_session),
 ) -> dict:
-    """Verify the OTP code and enable OTP for this user."""
+    """Verify the OTP code, enable OTP, and return one-time recovery codes (#400)."""
     import pyotp
     user = session.get(models.User, current_user.id)
     if not user or not getattr(user, "otp_secret", None):
@@ -3221,10 +3247,45 @@ def otp_confirm(
     totp = pyotp.TOTP(user.otp_secret)
     if not totp.verify(body.code, valid_window=1):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired code")
+    plain_codes = otp_recovery.generate_recovery_codes()
+    otp_recovery.replace_recovery_codes(session, user.id, plain_codes)
     user.otp_enabled = True
     session.add(user)
     session.commit()
-    return {"status": "ok", "otp_enabled": True}
+    return {
+        "status": "ok",
+        "otp_enabled": True,
+        "recovery_codes": plain_codes,
+    }
+
+
+@app.post("/users/me/otp/recovery-codes/regenerate")
+def otp_regenerate_recovery_codes(
+    body: OTPRecoveryRegenerateBody,
+    current_user: Annotated[models.User, Depends(security.get_current_user)],
+    session: Session = Depends(get_session),
+    lang: str = Depends(_get_requested_language),
+) -> dict:
+    """Replace unused recovery codes after password re-entry. Plaintext returned once (#400)."""
+    user = session.get(models.User, current_user.id)
+    if not user or not getattr(user, "otp_enabled", False) or not getattr(user, "otp_secret", None):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="OTP is not enabled",
+        )
+    if not security.verify_password(body.password.strip(), user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=api_error_payload("incorrect_actor_password", lang),
+        )
+    plain_codes = otp_recovery.generate_recovery_codes()
+    otp_recovery.replace_recovery_codes(session, user.id, plain_codes)
+    session.commit()
+    return {
+        "status": "ok",
+        "recovery_codes": plain_codes,
+        "recovery_codes_remaining": len(plain_codes),
+    }
 
 
 @app.post("/users/me/otp/disable")
@@ -3247,6 +3308,7 @@ def otp_disable(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=api_error_payload("incorrect_actor_password", lang),
         )
+    otp_recovery.delete_recovery_codes_for_user(session, user.id)
     user.otp_secret = None
     user.otp_enabled = False
     session.add(user)

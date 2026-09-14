@@ -652,9 +652,9 @@
     "HIDE_PASSWORD": "Amaga la contrasenya",
     "ORGANIZATION_PLACEHOLDER": "Nom del teu restaurant",
     "NAME_PLACEHOLDER": "Joan García",
-    "OTP_ENTER_CODE": "Introdueix el codi de 6 dígits de la teva app d'autenticació",
+    "OTP_ENTER_CODE": "Introdueix el codi de 6 dígits de la teva app d’autenticació, o un codi de recuperació",
     "OTP_CODE": "Codi d'autenticació",
-    "OTP_CODE_PLACEHOLDER": "000000",
+    "OTP_CODE_PLACEHOLDER": "000000 o XXXX-XXXX",
     "VERIFY_OTP": "Verificar",
     "VERIFYING": "Verificant…",
     "BACK": "Enrere",
@@ -701,7 +701,8 @@
     "SIGNUP_COMPLETE_LEAD": "Comparteix aquest codi QR perquè els clients vegin el menú i demanin.",
     "SIGNUP_GO_DASHBOARD": "Obrir tauler de personal",
     "SIGNUP_CONTINUE_PAYWALL": "Continuar als plans",
-    "LOGOUT": "Tancar la sessió"
+    "LOGOUT": "Tancar la sessió",
+    "OTP_RECOVERY_HINT": "Has perdut el telèfon? Usa un codi de recuperació no usat. Cada codi de recuperació només funciona una vegada."
   },
   "PAYWALL": {
     "TITLE": "Tria un pla per continuar",
@@ -2399,7 +2400,19 @@
     "LOYALTY_WALLET_ENABLED": "Oferir passis d’Apple / Google Wallet",
     "LOYALTY_WALLET_ENABLED_HINT": "Si hi ha certificats de plataforma, els membres poden afegir un pass en unir-se. Desactiva per deixar només l’enllaç de saldo.",
     "OTP_DISABLE_ENTER_PASSWORD": "Introdueix la contrasenya del compte per desactivar l’autenticació de dos factors",
-    "OTP_DISABLE_FAILED": "No s’ha pogut desactivar l’autenticació de dos factors. Comprova la contrasenya i torna-ho a provar."
+    "OTP_DISABLE_FAILED": "No s’ha pogut desactivar l’autenticació de dos factors. Comprova la contrasenya i torna-ho a provar.",
+    "OTP_RECOVERY_TITLE": "Desa els teus codis de recuperació",
+    "OTP_RECOVERY_HINT": "Guarda aquests codis en un lloc segur. Cada codi es pot usar una vegada si perds l’accés a l’app d’autenticació. Només es mostren ara.",
+    "OTP_RECOVERY_SAVED_CONFIRM": "He desat aquests codis de recuperació en un lloc segur",
+    "OTP_RECOVERY_CONTINUE": "Continuar",
+    "OTP_RECOVERY_COPY_ALL": "Copia’ls tots",
+    "OTP_RECOVERY_DOWNLOAD": "Descarrega",
+    "OTP_RECOVERY_COPIED": "Copiat",
+    "OTP_RECOVERY_REMAINING": "Codis de recuperació no usats: {{count}}",
+    "OTP_RECOVERY_REGENERATE": "Genera nous codis de recuperació",
+    "OTP_RECOVERY_REGENERATING": "Generant…",
+    "OTP_RECOVERY_REGENERATE_PASSWORD": "Introdueix la contrasenya del compte per generar nous codis de recuperació (invalida els no usats)",
+    "OTP_RECOVERY_REGENERATE_FAILED": "No s’han pogut generar els codis de recuperació. Comprova la contrasenya i torna-ho a provar."
   },
   "PAYMENTS": {
     "PAYMENT": "Pagament",

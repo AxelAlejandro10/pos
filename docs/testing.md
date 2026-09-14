@@ -794,6 +794,7 @@ From repo root: `npm run <script> --prefix front`. From `front/`: `npm run <scri
 | `test:settings-logo` | `scripts/test-settings-logo-upload.mjs` (Settings logo upload; owner/admin `LOGIN_*` / `DEMO_LOGIN_*`) |
 | `test:settings-otp-copy` | `scripts/test-settings-otp-copy.mjs` (Settings → Security OTP secret Copy; starts setup, checks clipboard, cancels; #377) |
 | `test:settings-otp-disable-password` | `scripts/test-settings-otp-disable-password.mjs` (Settings → Security disable OTP with account password while logged in; #401) |
+| `test:otp-recovery-codes` | `scripts/test-otp-recovery-codes.mjs` (enable OTP → save recovery codes → login with one code → reuse fails; #400) |
 | `test:support-access` | `scripts/test-support-access.mjs` (Users → Add Satisfecho support pre-fills `support@satisfecho.de`; admin/owner) |
 | `test:kitchen-timer` | `scripts/test-kitchen-timer.mjs` (Kitchen `/kitchen`: Timer settings + Waiting timer when orders exist) |
 | `test:book-whatsapp` | `scripts/test-book-whatsapp-puppeteer.mjs` (public `/book/1` WhatsApp CTA; optional `API_BASE`; no login) |

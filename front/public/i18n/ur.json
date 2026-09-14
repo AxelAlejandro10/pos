@@ -527,9 +527,9 @@
     "HIDE_PASSWORD": "پاس ورڈ چھپائیں",
     "ORGANIZATION_PLACEHOLDER": "آپ کا ریستوران نام",
     "NAME_PLACEHOLDER": "John Doe",
-    "OTP_ENTER_CODE": "درج کریں 6-ہندسہ کوڈ سے آپ کا تصدیق کنندہ ایپ ایپ",
+    "OTP_ENTER_CODE": "Enter the 6-digit code from your authenticator app, or a recovery code",
     "OTP_CODE": "تصدیقی کوڈ",
-    "OTP_CODE_PLACEHOLDER": "000000",
+    "OTP_CODE_PLACEHOLDER": "000000 or XXXX-XXXX",
     "VERIFY_OTP": "تصدیق کریں",
     "VERIFYING": "تصدیق ہو رہی ہے…",
     "BACK": "واپس",
@@ -576,7 +576,8 @@
     "SIGNUP_COMPLETE_LEAD": "یہ QR کوڈ شیئر کریں تاکہ مہمان مینو دیکھ کر آرڈر کر سکیں۔",
     "SIGNUP_GO_DASHBOARD": "اسٹاف ڈیش بورڈ کھولیں",
     "SIGNUP_CONTINUE_PAYWALL": "پلانز کی طرف جاری رکھیں",
-    "LOGOUT": "لاگ آؤٹ"
+    "LOGOUT": "لاگ آؤٹ",
+    "OTP_RECOVERY_HINT": "Lost your phone? Use one unused recovery code instead. Each recovery code works only once."
   },
   "MENU": {
     "TITLE": "مینو",
@@ -2262,7 +2263,19 @@
     "LOYALTY_WALLET_ENABLED": "Apple / Google Wallet پاس پیش کریں",
     "LOYALTY_WALLET_ENABLED_HINT": "پلیٹ فارم سرٹیفکیٹ سیٹ ہونے پر ممبرز جوائن پر والیٹ پاس شامل کر سکتے ہیں۔ صرف بیلنس کارڈ کے لیے بند کریں۔",
     "OTP_DISABLE_ENTER_PASSWORD": "دو مرحلہ تصدیق غیر فعال کرنے کے لیے اپنے اکاؤنٹ کا پاس ورڈ درج کریں",
-    "OTP_DISABLE_FAILED": "دو مرحلہ تصدیق غیر فعال نہیں ہو سکی۔ پاس ورڈ چیک کریں اور دوبارہ کوشش کریں۔"
+    "OTP_DISABLE_FAILED": "دو مرحلہ تصدیق غیر فعال نہیں ہو سکی۔ پاس ورڈ چیک کریں اور دوبارہ کوشش کریں۔",
+    "OTP_RECOVERY_TITLE": "Save your recovery codes",
+    "OTP_RECOVERY_HINT": "Store these codes in a safe place. Each code can be used once if you lose access to your authenticator app. They are shown only now.",
+    "OTP_RECOVERY_SAVED_CONFIRM": "I have saved these recovery codes in a safe place",
+    "OTP_RECOVERY_CONTINUE": "Continue",
+    "OTP_RECOVERY_COPY_ALL": "Copy all",
+    "OTP_RECOVERY_DOWNLOAD": "Download",
+    "OTP_RECOVERY_COPIED": "Copied",
+    "OTP_RECOVERY_REMAINING": "Unused recovery codes: {{count}}",
+    "OTP_RECOVERY_REGENERATE": "Generate new recovery codes",
+    "OTP_RECOVERY_REGENERATING": "Generating…",
+    "OTP_RECOVERY_REGENERATE_PASSWORD": "Enter your account password to generate new recovery codes (invalidates unused ones)",
+    "OTP_RECOVERY_REGENERATE_FAILED": "Could not generate recovery codes. Check your password and try again."
   },
   "PAYMENTS": {
     "PAYMENT": "ادائیگی",

@@ -527,9 +527,9 @@
     "HIDE_PASSWORD": "Masquer le mot de passe",
     "ORGANIZATION_PLACEHOLDER": "Nom de votre restaurant",
     "NAME_PLACEHOLDER": "Jean Dupont",
-    "OTP_ENTER_CODE": "Saisissez le code à 6 chiffres de votre application d'authentification",
+    "OTP_ENTER_CODE": "Saisissez le code à 6 chiffres de votre application d’authentification, ou un code de récupération",
     "OTP_CODE": "Code d'authentification",
-    "OTP_CODE_PLACEHOLDER": "000000",
+    "OTP_CODE_PLACEHOLDER": "000000 ou XXXX-XXXX",
     "VERIFY_OTP": "Vérifier",
     "VERIFYING": "Vérification…",
     "BACK": "Retour",
@@ -576,7 +576,8 @@
     "SIGNUP_COMPLETE_LEAD": "Partagez ce QR code pour que les clients voient votre menu et commandent.",
     "SIGNUP_GO_DASHBOARD": "Ouvrir le tableau de bord",
     "SIGNUP_CONTINUE_PAYWALL": "Continuer vers les offres",
-    "LOGOUT": "Se déconnecter"
+    "LOGOUT": "Se déconnecter",
+    "OTP_RECOVERY_HINT": "Téléphone perdu ? Utilisez un code de récupération inutilisé. Chaque code de récupération ne fonctionne qu’une fois."
   },
   "MENU": {
     "TITLE": "Menu",
@@ -2209,7 +2210,19 @@
     "LOYALTY_WALLET_ENABLED": "Proposer des passes Apple / Google Wallet",
     "LOYALTY_WALLET_ENABLED_HINT": "Si les certificats plateforme sont configurés, les membres peuvent ajouter une passe à l’inscription. Désactivez pour le lien solde seul.",
     "OTP_DISABLE_ENTER_PASSWORD": "Saisissez le mot de passe de votre compte pour désactiver l’authentification à deux facteurs",
-    "OTP_DISABLE_FAILED": "Impossible de désactiver l’authentification à deux facteurs. Vérifiez votre mot de passe et réessayez."
+    "OTP_DISABLE_FAILED": "Impossible de désactiver l’authentification à deux facteurs. Vérifiez votre mot de passe et réessayez.",
+    "OTP_RECOVERY_TITLE": "Enregistrez vos codes de récupération",
+    "OTP_RECOVERY_HINT": "Conservez ces codes en lieu sûr. Chaque code peut être utilisé une fois si vous perdez l’accès à votre application d’authentification. Ils ne s’affichent que maintenant.",
+    "OTP_RECOVERY_SAVED_CONFIRM": "J’ai enregistré ces codes de récupération en lieu sûr",
+    "OTP_RECOVERY_CONTINUE": "Continuer",
+    "OTP_RECOVERY_COPY_ALL": "Tout copier",
+    "OTP_RECOVERY_DOWNLOAD": "Télécharger",
+    "OTP_RECOVERY_COPIED": "Copié",
+    "OTP_RECOVERY_REMAINING": "Codes de récupération inutilisés : {{count}}",
+    "OTP_RECOVERY_REGENERATE": "Générer de nouveaux codes de récupération",
+    "OTP_RECOVERY_REGENERATING": "Génération…",
+    "OTP_RECOVERY_REGENERATE_PASSWORD": "Saisissez le mot de passe de votre compte pour générer de nouveaux codes de récupération (invalide les codes inutilisés)",
+    "OTP_RECOVERY_REGENERATE_FAILED": "Impossible de générer les codes de récupération. Vérifiez votre mot de passe et réessayez."
   },
   "PAYMENTS": {
     "PAYMENT": "Paiement",

@@ -527,9 +527,9 @@
     "HIDE_PASSWORD": "Ocultar contraseña",
     "ORGANIZATION_PLACEHOLDER": "Nombre de tu restaurante",
     "NAME_PLACEHOLDER": "Juan García",
-    "OTP_ENTER_CODE": "Introduce el código de 6 dígitos de tu app de autenticación",
+    "OTP_ENTER_CODE": "Introduce el código de 6 dígitos de tu app de autenticación, o un código de recuperación",
     "OTP_CODE": "Código de autenticación",
-    "OTP_CODE_PLACEHOLDER": "000000",
+    "OTP_CODE_PLACEHOLDER": "000000 o XXXX-XXXX",
     "VERIFY_OTP": "Verificar",
     "VERIFYING": "Verificando…",
     "BACK": "Atrás",
@@ -576,7 +576,8 @@
     "SIGNUP_COMPLETE_LEAD": "Comparte este código QR para que los clientes vean tu menú y pidan.",
     "SIGNUP_GO_DASHBOARD": "Abrir panel de personal",
     "SIGNUP_CONTINUE_PAYWALL": "Continuar a los planes",
-    "LOGOUT": "Cerrar sesión"
+    "LOGOUT": "Cerrar sesión",
+    "OTP_RECOVERY_HINT": "¿Perdiste el teléfono? Usa un código de recuperación no usado. Cada código de recuperación sirve solo una vez."
   },
   "MENU": {
     "TITLE": "Menú",
@@ -2262,7 +2263,19 @@
     "LOYALTY_WALLET_ENABLED": "Ofrecer pases de Apple / Google Wallet",
     "LOYALTY_WALLET_ENABLED_HINT": "Si hay certificados de plataforma, los socios pueden añadir un pase al unirse. Desactiva para dejar solo la tarjeta de saldo.",
     "OTP_DISABLE_ENTER_PASSWORD": "Introduce la contraseña de tu cuenta para desactivar la autenticación en dos pasos",
-    "OTP_DISABLE_FAILED": "No se pudo desactivar la autenticación en dos pasos. Comprueba la contraseña e inténtalo de nuevo."
+    "OTP_DISABLE_FAILED": "No se pudo desactivar la autenticación en dos pasos. Comprueba la contraseña e inténtalo de nuevo.",
+    "OTP_RECOVERY_TITLE": "Guarda tus códigos de recuperación",
+    "OTP_RECOVERY_HINT": "Guarda estos códigos en un lugar seguro. Cada código se puede usar una vez si pierdes acceso a tu app de autenticación. Solo se muestran ahora.",
+    "OTP_RECOVERY_SAVED_CONFIRM": "He guardado estos códigos de recuperación en un lugar seguro",
+    "OTP_RECOVERY_CONTINUE": "Continuar",
+    "OTP_RECOVERY_COPY_ALL": "Copiar todos",
+    "OTP_RECOVERY_DOWNLOAD": "Descargar",
+    "OTP_RECOVERY_COPIED": "Copiado",
+    "OTP_RECOVERY_REMAINING": "Códigos de recuperación sin usar: {{count}}",
+    "OTP_RECOVERY_REGENERATE": "Generar nuevos códigos de recuperación",
+    "OTP_RECOVERY_REGENERATING": "Generando…",
+    "OTP_RECOVERY_REGENERATE_PASSWORD": "Introduce la contraseña de tu cuenta para generar nuevos códigos de recuperación (invalida los no usados)",
+    "OTP_RECOVERY_REGENERATE_FAILED": "No se pudieron generar los códigos de recuperación. Comprueba la contraseña e inténtalo de nuevo."
   },
   "PAYMENTS": {
     "PAYMENT": "Pago",
