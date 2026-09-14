@@ -196,9 +196,9 @@
                 <div class="form-group">
                   <label for="book-service">{{ 'BOOK.SERVICE_TYPE' | translate }}</label>
                   <select id="book-service" [(ngModel)]="formService" name="serviceType">
-                    <option value="all">{{ 'BOOK.SERVICE_ALL' | translate }}</option>
-                    <option value="lunch">{{ 'BOOK.SERVICE_LUNCH' | translate }}</option>
-                    <option value="dinner">{{ 'BOOK.SERVICE_DINNER' | translate }}</option>
+                    <option value="all">{{ serviceOptionLabel('all') }}</option>
+                    <option value="lunch">{{ serviceOptionLabel('lunch') }}</option>
+                    <option value="dinner">{{ serviceOptionLabel('dinner') }}</option>
                   </select>
                 </div>
               }
@@ -251,6 +251,7 @@
               [timezone]="tenant()?.timezone ?? null"
               [weekAnchorSeed]="formDate"
               [serviceType]="hasMealSplit() ? formService : 'all'"
+              [openingHoursJson]="tenant()?.opening_hours ?? null"
               [bookFloorId]="formFloorId"
               [(selectedDate)]="formDate"
               [(selectedTime)]="formTime"

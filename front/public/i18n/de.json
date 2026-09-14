@@ -2253,7 +2253,13 @@
     "LOYALTY_MEMBERS_SEARCH_EMPTY": "Keine Mitglieder passen zu dieser Suche.",
     "LOYALTY_CARD_LINK": "Kartenlink",
     "LOYALTY_COPY_CARD": "Kartenlink kopieren",
-    "LOYALTY_COPIED": "Kopiert"
+    "LOYALTY_COPIED": "Kopiert",
+    "SERVICE_LABEL": "Service-Bezeichnung",
+    "SERVICE_LABEL_PLACEHOLDER": "z. B. Frühstück (optional)",
+    "MORNING_LABEL": "Bezeichnung Vormittag",
+    "MORNING_LABEL_PLACEHOLDER": "Mittagessen / Frühstück",
+    "EVENING_LABEL": "Bezeichnung Abend",
+    "EVENING_LABEL_PLACEHOLDER": "Abendessen"
   },
   "PAYMENTS": {
     "PAYMENT": "Zahlung",

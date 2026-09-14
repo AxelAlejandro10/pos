@@ -2424,7 +2424,13 @@
     "LOYALTY_MEMBERS_SEARCH_EMPTY": "उस खोज से कोई सदस्य मेल नहीं खाता।",
     "LOYALTY_CARD_LINK": "कार्ड लिंक",
     "LOYALTY_COPY_CARD": "कार्ड लिंक कॉपी करें",
-    "LOYALTY_COPIED": "कॉपी हो गया"
+    "LOYALTY_COPIED": "कॉपी हो गया",
+    "SERVICE_LABEL": "सेवा लेबल",
+    "SERVICE_LABEL_PLACEHOLDER": "उदा. नाश्ता (वैकल्पिक)",
+    "MORNING_LABEL": "सुबह की सेवा का लेबल",
+    "MORNING_LABEL_PLACEHOLDER": "लंच / नाश्ता",
+    "EVENING_LABEL": "शाम की सेवा का लेबल",
+    "EVENING_LABEL_PLACEHOLDER": "डिनर"
   },
   "PAYMENTS": {
     "PAYMENT": "भुगतान",

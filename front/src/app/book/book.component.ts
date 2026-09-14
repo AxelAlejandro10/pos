@@ -14,7 +14,7 @@ import { PublicGuestHeaderComponent } from '../shared/public-guest-header.compon
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { ReservationWeekSlotGridComponent } from '../shared/reservation-week-slot-grid.component';
 import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
-import { tenantOpeningHoursHasMealSplit } from '../shared/booking-meal-split';
+import { tenantOpeningHoursHasMealSplit, resolveBookingServiceLabel } from '../shared/booking-meal-split';
 import { contactEmailValid, contactPhoneValid } from '../shared/contact-validators';
 import { ApiErrorMessageService } from '../services/api-error-message.service';
 
@@ -97,6 +97,20 @@ export class BookComponent implements OnInit {
   }
 
   hasMealSplit = computed(() => tenantOpeningHoursHasMealSplit(this.tenant()?.opening_hours));
+
+  /** Display labels for the service select / summary (custom opening-hours labels or i18n defaults). */
+  serviceOptionLabel(service: 'all' | 'lunch' | 'dinner'): string {
+    return resolveBookingServiceLabel(
+      this.tenant()?.opening_hours,
+      service,
+      {
+        all: this.translate.instant('BOOK.SERVICE_ALL'),
+        lunch: this.translate.instant('BOOK.SERVICE_LUNCH'),
+        dinner: this.translate.instant('BOOK.SERVICE_DINNER'),
+      },
+      this.formDate || null,
+    );
+  }
 
   maxPartySize = computed(() => {
     const cap = this.tenant()?.reservation_max_guests_per_slot;

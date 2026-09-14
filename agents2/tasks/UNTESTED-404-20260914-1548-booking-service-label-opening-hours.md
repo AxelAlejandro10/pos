@@ -1,3 +1,7 @@
+## Status
+- **UNTESTED** — implementation complete 2026-09-14T16:06:26Z
+
+
 # Editable service labels on booking form (Lunch / dinner) (#404)
 
 ## GitHub Issues
@@ -16,3 +20,13 @@ Related docs: `docs/0011-table-reservation-user-guide.md`, `docs/0010-table-rese
 - On the booking form, show the label that matches the selected date/time (or the period the guest is booking into). Do not hard-code only Lunch and dinner.
 - i18n for new Settings and booking strings in `front/public/i18n/*.json`.
 - Smoke: set a custom label in Settings → open `/book/1` → confirm the label appears for matching slots; empty label keeps sensible default; front build clean in `docker logs --since 10m pos-front`.
+
+## Testing instructions
+
+1. **Settings labels:** Log in as staff → **Settings → Opening hours**. For a continuous day, set **Service label** to `Breakfast` and save. For a day with **Has break**, set morning label to `Breakfast` and evening to `Dinner`, then save (or copy that day to others).
+2. **Public book:** Open `/book/1`. Confirm the week summary **Service** line shows the custom label (e.g. `Breakfast`, or `Breakfast / Dinner` when both split labels are set). With empty labels, defaults remain **Lunch and dinner** / **Lunch** / **Dinner**.
+3. **Split select:** When the tenant has a meal break, the Service dropdown options use the custom morning/evening labels; API still sends `lunch`/`dinner`.
+4. **Staff reservations:** Open `/reservations` → new/edit reservation modal; Service options and summary match the same labels.
+5. **Front build:** `docker logs --since 10m pos-front` shows no TS/Angular errors after the change.
+6. **Smoke:** `BASE_URL=http://127.0.0.1:4202 npm run test:landing-version --prefix front` passes.
+

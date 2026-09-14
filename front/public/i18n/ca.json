@@ -2424,7 +2424,13 @@
     "LOYALTY_MEMBERS_SEARCH_EMPTY": "Cap membre no coincideix amb aquesta cerca.",
     "LOYALTY_CARD_LINK": "Enllaç de targeta",
     "LOYALTY_COPY_CARD": "Copia l’enllaç",
-    "LOYALTY_COPIED": "Copiat"
+    "LOYALTY_COPIED": "Copiat",
+    "SERVICE_LABEL": "Etiqueta del servei",
+    "SERVICE_LABEL_PLACEHOLDER": "p. ex. Esmorzar (opcional)",
+    "MORNING_LABEL": "Etiqueta del torn del matí",
+    "MORNING_LABEL_PLACEHOLDER": "Dinar / Esmorzar",
+    "EVENING_LABEL": "Etiqueta del torn del vespre",
+    "EVENING_LABEL_PLACEHOLDER": "Sopar"
   },
   "PAYMENTS": {
     "PAYMENT": "Pagament",

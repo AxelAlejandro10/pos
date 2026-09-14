@@ -1371,6 +1371,18 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
                                   }
                                 </select>
                               </div>
+                              <div class="service-label-field">
+                                <label [for]="'svc-label-' + day.key">{{ 'SETTINGS.SERVICE_LABEL' | translate }}</label>
+                                <input
+                                  type="text"
+                                  [id]="'svc-label-' + day.key"
+                                  [name]="'svc-label-' + day.key"
+                                  [ngModel]="openingHours[day.key]?.serviceLabel || ''"
+                                  (ngModelChange)="setServiceLabelValue(day.key, 'serviceLabel', $event)"
+                                  [placeholder]="'SETTINGS.SERVICE_LABEL_PLACEHOLDER' | translate"
+                                  maxlength="64"
+                                />
+                              </div>
                             } @else {
                               <div class="split-shifts">
                                 <div class="shift">
@@ -1386,6 +1398,16 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
                                       <option [value]="t">{{ t }}</option>
                                     }
                                   </select>
+                                  <input
+                                    type="text"
+                                    class="shift-service-label"
+                                    [name]="'ml-' + day.key"
+                                    [ngModel]="openingHours[day.key]?.morningLabel || ''"
+                                    (ngModelChange)="setServiceLabelValue(day.key, 'morningLabel', $event)"
+                                    [placeholder]="'SETTINGS.MORNING_LABEL_PLACEHOLDER' | translate"
+                                    [attr.aria-label]="'SETTINGS.MORNING_LABEL' | translate"
+                                    maxlength="64"
+                                  />
                                 </div>
                                 <div class="shift">
                                   <span class="shift-label">{{ 'SETTINGS.EVENING_SHIFT' | translate }}</span>
@@ -1400,6 +1422,16 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
                                       <option [value]="t">{{ t }}</option>
                                     }
                                   </select>
+                                  <input
+                                    type="text"
+                                    class="shift-service-label"
+                                    [name]="'el-' + day.key"
+                                    [ngModel]="openingHours[day.key]?.eveningLabel || ''"
+                                    (ngModelChange)="setServiceLabelValue(day.key, 'eveningLabel', $event)"
+                                    [placeholder]="'SETTINGS.EVENING_LABEL_PLACEHOLDER' | translate"
+                                    [attr.aria-label]="'SETTINGS.EVENING_LABEL' | translate"
+                                    maxlength="64"
+                                  />
                                 </div>
                               </div>
                             }
@@ -2519,6 +2551,36 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
       }
     }
 
+    .service-label-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      margin-top: var(--space-2);
+      max-width: 280px;
+
+      label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--color-text-muted);
+      }
+
+      input {
+        padding: var(--space-2) var(--space-3);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        font-size: 0.95rem;
+        min-height: 40px;
+        background: var(--color-bg);
+        color: var(--color-text);
+        text-align: left;
+      }
+    }
+
+    .shift-service-label {
+      max-width: 180px !important;
+      text-align: left !important;
+    }
+
     /* Split Shifts - Mobile First (Stacked) */
     .split-shifts {
       display: flex;
@@ -3513,6 +3575,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
     morningClose?: string;
     eveningOpen?: string;
     eveningClose?: string;
+    /** Custom booking label when the day has no break (or combined “all”). */
+    serviceLabel?: string;
+    /** Custom booking label for the first window (API: lunch). */
+    morningLabel?: string;
+    /** Custom booking label for the second window (API: dinner). */
+    eveningLabel?: string;
     bar?: number;
     waiter?: number;
     kitchen?: number;
@@ -4408,6 +4476,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
         morningClose: '14:00',
         eveningOpen: '17:00',
         eveningClose: '22:00',
+        serviceLabel: '',
+        morningLabel: '',
+        eveningLabel: '',
         bar: 0,
         waiter: 0,
         kitchen: 0,
@@ -4423,6 +4494,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           if (parsed[day.key]) {
             const dayData = parsed[day.key];
             const num = (v: unknown) => (typeof v === 'number' && v >= 0 && Number.isInteger(v) ? v : 0);
+            const label = (v: unknown) => (typeof v === 'string' ? v.trim().slice(0, 64) : '');
             this.openingHours[day.key] = {
               open: this.roundTimeToQuarter(dayData.open || '09:00'),
               close: this.roundTimeToQuarter(dayData.close || '22:00'),
@@ -4432,6 +4504,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
               morningClose: this.roundTimeToQuarter(dayData.morningClose || '14:00'),
               eveningOpen: this.roundTimeToQuarter(dayData.eveningOpen || '17:00'),
               eveningClose: this.roundTimeToQuarter(dayData.eveningClose || dayData.close || '22:00'),
+              serviceLabel: label(dayData.serviceLabel),
+              morningLabel: label(dayData.morningLabel),
+              eveningLabel: label(dayData.eveningLabel),
               bar: num(dayData.bar),
               waiter: num(dayData.waiter),
               kitchen: num(dayData.kitchen),
@@ -4492,6 +4567,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.serializeOpeningHours();
   }
 
+  setServiceLabelValue(
+    dayKey: string,
+    field: 'serviceLabel' | 'morningLabel' | 'eveningLabel',
+    value: string,
+  ): void {
+    (this.openingHours[dayKey] as any)[field] = (value || '').trim().slice(0, 64);
+    this.serializeOpeningHours();
+  }
+
   copyDayToOtherDays(sourceKey: string) {
     const source = this.openingHours[sourceKey];
     if (!source) return;
@@ -4507,6 +4591,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
         morningClose: source.morningClose,
         eveningOpen: source.eveningOpen,
         eveningClose: source.eveningClose,
+        serviceLabel: source.serviceLabel || '',
+        morningLabel: source.morningLabel || '',
+        eveningLabel: source.eveningLabel || '',
         bar: source.bar ?? 0,
         waiter: source.waiter ?? 0,
         kitchen: source.kitchen ?? 0,
@@ -4575,6 +4662,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
         kitchen: dayData.kitchen ?? 0,
         receptionist: dayData.receptionist ?? 0,
       };
+      const morningLabel = (dayData.morningLabel || '').trim().slice(0, 64);
+      const eveningLabel = (dayData.eveningLabel || '').trim().slice(0, 64);
+      const serviceLabel = (dayData.serviceLabel || '').trim().slice(0, 64);
       if (dayData.hasBreak) {
         serialized[day.key] = {
           closed: dayData.closed,
@@ -4585,6 +4675,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
           eveningClose: dayData.eveningClose,
           open: dayData.morningOpen,
           close: dayData.eveningClose,
+          ...(morningLabel ? { morningLabel } : {}),
+          ...(eveningLabel ? { eveningLabel } : {}),
+          ...(serviceLabel ? { serviceLabel } : {}),
           ...staff,
         };
       } else {
@@ -4592,6 +4685,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           closed: dayData.closed,
           open: dayData.open,
           close: dayData.close,
+          ...(serviceLabel ? { serviceLabel } : {}),
           ...staff,
         };
       }

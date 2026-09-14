@@ -2287,7 +2287,13 @@
     "LOYALTY_MEMBERS_SEARCH_EMPTY": "Няма членове, които да съвпадат с търсенето.",
     "LOYALTY_CARD_LINK": "Линк към карта",
     "LOYALTY_COPY_CARD": "Копирай линка",
-    "LOYALTY_COPIED": "Копирано"
+    "LOYALTY_COPIED": "Копирано",
+    "SERVICE_LABEL": "Етикет на услугата",
+    "SERVICE_LABEL_PLACEHOLDER": "напр. Закуска (по избор)",
+    "MORNING_LABEL": "Етикет за сутрешна смяна",
+    "MORNING_LABEL_PLACEHOLDER": "Обяд / Закуска",
+    "EVENING_LABEL": "Етикет за вечерна смяна",
+    "EVENING_LABEL_PLACEHOLDER": "Вечеря"
   },
   "PAYMENTS": {
     "PAYMENT": "Плащане:",

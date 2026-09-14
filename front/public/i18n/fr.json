@@ -2234,7 +2234,13 @@
     "LOYALTY_MEMBERS_SEARCH_EMPTY": "Aucun membre ne correspond à cette recherche.",
     "LOYALTY_CARD_LINK": "Lien de carte",
     "LOYALTY_COPY_CARD": "Copier le lien",
-    "LOYALTY_COPIED": "Copié"
+    "LOYALTY_COPIED": "Copié",
+    "SERVICE_LABEL": "Libellé du service",
+    "SERVICE_LABEL_PLACEHOLDER": "p. ex. Petit-déjeuner (optionnel)",
+    "MORNING_LABEL": "Libellé du service du matin",
+    "MORNING_LABEL_PLACEHOLDER": "Déjeuner / Petit-déjeuner",
+    "EVENING_LABEL": "Libellé du service du soir",
+    "EVENING_LABEL_PLACEHOLDER": "Dîner"
   },
   "PAYMENTS": {
     "PAYMENT": "Paiement",

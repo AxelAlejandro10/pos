@@ -30,6 +30,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 - **Public menu Back to home (#386):** `/public-menu/:tenantId` (and delivery) **Back to home** goes to `/book/:tenantId` instead of marketing `/`.
 
+## [2.1.173] - 2026-09-14
+
+### Added
+
+- **Booking service labels on opening hours (#404):** Settings → Opening hours accepts optional service names (`serviceLabel`, or `morningLabel` / `eveningLabel` with a break). Public `/book` and staff reservations show those names instead of fixed “Lunch and dinner” when set; empty keeps the previous defaults.
+
 ## [2.1.172] - 2026-09-14
 
 ### Added

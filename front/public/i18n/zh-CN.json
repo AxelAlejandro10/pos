@@ -2424,7 +2424,13 @@
     "LOYALTY_MEMBERS_SEARCH_EMPTY": "没有符合该搜索的会员。",
     "LOYALTY_CARD_LINK": "会员卡链接",
     "LOYALTY_COPY_CARD": "复制会员卡链接",
-    "LOYALTY_COPIED": "已复制"
+    "LOYALTY_COPIED": "已复制",
+    "SERVICE_LABEL": "服务标签",
+    "SERVICE_LABEL_PLACEHOLDER": "例如：早餐（可选）",
+    "MORNING_LABEL": "早市标签",
+    "MORNING_LABEL_PLACEHOLDER": "午市 / 早餐",
+    "EVENING_LABEL": "晚市标签",
+    "EVENING_LABEL_PLACEHOLDER": "晚市"
   },
   "PAYMENTS": {
     "PAYMENT": "支付",

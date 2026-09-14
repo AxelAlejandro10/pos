@@ -2287,7 +2287,13 @@
     "LOYALTY_MEMBERS_SEARCH_EMPTY": "Ningún miembro coincide con esa búsqueda.",
     "LOYALTY_CARD_LINK": "Enlace de tarjeta",
     "LOYALTY_COPY_CARD": "Copiar enlace",
-    "LOYALTY_COPIED": "Copiado"
+    "LOYALTY_COPIED": "Copiado",
+    "SERVICE_LABEL": "Etiqueta del servicio",
+    "SERVICE_LABEL_PLACEHOLDER": "p. ej. Desayuno (opcional)",
+    "MORNING_LABEL": "Etiqueta del turno de mañana",
+    "MORNING_LABEL_PLACEHOLDER": "Comida / Desayuno",
+    "EVENING_LABEL": "Etiqueta del turno de tarde",
+    "EVENING_LABEL_PLACEHOLDER": "Cena"
   },
   "PAYMENTS": {
     "PAYMENT": "Pago",

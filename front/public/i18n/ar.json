@@ -2604,7 +2604,13 @@
     "LOYALTY_MEMBERS_SEARCH_EMPTY": "لا يوجد أعضاء مطابقون لهذا البحث.",
     "LOYALTY_CARD_LINK": "رابط البطاقة",
     "LOYALTY_COPY_CARD": "نسخ رابط البطاقة",
-    "LOYALTY_COPIED": "تم النسخ"
+    "LOYALTY_COPIED": "تم النسخ",
+    "SERVICE_LABEL": "تسمية الخدمة",
+    "SERVICE_LABEL_PLACEHOLDER": "مثل: فطور (اختياري)",
+    "MORNING_LABEL": "تسمية خدمة الصباح",
+    "MORNING_LABEL_PLACEHOLDER": "غداء / فطور",
+    "EVENING_LABEL": "تسمية خدمة المساء",
+    "EVENING_LABEL_PLACEHOLDER": "عشاء"
   },
   "PROVIDER_AUTH": {
     "NO_ACCOUNT": "ليس لديك حساب مورد؟",

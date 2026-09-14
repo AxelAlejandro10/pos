@@ -2287,7 +2287,13 @@
     "LOYALTY_MEMBERS_SEARCH_EMPTY": "اس تلاش سے کوئی رکن نہیں ملا۔",
     "LOYALTY_CARD_LINK": "کارڈ لنک",
     "LOYALTY_COPY_CARD": "کارڈ لنک کاپی کریں",
-    "LOYALTY_COPIED": "کاپی ہو گیا"
+    "LOYALTY_COPIED": "کاپی ہو گیا",
+    "SERVICE_LABEL": "سروس لیبل",
+    "SERVICE_LABEL_PLACEHOLDER": "مثلاً ناشتہ (اختیاری)",
+    "MORNING_LABEL": "صبح کی سروس لیبل",
+    "MORNING_LABEL_PLACEHOLDER": "لنچ / ناشتہ",
+    "EVENING_LABEL": "شام کی سروس لیبل",
+    "EVENING_LABEL_PLACEHOLDER": "ڈنر"
   },
   "PAYMENTS": {
     "PAYMENT": "ادائیگی",

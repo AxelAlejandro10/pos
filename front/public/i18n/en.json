@@ -2458,7 +2458,13 @@
     "PUBLIC_PRIMARY_COLOR": "Public primary button colour",
     "PUBLIC_PRIMARY_COLOR_HINT": "Colour for primary actions (Book table, Submit, etc.) on public pages. Default is blue when empty. Background colour stays separate.",
     "PRESET_PRIMARY_BLUE": "Blue (default)",
-    "PRESET_PRIMARY_GREEN": "Green"
+    "PRESET_PRIMARY_GREEN": "Green",
+    "SERVICE_LABEL": "Service label",
+    "SERVICE_LABEL_PLACEHOLDER": "e.g. Breakfast (optional)",
+    "MORNING_LABEL": "Morning service label",
+    "MORNING_LABEL_PLACEHOLDER": "Lunch / Breakfast",
+    "EVENING_LABEL": "Evening service label",
+    "EVENING_LABEL_PLACEHOLDER": "Dinner"
   },
   "PAYMENTS": {
     "PAYMENT": "Payment",
