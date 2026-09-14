@@ -32,6 +32,28 @@ import { PermissionService } from '../services/permission.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upload-limits';
 
+type SettingsSectionId =
+  | 'general'
+  | 'navigation'
+  | 'contact'
+  | 'hours'
+  | 'payments'
+  | 'email'
+  | 'reservations'
+  | 'taxes'
+  | 'kitchen-stations'
+  | 'loyalty'
+  | 'printing'
+  | 'promos'
+  | 'restaurant-group'
+  | 'delivery-integrations'
+  | 'social-posts'
+  | 'contract-templates'
+  | 'providers'
+  | 'translations'
+  | 'security'
+  | 'data-privacy';
+
 @Component({
   selector: 'app-settings',
   standalone: true,
@@ -57,15 +79,16 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
         <h1>{{ 'SETTINGS.TITLE' | translate }}</h1>
       </div>
 
-      <!-- Tab Navigation - Mobile First (horizontal scrollable tabs) -->
-      <div class="tabs-container">
-        <div class="tabs">
+      <div class="settings-layout" data-testid="settings-layout">
+      <!-- Vertical settings menu (desktop sidebar; stacked/scrollable on narrow viewports) -->
+      <nav class="settings-nav" data-testid="settings-nav" [attr.aria-label]="'SETTINGS.SECTION_NAV_ARIA' | translate">
+        <div class="settings-nav-list">
           <button 
             type="button" 
-            class="tab" 
+            class="settings-nav-item" 
             [class.active]="activeSection() === 'general'"
-            (click)="activeSection.set('general')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('general')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="7" height="7"/>
               <rect x="14" y="3" width="7" height="7"/>
               <rect x="14" y="14" width="7" height="7"/>
@@ -76,11 +99,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
 
           <button
             type="button"
-            class="tab"
+            class="settings-nav-item"
             data-testid="settings-navigation-tab"
             [class.active]="activeSection() === 'navigation'"
-            (click)="activeSection.set('navigation')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('navigation')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 6h16M4 12h16M4 18h10"/>
             </svg>
             <span>{{ 'SETTINGS.NAVIGATION_UI_TAB' | translate }}</span>
@@ -88,11 +111,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           
           <button 
             type="button" 
-            class="tab" 
+            class="settings-nav-item" 
             data-testid="settings-contact-tab"
             [class.active]="activeSection() === 'contact'"
-            (click)="activeSection.set('contact')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('contact')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
             </svg>
             <span>{{ 'SETTINGS.CONTACT_INFO' | translate }}</span>
@@ -100,10 +123,10 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           
           <button 
             type="button" 
-            class="tab" 
+            class="settings-nav-item" 
             [class.active]="activeSection() === 'hours'"
-            (click)="activeSection.set('hours')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('hours')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"/>
               <polyline points="12 6 12 12 16 14"/>
             </svg>
@@ -112,11 +135,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           
           <button 
             type="button" 
-            class="tab" 
+            class="settings-nav-item" 
             data-testid="settings-payments-tab"
             [class.active]="activeSection() === 'payments'"
-            (click)="activeSection.set('payments')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('payments')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
               <line x1="1" y1="10" x2="23" y2="10"/>
             </svg>
@@ -125,10 +148,10 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           
           <button 
             type="button" 
-            class="tab" 
+            class="settings-nav-item" 
             [class.active]="activeSection() === 'email'"
-            (click)="activeSection.set('email')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('email')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
               <polyline points="22,6 12,13 2,6"/>
             </svg>
@@ -136,10 +159,10 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           </button>
           <button 
             type="button" 
-            class="tab" 
+            class="settings-nav-item" 
             [class.active]="activeSection() === 'reservations'"
-            (click)="activeSection.set('reservations')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('reservations')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
               <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
             </svg>
@@ -148,11 +171,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           @if (contractTemplatesTabVisible()) {
           <button
             type="button"
-            class="tab"
+            class="settings-nav-item"
             data-testid="settings-contract-templates-tab"
             [class.active]="activeSection() === 'contract-templates'"
-            (click)="activeSection.set('contract-templates')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('contract-templates')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
               <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
             </svg>
@@ -162,10 +185,10 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           
           <button 
             type="button" 
-            class="tab" 
+            class="settings-nav-item" 
             [class.active]="activeSection() === 'taxes'"
-            (click)="activeSection.set('taxes'); loadTaxesAll()">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('taxes')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
             </svg>
             <span>{{ 'SETTINGS.TAXES' | translate }}</span>
@@ -173,11 +196,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           @if (settingsModuleTabVisible('kitchen_bar')) {
           <button
             type="button"
-            class="tab"
+            class="settings-nav-item"
             data-testid="settings-kitchen-stations-tab"
             [class.active]="activeSection() === 'kitchen-stations'"
-            (click)="activeSection.set('kitchen-stations')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('kitchen-stations')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="8" width="7" height="13" rx="1"/>
             </svg>
             <span>{{ 'SETTINGS.KITCHEN_STATIONS_TAB' | translate }}</span>
@@ -185,11 +208,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           }
           <button
             type="button"
-            class="tab"
+            class="settings-nav-item"
             data-testid="settings-loyalty-tab"
             [class.active]="activeSection() === 'loyalty'"
-            (click)="activeSection.set('loyalty')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('loyalty')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/>
             </svg>
             <span>{{ 'SETTINGS.LOYALTY_TAB' | translate }}</span>
@@ -197,11 +220,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
 
           <button
             type="button"
-            class="tab"
+            class="settings-nav-item"
             data-testid="settings-printing-tab"
             [class.active]="activeSection() === 'printing'"
-            (click)="activeSection.set('printing')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('printing')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 6 2 18 2 18 9"/>
               <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
               <rect x="6" y="14" width="12" height="8"/>
@@ -210,11 +233,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           </button>
           <button
             type="button"
-            class="tab"
+            class="settings-nav-item"
             data-testid="settings-promos-tab"
             [class.active]="activeSection() === 'promos'"
-            (click)="activeSection.set('promos')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('promos')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
               <line x1="7" y1="7" x2="7.01" y2="7"/>
             </svg>
@@ -222,11 +245,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           </button>
           <button
             type="button"
-            class="tab"
+            class="settings-nav-item"
             data-testid="settings-delivery-integrations-tab"
             [class.active]="activeSection() === 'delivery-integrations'"
-            (click)="activeSection.set('delivery-integrations')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('delivery-integrations')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
               <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
             </svg>
@@ -234,12 +257,12 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           </button>
           <button
             type="button"
-            class="tab"
+            class="settings-nav-item"
             data-testid="settings-social-posts-tab"
             [class.active]="activeSection() === 'social-posts'"
-            (click)="activeSection.set('social-posts')"
+            (click)="selectSection('social-posts')"
           >
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 4h16v12H4z M8 20h8M12 16v4"/>
               <circle cx="9" cy="9" r="1.5"/><circle cx="15" cy="9" r="1.5"/><path d="M9 13h6"/>
             </svg>
@@ -248,11 +271,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           @if (settingsModuleTabVisible('providers')) {
           <button 
             type="button" 
-            class="tab" 
+            class="settings-nav-item" 
             data-testid="settings-providers-tab"
             [class.active]="activeSection() === 'providers'"
-            (click)="activeSection.set('providers'); loadProviders()">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('providers')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
@@ -261,10 +284,10 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           }
           <button 
             type="button" 
-            class="tab" 
+            class="settings-nav-item" 
             [class.active]="activeSection() === 'translations'"
-            (click)="activeSection.set('translations')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('translations')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"/>
               <line x1="2" y1="12" x2="22" y2="12"/>
               <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
@@ -273,10 +296,10 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           </button>
           <button 
             type="button" 
-            class="tab" 
+            class="settings-nav-item" 
             [class.active]="activeSection() === 'security'"
-            (click)="activeSection.set('security'); loadOtpStatus()">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('security')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
               <path d="M7 11V7a5 5 0 0110 0v4"/>
             </svg>
@@ -285,11 +308,11 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           @if (isTenantOwnerOrAdmin()) {
           <button
             type="button"
-            class="tab"
+            class="settings-nav-item"
             data-testid="settings-restaurant-group-tab"
             [class.active]="activeSection() === 'restaurant-group'"
-            (click)="activeSection.set('restaurant-group')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('restaurant-group')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
               <polyline points="9 22 9 12 15 12 15 22"/>
             </svg>
@@ -299,18 +322,18 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
           @if (isTenantOwner()) {
           <button
             type="button"
-            class="tab"
+            class="settings-nav-item"
             data-testid="settings-data-privacy-tab"
             [class.active]="activeSection() === 'data-privacy'"
-            (click)="activeSection.set('data-privacy')">
-            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            (click)="selectSection('data-privacy')">
+            <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
             <span>{{ 'SETTINGS.DATA_AND_PRIVACY_TAB' | translate }}</span>
           </button>
           }
         </div>
-      </div>
+      </nav>
 
       <div class="content">
         @if (loading()) {
@@ -1850,6 +1873,7 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
             </form>
           }
       </div>
+      </div>
     </app-sidebar>
   `,
   styles: [`
@@ -1879,83 +1903,90 @@ import { MAX_IMAGE_UPLOAD_BYTES, MAX_IMAGE_UPLOAD_MB } from '../shared/image-upl
     }
 
     /* ==========================================
-       TABS - Mobile First (Horizontal Scroll)
+       SETTINGS NAV - Vertical menu (Invoice Ninja–style)
        ========================================== */
-    .tabs-container {
-      margin-bottom: var(--space-4);
-      margin-left: calc(-1 * var(--space-4));
-      margin-right: calc(-1 * var(--space-4));
-      padding: 0 var(--space-4);
-      overflow-x: auto;
+    .settings-layout {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      align-items: stretch;
+    }
+
+    .settings-nav {
+      flex-shrink: 0;
+    }
+
+    .settings-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      max-height: min(40vh, 20rem);
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      display: block;
-      max-width: calc(100% + (2 * var(--space-4)));
-    }
-
-    .tabs {
-      display: flex;
-      gap: var(--space-2);
-      padding-bottom: var(--space-3);
-      width: max-content;
-      min-width: 100%;
-    }
-
-    /* Mobile: Icon-only tabs with smaller padding */
-    .tab {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-2);
-      padding: var(--space-3);
+      padding: var(--space-1);
       background: var(--color-surface);
       border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+    }
+
+    .settings-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: var(--space-2);
+      width: 100%;
+      padding: var(--space-2) var(--space-3);
+      background: transparent;
+      border: 1px solid transparent;
       border-radius: var(--radius-md);
       color: var(--color-text-muted);
       font-size: 0.875rem;
       font-weight: 500;
+      text-align: left;
       white-space: nowrap;
       cursor: pointer;
-      transition: all 0.15s ease;
-      min-height: 44px; /* Touch-friendly minimum */
-      min-width: 44px;
-      flex-shrink: 0;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      min-height: 44px;
     }
 
-    /* Hide text on small screens */
-    .tab span {
-      display: none;
-    }
-
-    .tab:hover {
+    .settings-nav-item:hover {
       color: var(--color-text);
-      border-color: var(--color-primary);
+      background: var(--color-bg, rgba(0, 0, 0, 0.04));
+      border-color: var(--color-border);
     }
 
-    .tab.active {
+    .settings-nav-item.active {
       background: var(--color-primary);
       border-color: var(--color-primary);
       color: white;
     }
 
-    .tab-icon {
-      width: 20px;
-      height: 20px;
+    .settings-nav-icon {
+      width: 18px;
+      height: 18px;
       flex-shrink: 0;
     }
 
-    /* Tablet+: Show text labels */
-    @media (min-width: 480px) {
-      .tab {
-        padding: var(--space-3) var(--space-4);
+    .settings-layout > .content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    @media (min-width: 900px) {
+      .settings-layout {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: var(--space-5);
       }
-      
-      .tab span {
-        display: inline;
+
+      .settings-nav {
+        width: 15.5rem;
+        position: sticky;
+        top: var(--space-4);
       }
-      
-      .tab-icon {
-        width: 18px;
-        height: 18px;
+
+      .settings-nav-list {
+        max-height: calc(100vh - 6rem);
       }
     }
 
@@ -3129,28 +3160,30 @@ export class SettingsComponent implements OnInit, OnDestroy {
   newTaxRate = 10;
   newTaxValidFrom = new Date().toISOString().slice(0, 10);
   newTaxValidTo = '';
-  activeSection = signal<
-    | 'general'
-    | 'navigation'
-    | 'contact'
-    | 'hours'
-    | 'payments'
-    | 'email'
-    | 'reservations'
-    | 'taxes'
-    | 'kitchen-stations'
-    | 'loyalty'
-    | 'printing'
-    | 'promos'
-    | 'restaurant-group'
-    | 'delivery-integrations'
-    | 'social-posts'
-    | 'contract-templates'
-    | 'providers'
-    | 'translations'
-    | 'security'
-    | 'data-privacy'
-  >('general');
+  activeSection = signal<SettingsSectionId>('general');
+
+  private static readonly SETTINGS_SECTION_IDS: readonly SettingsSectionId[] = [
+    'general',
+    'navigation',
+    'contact',
+    'hours',
+    'payments',
+    'email',
+    'reservations',
+    'taxes',
+    'kitchen-stations',
+    'loyalty',
+    'printing',
+    'promos',
+    'restaurant-group',
+    'delivery-integrations',
+    'social-posts',
+    'contract-templates',
+    'providers',
+    'translations',
+    'security',
+    'data-privacy',
+  ];
 
   readonly uiModuleRows: { key: TenantUiModuleKey; labelKey: string; descKey: string }[] = [
     { key: 'tables', labelKey: 'SETTINGS.UI_MODULE_TABLES', descKey: 'SETTINGS.UI_MODULE_TABLES_DESC' },
@@ -3386,35 +3419,48 @@ export class SettingsComponent implements OnInit, OnDestroy {
       this.allTimezones = [];
     }
     this.filteredTimezones = this.allTimezones;
-    const section = this.route.snapshot.queryParams['section'];
-    if (section === 'reservations') {
-      this.activeSection.set('reservations');
-    }
-    if (section === 'contract-templates') {
-      this.activeSection.set('contract-templates');
-    }
-    if (section === 'delivery-integrations') {
-      this.activeSection.set('delivery-integrations');
-    }
-    if (section === 'social-posts') {
-      this.activeSection.set('social-posts');
-    }
+    this.applySectionFromQuery(this.route.snapshot.queryParams['section']);
     this.route.queryParams.subscribe((params) => {
-      const s = params['section'];
-      if (s === 'reservations') {
-        this.activeSection.set('reservations');
-      }
-      if (s === 'contract-templates') {
-        this.activeSection.set('contract-templates');
-      }
-      if (s === 'delivery-integrations') {
-        this.activeSection.set('delivery-integrations');
-      }
-      if (s === 'social-posts') {
-        this.activeSection.set('social-posts');
-      }
+      this.applySectionFromQuery(params['section']);
     });
     this.loadSettings();
+  }
+
+  /** Open a settings section; optionally sync `?section=` for deep links / refresh. */
+  selectSection(section: SettingsSectionId, updateUrl = true): void {
+    this.activeSection.set(section);
+    if (section === 'taxes') {
+      this.loadTaxesAll();
+    } else if (section === 'providers') {
+      this.loadProviders();
+    } else if (section === 'security') {
+      this.loadOtpStatus();
+    }
+    if (updateUrl) {
+      const current = this.route.snapshot.queryParams['section'];
+      if (current !== section) {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { section },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
+      }
+    }
+  }
+
+  private applySectionFromQuery(section: string | null | undefined): void {
+    if (!section || typeof section !== 'string') {
+      return;
+    }
+    if (!(SettingsComponent.SETTINGS_SECTION_IDS as readonly string[]).includes(section)) {
+      return;
+    }
+    const id = section as SettingsSectionId;
+    if (this.activeSection() === id) {
+      return;
+    }
+    this.selectSection(id, false);
   }
 
   settingsModuleTabVisible(key: TenantUiModuleKey): boolean {

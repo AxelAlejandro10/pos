@@ -2003,6 +2003,7 @@
   },
   "SETTINGS": {
     "TITLE": "الإعدادات",
+    "SECTION_NAV_ARIA": "أقسام الإعدادات",
     "SUBTITLE": "أدر معلومات مطعمك والهوية البصرية",
     "NAVIGATION_UI_TAB": "التنقل",
     "UI_MODULES_TITLE": "تنقل الموظفين",

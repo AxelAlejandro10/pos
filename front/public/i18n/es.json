@@ -1696,6 +1696,7 @@
   },
   "SETTINGS": {
     "TITLE": "Configuración",
+    "SECTION_NAV_ARIA": "Secciones de configuración",
     "NAVIGATION_UI_TAB": "Navegación",
     "UI_MODULES_TITLE": "Navegación del personal",
     "UI_MODULES_HINT": "Desactiva las áreas que tu equipo no use. Desaparecen del menú lateral y del panel; un enlace directo redirige al inicio. Puedes volver a activar cualquier módulo aquí.",

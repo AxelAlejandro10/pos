@@ -1696,6 +1696,7 @@
   },
   "SETTINGS": {
     "TITLE": "Опции",
+    "SECTION_NAV_ARIA": "Раздели с настройки",
     "SUBTITLE": "Управление на бизнес информация и визия",
     "NAVIGATION_UI_TAB": "Меню",
     "UI_MODULES_TITLE": "Навигация на персонала",

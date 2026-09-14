@@ -1833,6 +1833,7 @@
   },
   "SETTINGS": {
     "TITLE": "设置",
+    "SECTION_NAV_ARIA": "设置分区",
     "SUBTITLE": "管理您的业务信息和品牌",
     "NAVIGATION_UI_TAB": "导航",
     "UI_MODULES_TITLE": "员工导航",

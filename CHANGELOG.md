@@ -12,9 +12,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Changed
 
-- **Login Contact us email (#403):** Staff login footer **Contact us** now opens `mailto:support@satisfecho.de` instead of `hello@satisfecho.de`. Landing and other public footers stay on `hello@satisfecho.de`.
-
 ### Fixed
+
+## [2.1.165] - 2026-09-14
+
+### Changed
+
+- **Settings vertical menu (#395):** `/settings` replaces the horizontal scrolling tab strip with a vertical section menu (sidebar from 900px up; stacked scrollable list on narrow viewports). Section deep links use `?section=` for all settings areas (including Security). Smoke: `npm run test:settings-vertical-nav --prefix front`.
 
 ## [2.1.164] - 2026-09-14
 

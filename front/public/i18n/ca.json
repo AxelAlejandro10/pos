@@ -1833,6 +1833,7 @@
   },
   "SETTINGS": {
     "TITLE": "Configuració",
+    "SECTION_NAV_ARIA": "Seccions de configuració",
     "SUBTITLE": "Gestiona la informació i la marca del teu negoci",
     "NAVIGATION_UI_TAB": "Navegació",
     "UI_MODULES_TITLE": "Navegació del personal",

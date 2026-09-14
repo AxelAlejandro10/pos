@@ -1696,6 +1696,7 @@
   },
   "SETTINGS": {
     "TITLE": "ترتیبات",
+    "SECTION_NAV_ARIA": "ترتیبات کے حصے",
     "SUBTITLE": "منظم کریں آپ کا کاروبار معلومات اور branding",
     "NAVIGATION_UI_TAB": "نیویگیشن",
     "UI_MODULES_TITLE": "عملہ نیویگیشن",

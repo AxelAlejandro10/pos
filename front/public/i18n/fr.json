@@ -1643,6 +1643,7 @@
   },
   "SETTINGS": {
     "TITLE": "Paramètres",
+    "SECTION_NAV_ARIA": "Sections des paramètres",
     "SUBTITLE": "Gérer les informations et l'image de votre établissement",
     "NAVIGATION_UI_TAB": "Navigation",
     "UI_MODULES_TITLE": "Navigation du personnel",

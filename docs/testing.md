@@ -298,6 +298,19 @@ npm run test:settings-providers --prefix front
 
 ---
 
+### 2d2. Settings vertical nav (#395)
+
+Smoke test for the settings section menu. Logs in, opens `/settings`, asserts a vertical nav (`data-testid="settings-nav"`) in a row layout on desktop, clicks Payment Settings and confirms `?section=payments` survives reload, then checks column layout + Security deep link on a narrow viewport.
+
+```bash
+npm run test:settings-vertical-nav --prefix front
+# Or: BASE_URL=http://127.0.0.1:4202 HEADLESS=1 npm run test:settings-vertical-nav --prefix front
+```
+
+- **Env:** `BASE_URL`, `LOGIN_EMAIL`/`LOGIN_PASSWORD` or `DEMO_LOGIN_EMAIL`/`DEMO_LOGIN_PASSWORD` (from `.env`). `HEADLESS`.
+
+---
+
 ### 2e. Settings → Printing docs link
 
 Smoke test for the hardware printing runbook link (#397). Logs in, opens Settings → Printing, and asserts `data-testid="settings-printing-docs-link"` points at `docs/0070-hardware-printing.md` on GitHub (`target="_blank"`).
@@ -773,6 +786,7 @@ From repo root: `npm run <script> --prefix front`. From `front/`: `npm run <scri
 | `test:order-tip-flows` | `scripts/test-order-tip-flows.mjs` (Settings tip entry mode + Reports tips card; owner/admin) |
 | `test:changelog` | `scripts/test-changelog.mjs` (Dashboard What's new + sidebar version → changelog modal; API serves CHANGELOG.md) |
 | `test:settings-providers` | `scripts/test-settings-providers.mjs` (Settings → Providers tab; personal providers smoke; uses .env, tenant=1) |
+| `test:settings-vertical-nav` | `scripts/test-settings-vertical-nav.mjs` (Settings vertical section menu + `?section=` deep link; #395) |
 | `test:settings-printing-docs` | `scripts/test-settings-printing-docs.mjs` (Settings → Printing runbook link to docs/0070 on GitHub; #397) |
 | `test:bartender-role` | `scripts/test-bartender-role.mjs` (Users → Add user → role dropdown includes Bartender) |
 | `test:kitchen-status-dropdown` | `scripts/test-kitchen-status-dropdown.mjs` (Kitchen display: status dropdown visible, not clipped) |

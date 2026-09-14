@@ -1867,6 +1867,7 @@
   },
   "SETTINGS": {
     "TITLE": "Settings",
+    "SECTION_NAV_ARIA": "Settings sections",
     "SUBTITLE": "Manage your business information and branding",
     "NAVIGATION_UI_TAB": "Navigation",
     "UI_MODULES_TITLE": "Staff navigation",
