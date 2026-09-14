@@ -306,7 +306,8 @@
     "OUTSIDE_RADIUS": "Dieser Standort liegt außerhalb unseres Lieferadius.",
     "DELIVERY_FEE": "Liefergebühr",
     "SUBTOTAL": "Zwischensumme",
-    "TRACK_ORDER": "Bestellung verfolgen"
+    "TRACK_ORDER": "Bestellung verfolgen",
+    "FLOATING_BAR_ARIA": "Bestellsumme und weiter"
   },
   "ORDERS_PUBLIC": {
     "TITLE": "Mitnahme & Lieferservice",

@@ -60,14 +60,6 @@
       @if (step() === 'menu') {
         <div class="delivery-toolbar">
           <p class="delivery-hint">{{ 'DELIVERY_CHECKOUT.MENU_HINT' | translate }}</p>
-          <button
-            type="button"
-            class="btn btn-primary delivery-cart-btn"
-            [disabled]="cartCount() < 1"
-            (click)="goToCart()"
-          >
-            {{ 'DELIVERY_CHECKOUT.VIEW_CART' | translate }} ({{ cartCount() }})
-          </button>
         </div>
 
         @if (menuLoading()) {
@@ -347,5 +339,28 @@
         />
       </div>
     </main>
+
+    @if (showFloatingCheckoutBar()) {
+      <div
+        class="delivery-floating-bar"
+        role="region"
+        [attr.aria-label]="'DELIVERY_CHECKOUT.FLOATING_BAR_ARIA' | translate"
+      >
+        <div class="delivery-floating-meta">
+          <span class="delivery-floating-count"
+            >{{ cartCount() }} {{ 'COMMON.ITEMS' | translate }}</span
+          >
+          <strong class="delivery-floating-total">{{ formatCents(cartTotalCents()) }}</strong>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary delivery-floating-cta"
+          [disabled]="step() === 'address' && submitting()"
+          (click)="onFloatingCta()"
+        >
+          {{ floatingCtaKey() | translate }}
+        </button>
+      </div>
+    }
   }
 </div>

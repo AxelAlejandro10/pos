@@ -306,7 +306,8 @@
     "OUTSIDE_RADIUS": "Sorry — that location is outside our delivery radius.",
     "DELIVERY_FEE": "Delivery fee",
     "SUBTOTAL": "Subtotal",
-    "TRACK_ORDER": "Track your order"
+    "TRACK_ORDER": "Track your order",
+    "FLOATING_BAR_ARIA": "Обща сума и продължи"
   },
   "ORDERS_PUBLIC": {
     "TITLE": "Отнемане и поръчване на дома",

@@ -734,6 +734,12 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** Expand cart sheet so the guest can review lines and place the order (#360). */
+  openCartCheckout(event: Event): void {
+    event.stopPropagation();
+    this.cartExpanded.set(true);
+  }
+
   isCartItemCommentExpanded(item: CartItem): boolean {
     return this.expandedCommentKeys().has(this.getCartLineKey(item));
   }

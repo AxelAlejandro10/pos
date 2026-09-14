@@ -416,7 +416,8 @@
     "BACK_HOME": "返回首页",
     "INVALID_TENANT": "餐厅链接无效。",
     "TENANT_NOT_FOUND": "未找到该餐厅。",
-    "LOAD_FAILED": "无法加载配送菜单，请稍后再试。"
+    "LOAD_FAILED": "无法加载配送菜单，请稍后再试。",
+    "FLOATING_BAR_ARIA": "订单合计并继续"
   },
   "DELIVERY_TRACK": {
     "TITLE": "Track your order",

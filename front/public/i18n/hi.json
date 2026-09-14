@@ -416,7 +416,8 @@
     "BACK_HOME": "होम पर वापस",
     "INVALID_TENANT": "अमान्य रेस्तरां लिंक।",
     "TENANT_NOT_FOUND": "रेस्तरां नहीं मिला।",
-    "LOAD_FAILED": "डिलीवरी मेनू लोड नहीं हो सका। बाद में पुनः प्रयास करें।"
+    "LOAD_FAILED": "डिलीवरी मेनू लोड नहीं हो सका। बाद में पुनः प्रयास करें।",
+    "FLOATING_BAR_ARIA": "ऑर्डर कुल और आगे बढ़ें"
   },
   "DELIVERY_TRACK": {
     "TITLE": "Track your order",

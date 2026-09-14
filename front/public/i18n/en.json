@@ -416,7 +416,8 @@
     "BACK_HOME": "Back to home",
     "INVALID_TENANT": "Invalid restaurant link.",
     "TENANT_NOT_FOUND": "Restaurant not found.",
-    "LOAD_FAILED": "Could not load the delivery menu. Please try again later."
+    "LOAD_FAILED": "Could not load the delivery menu. Please try again later.",
+    "FLOATING_BAR_ARIA": "Order total and continue"
   },
   "DELIVERY_TRACK": {
     "TITLE": "Track your order",

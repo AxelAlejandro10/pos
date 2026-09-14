@@ -416,7 +416,8 @@
     "BACK_HOME": "Tornar a l'inici",
     "INVALID_TENANT": "Enllaç de restaurant no vàlid.",
     "TENANT_NOT_FOUND": "Restaurant no trobat.",
-    "LOAD_FAILED": "No s'ha pogut carregar el menú de lliurament. Torneu-ho a provar més tard."
+    "LOAD_FAILED": "No s'ha pogut carregar el menú de lliurament. Torneu-ho a provar més tard.",
+    "FLOATING_BAR_ARIA": "Total de la comanda i continuar"
   },
   "DELIVERY_TRACK": {
     "TITLE": "Track your order",
