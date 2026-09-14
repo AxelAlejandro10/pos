@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Public `/book/` showed two near-duplicate **Party size** labels on the guest-count control.
+- **What was done:** Removed the duplicate **Party size:** line from the week-slot-grid summary; the form field label stays as the single control name. Changelog updated for #368.
+- **What was tested:** Tester PASS — one **Party size** label on `/book/1`, no summary duplicate, calendar reload on party-size change, clean front build, landing smoke OK.
+- **Why closed:** All required test criteria passed.
+- **Closed at (UTC):** 2026-09-14 17:11
+---
+
 # Consolidate Party size labels on `/book/`
 
 ## GitHub Issues
