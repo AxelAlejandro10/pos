@@ -1,6 +1,6 @@
 {
   "name": "front",
-  "version": "2.1.162",
+  "version": "2.1.163",
   "scripts": {
     "ng": "ng",
     "prebuild": "node scripts/get-commit-hash.js",
@@ -27,6 +27,7 @@
     "test:talk": "node scripts/test-talk.mjs",
     "test:provider-add-product": "node scripts/test-provider-add-product.mjs",
     "test:catalog": "node scripts/test-catalog.mjs",
+    "test:catalog-inventory-hub": "node scripts/test-catalog-inventory-hub.mjs",
     "test:order-8-status": "node scripts/test-order-8-status.mjs",
     "test:review-order-edit": "node scripts/review-order-edit-puppeteer.mjs",
     "test:register-page": "node scripts/test-register-page.mjs",

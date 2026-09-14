@@ -98,6 +98,12 @@ export const routes: Routes = [
 
   // Protected routes - accessible by all authenticated users
   { path: 'dashboard', canActivate: [authGuard], loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent) },
+  {
+    path: 'catalog-inventory',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./catalog-inventory-hub/catalog-inventory-hub.component').then((m) => m.CatalogInventoryHubComponent),
+  },
   { path: 'my-shift', canActivate: [authGuard], loadComponent: () => import('./my-shift/my-shift.component').then(m => m.MyShiftComponent) },
   // Talk to POS (#344): staff voice/text navigation shortcuts (no mutations)
   { path: 'talk', canActivate: [authGuard], loadComponent: () => import('./talk/talk.component').then(m => m.TalkComponent) },

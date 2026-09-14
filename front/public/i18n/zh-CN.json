@@ -126,7 +126,8 @@
     "GROUP_ADMIN": "管理",
     "CONTRACTS": "合同",
     "WAREHOUSES": "仓库",
-    "TALK": "语音"
+    "TALK": "语音",
+    "GROUP_CATALOG_TOGGLE": "展开或折叠目录与库存"
   },
   "PUBLIC_GUEST_NAV": {
     "ARIA": "餐厅页面",
@@ -3314,5 +3315,25 @@
     "LOADING": "正在加载用户手册…",
     "LOAD_ERROR": "无法加载用户手册。请刷新页面或稍后再试。",
     "DOC_TITLE": "用户手册 | Satisfecho POS"
+  },
+  "CATALOG_INVENTORY_HUB": {
+    "TITLE": "目录与库存",
+    "INTRO": "从这里打开产品、供应商目录和库存工具。",
+    "PRODUCTS_TITLE": "产品",
+    "PRODUCTS_DESC": "管理菜单项目",
+    "CATALOG_TITLE": "目录",
+    "CATALOG_DESC": "供应商目录与菜单项目",
+    "ITEMS_TITLE": "物料",
+    "ITEMS_DESC": "库存物料与单位",
+    "SUPPLIERS_TITLE": "供应商",
+    "SUPPLIERS_DESC": "采购用供应商联系人",
+    "WAREHOUSES_TITLE": "仓库",
+    "WAREHOUSES_DESC": "存储位置",
+    "PURCHASE_ORDERS_TITLE": "采购订单",
+    "PURCHASE_ORDERS_DESC": "订购并收货",
+    "STOCK_TITLE": "库存看板",
+    "STOCK_DESC": "库存水平与低库存提醒",
+    "REPORTS_TITLE": "库存报表",
+    "REPORTS_DESC": "估值与库存变动"
   }
 }

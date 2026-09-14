@@ -126,7 +126,8 @@
     "GROUP_ADMIN": "Administration",
     "CONTRACTS": "Contracts",
     "WAREHOUSES": "Warehouses",
-    "TALK": "Talk"
+    "TALK": "Talk",
+    "GROUP_CATALOG_TOGGLE": "Expand or collapse Catalog & Inventory"
   },
   "PUBLIC_GUEST_NAV": {
     "ARIA": "Restaurant pages",
@@ -3314,5 +3315,25 @@
     "LOADING": "Loading the user manual…",
     "LOAD_ERROR": "Could not load the user manual. Refresh the page or try again later.",
     "DOC_TITLE": "User manual | Satisfecho POS"
+  },
+  "CATALOG_INVENTORY_HUB": {
+    "TITLE": "Catalog & Inventory",
+    "INTRO": "Open products, provider catalog, and inventory tools from here.",
+    "PRODUCTS_TITLE": "Products",
+    "PRODUCTS_DESC": "Manage your menu items",
+    "CATALOG_TITLE": "Catalog",
+    "CATALOG_DESC": "Provider catalog and menu items",
+    "ITEMS_TITLE": "Items",
+    "ITEMS_DESC": "Stock items and units",
+    "SUPPLIERS_TITLE": "Suppliers",
+    "SUPPLIERS_DESC": "Vendor contacts for purchasing",
+    "WAREHOUSES_TITLE": "Warehouses",
+    "WAREHOUSES_DESC": "Storage locations",
+    "PURCHASE_ORDERS_TITLE": "Purchase Orders",
+    "PURCHASE_ORDERS_DESC": "Order and receive stock",
+    "STOCK_TITLE": "Stock Dashboard",
+    "STOCK_DESC": "Levels and low-stock alerts",
+    "REPORTS_TITLE": "Inventory Reports",
+    "REPORTS_DESC": "Valuation and stock movements"
   }
 }

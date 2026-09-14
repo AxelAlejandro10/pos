@@ -14,6 +14,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+## [2.1.163] - 2026-09-14
+
+### Added
+
+- **Catalog & Inventory hub (#391):** Sidebar **Catalog & Inventory** opens a `/dashboard`-style hub at `/catalog-inventory` with tiles for products, provider catalog, and inventory destinations. Chevron still expands the nested menu; child deep links unchanged.
+
 ## [2.1.162] - 2026-09-14
 
 ### Added

@@ -126,7 +126,8 @@
     "GROUP_ADMIN": "Administració",
     "CONTRACTS": "Contractes",
     "WAREHOUSES": "Magatzems",
-    "TALK": "Parlar"
+    "TALK": "Parlar",
+    "GROUP_CATALOG_TOGGLE": "Expandeix o contrau Catàleg i inventari"
   },
   "PUBLIC_GUEST_NAV": {
     "ARIA": "Pàgines del restaurant",
@@ -3314,5 +3315,25 @@
     "LOADING": "S’està carregant el manual d’usuari…",
     "LOAD_ERROR": "No s’ha pogut carregar el manual d’usuari. Actualitzeu la pàgina o torneu-ho a provar més tard.",
     "DOC_TITLE": "Manual d’usuari | Satisfecho POS"
+  },
+  "CATALOG_INVENTORY_HUB": {
+    "TITLE": "Catàleg i inventari",
+    "INTRO": "Obre productes, catàleg de proveïdors i eines d'inventari des d'aquí.",
+    "PRODUCTS_TITLE": "Productes",
+    "PRODUCTS_DESC": "Gestiona els articles del menú",
+    "CATALOG_TITLE": "Catàleg",
+    "CATALOG_DESC": "Catàleg de proveïdors i articles",
+    "ITEMS_TITLE": "Articles",
+    "ITEMS_DESC": "Articles d'estoc i unitats",
+    "SUPPLIERS_TITLE": "Proveïdors",
+    "SUPPLIERS_DESC": "Contactes de proveïdors per a compres",
+    "WAREHOUSES_TITLE": "Magatzems",
+    "WAREHOUSES_DESC": "Ubicacions d'emmagatzematge",
+    "PURCHASE_ORDERS_TITLE": "Comandes de compra",
+    "PURCHASE_ORDERS_DESC": "Demanar i rebre estoc",
+    "STOCK_TITLE": "Tauler d'estoc",
+    "STOCK_DESC": "Nivells i alertes d'estoc baix",
+    "REPORTS_TITLE": "Informes d'inventari",
+    "REPORTS_DESC": "Valoració i moviments d'estoc"
   }
 }

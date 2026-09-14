@@ -126,7 +126,8 @@
     "GROUP_ADMIN": "Administración",
     "CONTRACTS": "Contratos",
     "WAREHOUSES": "Almacenes",
-    "TALK": "Hablar"
+    "TALK": "Hablar",
+    "GROUP_CATALOG_TOGGLE": "Expandir o contraer Catálogo e inventario"
   },
   "PUBLIC_GUEST_NAV": {
     "ARIA": "Páginas del restaurante",
@@ -3314,5 +3315,25 @@
     "LOADING": "Cargando el manual de usuario…",
     "LOAD_ERROR": "No se pudo cargar el manual de usuario. Actualiza la página o inténtalo más tarde.",
     "DOC_TITLE": "Manual de usuario | Satisfecho POS"
+  },
+  "CATALOG_INVENTORY_HUB": {
+    "TITLE": "Catálogo e inventario",
+    "INTRO": "Abre productos, catálogo de proveedores y herramientas de inventario desde aquí.",
+    "PRODUCTS_TITLE": "Productos",
+    "PRODUCTS_DESC": "Gestiona los platos del menú",
+    "CATALOG_TITLE": "Catálogo",
+    "CATALOG_DESC": "Catálogo de proveedores y artículos",
+    "ITEMS_TITLE": "Artículos",
+    "ITEMS_DESC": "Artículos de stock y unidades",
+    "SUPPLIERS_TITLE": "Proveedores",
+    "SUPPLIERS_DESC": "Contactos de proveedores para compras",
+    "WAREHOUSES_TITLE": "Almacenes",
+    "WAREHOUSES_DESC": "Ubicaciones de almacenamiento",
+    "PURCHASE_ORDERS_TITLE": "Pedidos de compra",
+    "PURCHASE_ORDERS_DESC": "Pedir y recibir stock",
+    "STOCK_TITLE": "Panel de stock",
+    "STOCK_DESC": "Niveles y alertas de stock bajo",
+    "REPORTS_TITLE": "Informes de inventario",
+    "REPORTS_DESC": "Valoración y movimientos de stock"
   }
 }

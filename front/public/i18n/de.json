@@ -126,7 +126,8 @@
     "GROUP_ADMIN": "Verwaltung",
     "CONTRACTS": "Verträge",
     "WAREHOUSES": "Lager",
-    "TALK": "Sprechen"
+    "TALK": "Sprechen",
+    "GROUP_CATALOG_TOGGLE": "Katalog & Inventar ein- oder ausklappen"
   },
   "PUBLIC_GUEST_NAV": {
     "ARIA": "Restaurantseiten",
@@ -3314,5 +3315,25 @@
     "LOADING": "Benutzerhandbuch wird geladen…",
     "LOAD_ERROR": "Das Benutzerhandbuch konnte nicht geladen werden. Seite aktualisieren oder später erneut versuchen.",
     "DOC_TITLE": "Benutzerhandbuch | Satisfecho POS"
+  },
+  "CATALOG_INVENTORY_HUB": {
+    "TITLE": "Katalog & Inventar",
+    "INTRO": "Produkte, Anbieterkatalog und Inventar-Tools von hier aus öffnen.",
+    "PRODUCTS_TITLE": "Produkte",
+    "PRODUCTS_DESC": "Menüartikel verwalten",
+    "CATALOG_TITLE": "Katalog",
+    "CATALOG_DESC": "Anbieterkatalog und Menüartikel",
+    "ITEMS_TITLE": "Artikel",
+    "ITEMS_DESC": "Lagerartikel und Einheiten",
+    "SUPPLIERS_TITLE": "Lieferanten",
+    "SUPPLIERS_DESC": "Lieferantenkontakte für Einkauf",
+    "WAREHOUSES_TITLE": "Lager",
+    "WAREHOUSES_DESC": "Lagerorte",
+    "PURCHASE_ORDERS_TITLE": "Bestellungen",
+    "PURCHASE_ORDERS_DESC": "Ware bestellen und empfangen",
+    "STOCK_TITLE": "Bestandsübersicht",
+    "STOCK_DESC": "Bestände und Niedrigbestand-Warnungen",
+    "REPORTS_TITLE": "Inventarberichte",
+    "REPORTS_DESC": "Bewertung und Lagerbewegungen"
   }
 }

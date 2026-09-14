@@ -126,7 +126,8 @@
     "GROUP_ADMIN": "Administration",
     "CONTRACTS": "Contrats",
     "WAREHOUSES": "Entrepôts",
-    "TALK": "Parler"
+    "TALK": "Parler",
+    "GROUP_CATALOG_TOGGLE": "Développer ou réduire Catalogue et inventaire"
   },
   "PUBLIC_GUEST_NAV": {
     "ARIA": "Pages du restaurant",
@@ -3314,5 +3315,25 @@
     "LOADING": "Chargement du manuel utilisateur…",
     "LOAD_ERROR": "Impossible de charger le manuel utilisateur. Actualisez la page ou réessayez plus tard.",
     "DOC_TITLE": "Manuel utilisateur | Satisfecho POS"
+  },
+  "CATALOG_INVENTORY_HUB": {
+    "TITLE": "Catalogue et inventaire",
+    "INTRO": "Ouvrez les produits, le catalogue fournisseur et les outils d'inventaire depuis ici.",
+    "PRODUCTS_TITLE": "Produits",
+    "PRODUCTS_DESC": "Gérer les articles du menu",
+    "CATALOG_TITLE": "Catalogue",
+    "CATALOG_DESC": "Catalogue fournisseur et articles",
+    "ITEMS_TITLE": "Articles",
+    "ITEMS_DESC": "Articles de stock et unités",
+    "SUPPLIERS_TITLE": "Fournisseurs",
+    "SUPPLIERS_DESC": "Contacts fournisseurs pour les achats",
+    "WAREHOUSES_TITLE": "Entrepôts",
+    "WAREHOUSES_DESC": "Emplacements de stockage",
+    "PURCHASE_ORDERS_TITLE": "Bons de commande",
+    "PURCHASE_ORDERS_DESC": "Commander et recevoir le stock",
+    "STOCK_TITLE": "Tableau de stock",
+    "STOCK_DESC": "Niveaux et alertes de stock bas",
+    "REPORTS_TITLE": "Rapports d'inventaire",
+    "REPORTS_DESC": "Valorisation et mouvements de stock"
   }
 }

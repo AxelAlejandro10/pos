@@ -186,21 +186,36 @@ type NavGroupKey = 'operations' | 'planning' | 'catalog' | 'admin';
 
           @if (showCatalogGroup()) {
             <div class="nav-section">
-              <button
-                type="button"
-                class="nav-section-header"
-                [attr.aria-expanded]="catalogOpen()"
-                aria-controls="nav-group-catalog"
-                (click)="toggleNavGroup('catalog')"
+              <div
+                class="nav-section-header nav-section-header--split"
+                [class.active]="isCatalogHubNavActive()"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
-                </svg>
-                <span>{{ 'NAV.GROUP_CATALOG' | translate }}</span>
-                <svg class="chevron" [class.open]="catalogOpen()" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
-              </button>
+                <a
+                  routerLink="/catalog-inventory"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="nav-section-link"
+                  data-testid="nav-catalog-inventory-hub"
+                  (click)="openCatalogHub()"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                  </svg>
+                  <span>{{ 'NAV.GROUP_CATALOG' | translate }}</span>
+                </a>
+                <button
+                  type="button"
+                  class="nav-section-chevron"
+                  [attr.aria-expanded]="catalogOpen()"
+                  aria-controls="nav-group-catalog"
+                  [attr.aria-label]="'NAV.GROUP_CATALOG_TOGGLE' | translate"
+                  (click)="toggleNavGroup('catalog')"
+                >
+                  <svg class="chevron" [class.open]="catalogOpen()" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+              </div>
               @if (catalogOpen()) {
                 <div class="nav-submenu" id="nav-group-catalog">
                   <a routerLink="/products" routerLinkActive="active" class="nav-sublink" (click)="closeSidebar()">
@@ -513,6 +528,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     if (
       path.startsWith('/products') ||
       path.startsWith('/catalog') ||
+      path.startsWith('/catalog-inventory') ||
       path.startsWith('/inventory')
     ) {
       this.catalogOpen.set(true);
@@ -575,6 +591,17 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       admin: this.adminOpen,
     } as const;
     signalMap[group].update(v => !v);
+  }
+
+  isCatalogHubNavActive(): boolean {
+    const path = this.router.url.split('?')[0];
+    return path === '/catalog-inventory';
+  }
+
+  /** Navigate to hub: expand group and close mobile drawer. */
+  openCatalogHub() {
+    this.catalogOpen.set(true);
+    this.closeSidebar();
   }
 
   toggleInventory(event: Event) {

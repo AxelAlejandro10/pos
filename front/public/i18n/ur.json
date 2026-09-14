@@ -126,7 +126,8 @@
     "GROUP_ADMIN": "انتظامیہ",
     "CONTRACTS": "معاہدے",
     "WAREHOUSES": "گودام",
-    "TALK": "بات کریں"
+    "TALK": "بات کریں",
+    "GROUP_CATALOG_TOGGLE": "کیٹلاگ اور انوینٹری کھولیں یا بند کریں"
   },
   "PUBLIC_GUEST_NAV": {
     "ARIA": "ریستوران کے صفحات",
@@ -3314,5 +3315,25 @@
     "LOADING": "صارف دستی لوڈ ہو رہی ہے…",
     "LOAD_ERROR": "صارف دستی لوڈ نہیں ہو سکی۔ صفحہ تازہ کریں یا بعد میں دوبارہ کوشش کریں۔",
     "DOC_TITLE": "صارف دستی | Satisfecho POS"
+  },
+  "CATALOG_INVENTORY_HUB": {
+    "TITLE": "کیٹلاگ اور انوینٹری",
+    "INTRO": "یہاں سے مصنوعات، فراہم کنندہ کیٹلاگ اور انوینٹری ٹولز کھولیں۔",
+    "PRODUCTS_TITLE": "مصنوعات",
+    "PRODUCTS_DESC": "مینو آئٹمز کا نظم کریں",
+    "CATALOG_TITLE": "کیٹلاگ",
+    "CATALOG_DESC": "فراہم کنندہ کیٹلاگ اور مینو آئٹمز",
+    "ITEMS_TITLE": "آئٹمز",
+    "ITEMS_DESC": "اسٹاک آئٹمز اور اکائیاں",
+    "SUPPLIERS_TITLE": "سپلائرز",
+    "SUPPLIERS_DESC": "خریداری کے لیے وینڈر رابطے",
+    "WAREHOUSES_TITLE": "گودام",
+    "WAREHOUSES_DESC": "اسٹوریج مقامات",
+    "PURCHASE_ORDERS_TITLE": "خریداری آرڈرز",
+    "PURCHASE_ORDERS_DESC": "اسٹاک آرڈر کریں اور وصول کریں",
+    "STOCK_TITLE": "اسٹاک ڈیش بورڈ",
+    "STOCK_DESC": "سطحیں اور کم اسٹاک الرٹس",
+    "REPORTS_TITLE": "انوینٹری رپورٹس",
+    "REPORTS_DESC": "قدر اور اسٹاک حرکات"
   }
 }

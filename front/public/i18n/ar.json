@@ -126,7 +126,8 @@
     "GROUP_ADMIN": "الإدارة",
     "CONTRACTS": "العقود",
     "WAREHOUSES": "المخازن",
-    "TALK": "المحادثة"
+    "TALK": "المحادثة",
+    "GROUP_CATALOG_TOGGLE": "توسيع أو طي الكتالوج والمخزون"
   },
   "STAFF_FLOW": {
     "TOOLBAR_ARIA": "تنقل الموظفين",
@@ -3271,5 +3272,25 @@
         "HOW_3": "أو سجّل في Satisfecho المُستضافة بتحديثات مُدارة."
       }
     }
+  },
+  "CATALOG_INVENTORY_HUB": {
+    "TITLE": "الكتالوج والمخزون",
+    "INTRO": "افتح المنتجات وكتالوج الموردين وأدوات المخزون من هنا.",
+    "PRODUCTS_TITLE": "المنتجات",
+    "PRODUCTS_DESC": "إدارة عناصر القائمة",
+    "CATALOG_TITLE": "الكتالوج",
+    "CATALOG_DESC": "كتالوج الموردين وعناصر القائمة",
+    "ITEMS_TITLE": "الأصناف",
+    "ITEMS_DESC": "أصناف المخزون والوحدات",
+    "SUPPLIERS_TITLE": "الموردون",
+    "SUPPLIERS_DESC": "جهات اتصال الموردين للمشتريات",
+    "WAREHOUSES_TITLE": "المستودعات",
+    "WAREHOUSES_DESC": "مواقع التخزين",
+    "PURCHASE_ORDERS_TITLE": "أوامر الشراء",
+    "PURCHASE_ORDERS_DESC": "طلب واستلام المخزون",
+    "STOCK_TITLE": "لوحة المخزون",
+    "STOCK_DESC": "المستويات وتنبيهات انخفاض المخزون",
+    "REPORTS_TITLE": "تقارير المخزون",
+    "REPORTS_DESC": "التقييم وحركات المخزون"
   }
 }

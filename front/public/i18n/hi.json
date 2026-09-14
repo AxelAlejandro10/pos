@@ -126,7 +126,8 @@
     "GROUP_ADMIN": "प्रशासन",
     "CONTRACTS": "अनुबंध",
     "WAREHOUSES": "गोदाम",
-    "TALK": "बात करें"
+    "TALK": "बात करें",
+    "GROUP_CATALOG_TOGGLE": "कैटलॉग और इन्वेंटरी खोलें या बंद करें"
   },
   "PUBLIC_GUEST_NAV": {
     "ARIA": "रेस्तरां पृष्ठ",
@@ -3314,5 +3315,25 @@
     "LOADING": "उपयोगकर्ता मैनुअल लोड हो रहा है…",
     "LOAD_ERROR": "उपयोगकर्ता मैनुअल लोड नहीं हो सका। पृष्ठ रीफ़्रेश करें या बाद में पुनः प्रयास करें।",
     "DOC_TITLE": "उपयोगकर्ता मैनुअल | Satisfecho POS"
+  },
+  "CATALOG_INVENTORY_HUB": {
+    "TITLE": "कैटलॉग और इन्वेंटरी",
+    "INTRO": "यहाँ से उत्पाद, प्रदाता कैटलॉग और इन्वेंटरी टूल खोलें।",
+    "PRODUCTS_TITLE": "उत्पाद",
+    "PRODUCTS_DESC": "मेनू आइटम प्रबंधित करें",
+    "CATALOG_TITLE": "कैटलॉग",
+    "CATALOG_DESC": "प्रदाता कैटलॉग और मेनू आइटम",
+    "ITEMS_TITLE": "आइटम",
+    "ITEMS_DESC": "स्टॉक आइटम और इकाइयाँ",
+    "SUPPLIERS_TITLE": "आपूर्तिकर्ता",
+    "SUPPLIERS_DESC": "खरीद के लिए विक्रेता संपर्क",
+    "WAREHOUSES_TITLE": "गोदाम",
+    "WAREHOUSES_DESC": "भंडारण स्थान",
+    "PURCHASE_ORDERS_TITLE": "खरीद आदेश",
+    "PURCHASE_ORDERS_DESC": "स्टॉक ऑर्डर और प्राप्त करें",
+    "STOCK_TITLE": "स्टॉक डैशबोर्ड",
+    "STOCK_DESC": "स्तर और कम स्टॉक अलर्ट",
+    "REPORTS_TITLE": "इन्वेंटरी रिपोर्ट",
+    "REPORTS_DESC": "मूल्यांकन और स्टॉक गतियाँ"
   }
 }
