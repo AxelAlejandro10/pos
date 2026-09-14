@@ -1304,6 +1304,7 @@
     "DEFAULT_TABLE_NAME": "Таблица",
     "DRAG_HINT": "Плъзнете върху платно",
     "ACTIVE": "Активни",
+    "ACTIVE_SESSION_META": "Активна {{duration}} · от {{time}}",
     "INACTIVE": "Неактивен",
     "ACTIVATE": "Активиране",
     "CLOSE_TABLE": "Затваряне на таблицата",

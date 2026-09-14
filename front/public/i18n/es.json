@@ -1304,6 +1304,7 @@
     "DEFAULT_TABLE_NAME": "Mesa {{number}}",
     "DRAG_HINT": "Arrastra al lienzo",
     "ACTIVE": "Activa",
+    "ACTIVE_SESSION_META": "Activa {{duration}} · desde {{time}}",
     "INACTIVE": "Inactiva",
     "ACTIVATE": "Activar",
     "CLOSE_TABLE": "Cerrar Mesa",

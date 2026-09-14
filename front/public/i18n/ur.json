@@ -1304,6 +1304,7 @@
     "DEFAULT_TABLE_NAME": "میز {{number}}",
     "DRAG_HINT": "کینوس پر گھسیٹیں",
     "ACTIVE": "فعال",
+    "ACTIVE_SESSION_META": "{{duration}} سے فعال · {{time}} سے",
     "INACTIVE": "غیر فعال",
     "ACTIVATE": "فعال کریں",
     "CLOSE_TABLE": "قریب میز",

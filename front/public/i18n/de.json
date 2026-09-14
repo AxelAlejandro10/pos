@@ -1135,6 +1135,7 @@
     "DEFAULT_TABLE_NAME": "Tisch {{number}}",
     "DRAG_HINT": "Auf die Leinwand ziehen",
     "ACTIVE": "Aktiv",
+    "ACTIVE_SESSION_META": "Aktiv für {{duration}} · seit {{time}}",
     "INACTIVE": "Inaktiv",
     "ACTIVATE": "Aktivieren",
     "CLOSE_TABLE": "Tisch schließen",

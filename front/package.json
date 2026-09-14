@@ -14,6 +14,7 @@
     "test:register": "node scripts/test-register.mjs",
     "test:demo-data": "node scripts/test-demo-data.mjs",
     "test:tables-page": "node scripts/test-tables-page.mjs",
+    "test:table-active-duration": "node scripts/test-table-active-duration.mjs",
     "test:tables-waiter-assignment": "node scripts/test-tables-waiter-assignment.mjs",
     "test:tables-canvas-view-options": "node scripts/test-tables-canvas-view-options.mjs",
     "test:tables-canvas-open-orders": "node scripts/test-tables-canvas-open-orders.mjs",

@@ -804,6 +804,7 @@
     "DEFAULT_TABLE_NAME": "طاولة {{number}}",
     "DRAG_HINT": "اسحب إلى اللوحة",
     "ACTIVE": "نشطة",
+    "ACTIVE_SESSION_META": "نشطة لمدة {{duration}} · منذ {{time}}",
     "INACTIVE": "غير نشطة",
     "ACTIVATE": "تفعيل",
     "CLOSE_TABLE": "إغلاق الطاولة",

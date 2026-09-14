@@ -1441,6 +1441,7 @@
     "DEFAULT_TABLE_NAME": "餐桌 {{number}}",
     "DRAG_HINT": "拖到画布上",
     "ACTIVE": "已激活",
+    "ACTIVE_SESSION_META": "已激活 {{duration}} · 自 {{time}}",
     "INACTIVE": "未激活",
     "ACTIVATE": "激活",
     "CLOSE_TABLE": "关闭餐桌",

@@ -1475,6 +1475,7 @@
     "DEFAULT_TABLE_NAME": "Table {{number}}",
     "DRAG_HINT": "Drag onto canvas",
     "ACTIVE": "Active",
+    "ACTIVE_SESSION_META": "Active for {{duration}} · since {{time}}",
     "INACTIVE": "Inactive",
     "ACTIVATE": "Activate",
     "CLOSE_TABLE": "Close Table",

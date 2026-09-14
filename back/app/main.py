@@ -9181,6 +9181,7 @@ def list_tables_with_status(
             "payment_status": payment_status,
             "is_active": table.is_active,
             "active_order_id": table.active_order_id,
+            "activated_at": table.activated_at.isoformat() if table.activated_at else None,
             "assigned_waiter_id": table.assigned_waiter_id,
             "assigned_waiter_name": waiter_map.get(table.assigned_waiter_id) if table.assigned_waiter_id else None,
             "effective_waiter_id": effective_waiter_id,

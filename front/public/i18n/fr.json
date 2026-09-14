@@ -1304,6 +1304,7 @@
     "DEFAULT_TABLE_NAME": "Table {{number}}",
     "DRAG_HINT": "Glisser sur le canevas",
     "ACTIVE": "Active",
+    "ACTIVE_SESSION_META": "Active depuis {{duration}} · démarrée à {{time}}",
     "INACTIVE": "Inactive",
     "ACTIVATE": "Activer",
     "CLOSE_TABLE": "Fermer la table",

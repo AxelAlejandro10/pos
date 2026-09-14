@@ -1441,6 +1441,7 @@
     "DEFAULT_TABLE_NAME": "टेबल {{number}}",
     "DRAG_HINT": "कैनवास पर खींचें",
     "ACTIVE": "सक्रिय",
+    "ACTIVE_SESSION_META": "{{duration}} से सक्रिय · {{time}} से",
     "INACTIVE": "निष्क्रिय",
     "ACTIVATE": "सक्रिय करें",
     "CLOSE_TABLE": "टेबल बंद करें",

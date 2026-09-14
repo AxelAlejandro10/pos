@@ -1441,6 +1441,7 @@
     "DEFAULT_TABLE_NAME": "Taula {{number}}",
     "DRAG_HINT": "Arrossega al llenç",
     "ACTIVE": "Activa",
+    "ACTIVE_SESSION_META": "Activa {{duration}} · des de {{time}}",
     "INACTIVE": "Inactiva",
     "ACTIVATE": "Activar",
     "CLOSE_TABLE": "Tancar Taula",
