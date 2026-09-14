@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ApiService, LoyaltyMembership, LoyaltyProgram } from '../services/api.service';
 
 @Component({
@@ -353,6 +353,7 @@ import { ApiService, LoyaltyMembership, LoyaltyProgram } from '../services/api.s
                       <th>{{ 'SETTINGS.LOYALTY_VIP_TIER' | translate }}</th>
                       <th>{{ 'SETTINGS.LOYALTY_REFERRAL_CODE' | translate }}</th>
                       <th>{{ 'SETTINGS.LOYALTY_CARD_LINK' | translate }}</th>
+                      <th>{{ 'COMMON.ACTIONS' | translate }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -382,6 +383,21 @@ import { ApiService, LoyaltyMembership, LoyaltyProgram } from '../services/api.s
                           } @else {
                             —
                           }
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            class="btn btn-secondary btn-sm btn-danger"
+                            data-testid="loyalty-delete-member"
+                            [disabled]="deletingId() === m.id"
+                            (click)="confirmDeleteMember(m)"
+                          >
+                            {{
+                              deletingId() === m.id
+                                ? ('COMMON.SAVING' | translate)
+                                : ('COMMON.DELETE' | translate)
+                            }}
+                          </button>
                         </td>
                       </tr>
                     }
@@ -573,11 +589,19 @@ import { ApiService, LoyaltyMembership, LoyaltyProgram } from '../services/api.s
         font-size: 0.8rem;
         padding: 0.25rem 0.5rem;
       }
+      .btn-danger {
+        color: #b00020;
+        border-color: #f1c0c0;
+      }
+      .btn-danger:hover:not(:disabled) {
+        background: #fef2f2;
+      }
     `,
   ],
 })
 export class LoyaltySettingsComponent implements OnInit {
   private api = inject(ApiService);
+  private translate = inject(TranslateService);
 
   loading = signal(true);
   saving = signal(false);
@@ -590,6 +614,7 @@ export class LoyaltySettingsComponent implements OnInit {
   walletDetail = signal('');
   memberSearch = '';
   copiedToken = signal<string | null>(null);
+  deletingId = signal<number | null>(null);
   private searchTimer: ReturnType<typeof setTimeout> | null = null;
 
   enabled = false;
@@ -633,6 +658,25 @@ export class LoyaltySettingsComponent implements OnInit {
     } else {
       done();
     }
+  }
+
+  confirmDeleteMember(member: LoyaltyMembership): void {
+    if (!member?.id || this.deletingId() != null) return;
+    const name = member.display_name || member.email || member.phone || String(member.id);
+    const msg = this.translate.instant('SETTINGS.LOYALTY_CONFIRM_DELETE_MEMBER', { name });
+    if (typeof window !== 'undefined' && !window.confirm(msg)) return;
+    this.deletingId.set(member.id);
+    this.saveError.set('');
+    this.api.deleteLoyaltyMembership(member.id).subscribe({
+      next: () => {
+        this.deletingId.set(null);
+        this.loadMembers();
+      },
+      error: (err) => {
+        this.deletingId.set(null);
+        this.saveError.set(err?.error?.detail || 'Delete failed');
+      },
+    });
   }
 
   onMemberSearch(value: string): void {

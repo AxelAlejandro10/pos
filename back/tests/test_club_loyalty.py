@@ -204,6 +204,47 @@ class TestClubLoyalty(PgClientTestCase):
         self.assertTrue(all("alpha.loyalty" in (r.get("email") or "") for r in rows))
         self.assertTrue(all(r.get("member_token") for r in rows))
 
+    def test_staff_delete_membership(self):
+        """Owner/admin can hard-delete a member; waiter and other tenant cannot (#362)."""
+        self._enable_program()
+        join = self.client.post(
+            f"/public/tenants/{self.tenant.id}/loyalty/join",
+            json={"display_name": "Delete Me", "email": "delete.me.loyalty@amvara.de"},
+        ).json()
+        mid = join["membership"]["id"]
+        token = join["membership"]["member_token"]
+
+        waiter_del = self.client.delete(
+            f"/loyalty/memberships/{mid}", headers=_bearer_headers(self.waiter)
+        )
+        self.assertIn(waiter_del.status_code, (401, 403))
+
+        other_del = self.client.delete(
+            f"/loyalty/memberships/{mid}", headers=_bearer_headers(self.other_admin)
+        )
+        self.assertEqual(other_del.status_code, 404)
+
+        ok = self.client.delete(
+            f"/loyalty/memberships/{mid}", headers=_bearer_headers(self.admin)
+        )
+        self.assertEqual(ok.status_code, 200)
+        self.assertTrue(ok.json().get("ok"))
+        self.assertEqual(ok.json().get("id"), mid)
+
+        gone = self.client.get(f"/public/loyalty/members/{token}")
+        self.assertEqual(gone.status_code, 404)
+
+        list_rows = self.client.get(
+            "/loyalty/memberships", headers=_bearer_headers(self.admin)
+        )
+        self.assertEqual(list_rows.status_code, 200)
+        self.assertFalse(any(r.get("id") == mid for r in list_rows.json()))
+
+        missing = self.client.delete(
+            f"/loyalty/memberships/{mid}", headers=_bearer_headers(self.admin)
+        )
+        self.assertEqual(missing.status_code, 404)
+
     def test_earn_once_on_mark_paid(self):
         self._enable_program(earn_units_per_order=2)
         join = self.client.post(

@@ -2235,6 +2235,7 @@
     "LOYALTY_CARD_LINK": "Lien de carte",
     "LOYALTY_COPY_CARD": "Copier le lien",
     "LOYALTY_COPIED": "Copié",
+    "LOYALTY_CONFIRM_DELETE_MEMBER": "Supprimer le membre du club {{name}} ? Cette action est définitive.",
     "SERVICE_LABEL": "Libellé du service",
     "SERVICE_LABEL_PLACEHOLDER": "p. ex. Petit-déjeuner (optionnel)",
     "MORNING_LABEL": "Libellé du service du matin",

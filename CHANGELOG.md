@@ -30,6 +30,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 - **Public menu Back to home (#386):** `/public-menu/:tenantId` (and delivery) **Back to home** goes to `/book/:tenantId` instead of marketing `/`.
 
+## [2.1.174] - 2026-09-14
+
+### Added
+
+- **Delete Loyalty Club members (#362):** Settings → Loyalty club has a Delete action per member (confirm). `DELETE /loyalty/memberships/{id}` requires `loyalty:write`; hard delete cascades ledger/devices and unlinks orders.
+
 ## [2.1.173] - 2026-09-14
 
 ### Added

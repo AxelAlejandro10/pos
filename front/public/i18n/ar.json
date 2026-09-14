@@ -2605,6 +2605,7 @@
     "LOYALTY_CARD_LINK": "رابط البطاقة",
     "LOYALTY_COPY_CARD": "نسخ رابط البطاقة",
     "LOYALTY_COPIED": "تم النسخ",
+    "LOYALTY_CONFIRM_DELETE_MEMBER": "حذف عضو نادي الولاء {{name}}؟ لا يمكن التراجع عن هذا.",
     "SERVICE_LABEL": "تسمية الخدمة",
     "SERVICE_LABEL_PLACEHOLDER": "مثل: فطور (اختياري)",
     "MORNING_LABEL": "تسمية خدمة الصباح",

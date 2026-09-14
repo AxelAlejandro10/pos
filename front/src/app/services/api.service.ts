@@ -3950,6 +3950,12 @@ export class ApiService {
     });
   }
 
+  deleteLoyaltyMembership(membershipId: number): Observable<{ ok: boolean; id: number }> {
+    return this.http.delete<{ ok: boolean; id: number }>(
+      `${this.apiUrl}/loyalty/memberships/${membershipId}`,
+    );
+  }
+
   redeemLoyaltyOnOrder(
     orderId: number,
     body: { membership_id?: number; member_token?: string },

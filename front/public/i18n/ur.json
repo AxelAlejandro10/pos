@@ -2288,6 +2288,7 @@
     "LOYALTY_CARD_LINK": "کارڈ لنک",
     "LOYALTY_COPY_CARD": "کارڈ لنک کاپی کریں",
     "LOYALTY_COPIED": "کاپی ہو گیا",
+    "LOYALTY_CONFIRM_DELETE_MEMBER": "لائلٹی ممبر {{name}} حذف کریں؟ یہ واپس نہیں ہو سکتا۔",
     "SERVICE_LABEL": "سروس لیبل",
     "SERVICE_LABEL_PLACEHOLDER": "مثلاً ناشتہ (اختیاری)",
     "MORNING_LABEL": "صبح کی سروس لیبل",

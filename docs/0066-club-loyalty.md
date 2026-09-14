@@ -53,14 +53,15 @@ Membership API payloads include `vip_tier` (`null` \| `"silver"` \| `"gold"`). S
 - **Birthday bonus (#331):** when `birthday_bonus_units > 0` and the member’s month/day matches `paid_at` (UTC), extra units are folded into that earn row (or a standalone earn with `order_id` null if the order already had an earn). Once per calendar year (`birthday_bonus_year`). Join accepts optional birthday; linked `BillingCustomer.birth_date` can seed month/day.
 - **Redeem:** `POST /orders/{id}/loyalty/redeem` with `membership_id` or `member_token`. Requires balance ≥ threshold; writes `redeem` ledger row and sets order discount fields.
 - **Manual adjust:** `POST /loyalty/memberships/{id}/adjust` — **owner/admin** (`loyalty:write`) only. Adjust does **not** change lifetime earn / VIP.
-- **Permissions:** `loyalty:read`, `loyalty:write` (program + adjust), `loyalty:redeem` (waiter+).
+- **Delete member:** `DELETE /loyalty/memberships/{id}` — **owner/admin** (`loyalty:write`) only; hard delete (see below).
+- **Permissions:** `loyalty:read`, `loyalty:write` (program + adjust + delete), `loyalty:redeem` (waiter+).
 - **Wallet push:** every ledger change best-effort notifies Apple (tag bump + APNs when configured) and Google (object PATCH).
 
 ## APIs (summary)
 
 - Public: `GET/POST /public/tenants/{id}/loyalty`, `POST /public/tenants/{id}/loyalty/recover` (email/phone → card token, #372), `GET /public/loyalty/members/{token}`, wallet status, `…/wallet/apple.pkpass`, `…/wallet/google`
 - PassKit web service: `/public/passkit/v1/devices/…`, `/public/passkit/v1/passes/…`, `/public/passkit/v1/log`
-- Staff: `GET/PUT /loyalty/program` (includes `wallet_passes_enabled`), memberships list/detail/adjust (`GET /loyalty/memberships?search=`), order link + redeem
+- Staff: `GET/PUT /loyalty/program` (includes `wallet_passes_enabled`), memberships list/detail/adjust/delete (`GET /loyalty/memberships?search=`, `DELETE /loyalty/memberships/{id}`), order link + redeem
 
 Public loyalty GETs use `@public_menu_ip_limit()` (not `@limiter.limit(public_menu_ip_limit)` — that passes the helper function instead of a rate string and 500s under live SlowAPI). Join and recover use a dedicated per-hour limit. All SlowAPI-wrapped handlers take `request: Request` and `response: Response` so rate-limit headers inject correctly.
 
@@ -70,6 +71,12 @@ Public loyalty GETs use `@public_menu_ip_limit()` (not `@limiter.limit(public_me
 - Re-joining with the same email/phone still returns the existing membership (unchanged).
 - Staff: Settings → Loyalty club member list supports search (name/email/phone) and **Copy card link** to share `/loyalty/card/{token}` without pasting raw tokens into docs.
 - After join/recover, the public page always shows the balance card link (not only when Wallet buttons are available).
+
+### Deleting a member (#362)
+
+- Staff with **`loyalty:write`** (owner/admin) can remove a membership from Settings → Loyalty club (confirm dialog) via `DELETE /loyalty/memberships/{id}`.
+- **Hard delete** (no soft-delete column): ledger rows and Apple device registrations cascade; `order.loyalty_membership_id` and `referred_by_membership_id` become null.
+- Waiters (`loyalty:redeem` only) and other tenants cannot delete. Public card/recover for that token returns 404 after delete.
 
 ## Interaction with #322 (price promos)
 

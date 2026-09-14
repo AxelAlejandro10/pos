@@ -2360,6 +2360,7 @@
     "LOYALTY_CARD_LINK": "Card link",
     "LOYALTY_COPY_CARD": "Copy card link",
     "LOYALTY_COPIED": "Copied",
+    "LOYALTY_CONFIRM_DELETE_MEMBER": "Delete loyalty member {{name}}? This cannot be undone.",
     "LOYALTY_BALANCE": "Balance",
     "PRINTING_TAB": "Printing",
     "PRINTING_TITLE": "Hardware printing",

@@ -2288,6 +2288,7 @@
     "LOYALTY_CARD_LINK": "Линк към карта",
     "LOYALTY_COPY_CARD": "Копирай линка",
     "LOYALTY_COPIED": "Копирано",
+    "LOYALTY_CONFIRM_DELETE_MEMBER": "Изтриване на член {{name}}? Това действие е необратимо.",
     "SERVICE_LABEL": "Етикет на услугата",
     "SERVICE_LABEL_PLACEHOLDER": "напр. Закуска (по избор)",
     "MORNING_LABEL": "Етикет за сутрешна смяна",

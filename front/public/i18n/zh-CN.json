@@ -2425,6 +2425,7 @@
     "LOYALTY_CARD_LINK": "会员卡链接",
     "LOYALTY_COPY_CARD": "复制会员卡链接",
     "LOYALTY_COPIED": "已复制",
+    "LOYALTY_CONFIRM_DELETE_MEMBER": "删除忠诚会员 {{name}}？此操作无法撤销。",
     "SERVICE_LABEL": "服务标签",
     "SERVICE_LABEL_PLACEHOLDER": "例如：早餐（可选）",
     "MORNING_LABEL": "早市标签",

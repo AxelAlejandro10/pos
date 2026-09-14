@@ -2254,6 +2254,7 @@
     "LOYALTY_CARD_LINK": "Kartenlink",
     "LOYALTY_COPY_CARD": "Kartenlink kopieren",
     "LOYALTY_COPIED": "Kopiert",
+    "LOYALTY_CONFIRM_DELETE_MEMBER": "Loyalty-Mitglied {{name}} löschen? Dies kann nicht rückgängig gemacht werden.",
     "SERVICE_LABEL": "Service-Bezeichnung",
     "SERVICE_LABEL_PLACEHOLDER": "z. B. Frühstück (optional)",
     "MORNING_LABEL": "Bezeichnung Vormittag",

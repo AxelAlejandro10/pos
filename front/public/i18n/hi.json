@@ -2425,6 +2425,7 @@
     "LOYALTY_CARD_LINK": "कार्ड लिंक",
     "LOYALTY_COPY_CARD": "कार्ड लिंक कॉपी करें",
     "LOYALTY_COPIED": "कॉपी हो गया",
+    "LOYALTY_CONFIRM_DELETE_MEMBER": "लॉयल्टी सदस्य {{name}} हटाएँ? यह पूर्ववत नहीं होगा।",
     "SERVICE_LABEL": "सेवा लेबल",
     "SERVICE_LABEL_PLACEHOLDER": "उदा. नाश्ता (वैकल्पिक)",
     "MORNING_LABEL": "सुबह की सेवा का लेबल",

@@ -2453,6 +2453,21 @@ def adjust_loyalty_membership(
     }
 
 
+@app.delete("/loyalty/memberships/{membership_id}")
+def delete_loyalty_membership(
+    membership_id: int,
+    current_user: Annotated[models.User, Depends(require_permission(Permission.LOYALTY_WRITE))],
+    session: Session = Depends(get_session),
+) -> dict:
+    """Hard-delete a loyalty membership (tenant-scoped). Ledger/devices cascade; orders unlink."""
+    membership = session.get(models.LoyaltyMembership, membership_id)
+    if not membership or membership.tenant_id != current_user.tenant_id:
+        raise HTTPException(status_code=404, detail="Membership not found")
+    session.delete(membership)
+    session.commit()
+    return {"ok": True, "id": membership_id}
+
+
 @app.put("/orders/{order_id}/loyalty-membership")
 def set_order_loyalty_membership(
     order_id: int,

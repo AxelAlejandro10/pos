@@ -2288,6 +2288,7 @@
     "LOYALTY_CARD_LINK": "Enlace de tarjeta",
     "LOYALTY_COPY_CARD": "Copiar enlace",
     "LOYALTY_COPIED": "Copiado",
+    "LOYALTY_CONFIRM_DELETE_MEMBER": "¿Eliminar al miembro del club {{name}}? Esta acción no se puede deshacer.",
     "SERVICE_LABEL": "Etiqueta del servicio",
     "SERVICE_LABEL_PLACEHOLDER": "p. ej. Desayuno (opcional)",
     "MORNING_LABEL": "Etiqueta del turno de mañana",

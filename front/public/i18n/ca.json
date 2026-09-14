@@ -2425,6 +2425,7 @@
     "LOYALTY_CARD_LINK": "Enllaç de targeta",
     "LOYALTY_COPY_CARD": "Copia l’enllaç",
     "LOYALTY_COPIED": "Copiat",
+    "LOYALTY_CONFIRM_DELETE_MEMBER": "Vols eliminar el membre del club {{name}}? Aquesta acció no es pot desfer.",
     "SERVICE_LABEL": "Etiqueta del servei",
     "SERVICE_LABEL_PLACEHOLDER": "p. ex. Esmorzar (opcional)",
     "MORNING_LABEL": "Etiqueta del torn del matí",
