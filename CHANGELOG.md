@@ -14,6 +14,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+- **Delivery floating CTA overlap (#360):** Fixed bottom total + CTA shows on the delivery **menu** step only. Cart and address keep inline actions so the bar no longer covers cart lines or Continue buttons.
+
 ## [2.1.161] - 2026-09-14
 
 ### Added

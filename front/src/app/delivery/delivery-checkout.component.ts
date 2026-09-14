@@ -105,36 +105,17 @@ export class DeliveryCheckoutComponent implements OnInit, OnDestroy {
     this.cart().reduce((sum, l) => sum + l.product.price_cents * l.quantity, 0),
   );
 
-  /** Fixed bottom total + next-step CTA (#360); menu / cart / address when cart has items. */
-  showFloatingCheckoutBar = computed(() => {
-    const s = this.step();
-    return this.cartCount() > 0 && (s === 'menu' || s === 'cart' || s === 'address');
-  });
+  /**
+   * Fixed bottom total + next-step CTA (#360): menu only.
+   * Cart / address already have inline total + primary actions; a second fixed bar overlaps them.
+   */
+  showFloatingCheckoutBar = computed(() => this.step() === 'menu' && this.cartCount() > 0);
 
-  floatingCtaKey = computed(() => {
-    switch (this.step()) {
-      case 'cart':
-        return 'DELIVERY_CHECKOUT.CONTINUE_ADDRESS';
-      case 'address':
-        return this.submitting() ? 'COMMON.LOADING' : 'DELIVERY_CHECKOUT.CONTINUE_PAY';
-      default:
-        return 'DELIVERY_CHECKOUT.VIEW_CART';
-    }
-  });
+  floatingCtaKey = computed(() => 'DELIVERY_CHECKOUT.VIEW_CART');
 
   onFloatingCta(): void {
-    switch (this.step()) {
-      case 'menu':
-        this.goToCart();
-        break;
-      case 'cart':
-        this.goToAddress();
-        break;
-      case 'address':
-        this.submitAddress();
-        break;
-      default:
-        break;
+    if (this.step() === 'menu') {
+      this.goToCart();
     }
   }
 
