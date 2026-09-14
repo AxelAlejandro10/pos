@@ -38,3 +38,29 @@ Opening **`/loyalty/`** (no tenant id) shows or embeds the **Satisfecho marketin
 4. Open `/loyalty/card/<invalid>` — still shows “Membership not found” on the card page (not landing).
 5. Optional: `BASE_URL=http://127.0.0.1:4202 npm run test:landing-version --prefix front`.
 6. Confirm `docker logs --since 10m pos-front` has no new TS/Angular compile errors.
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-14T12:31:33Z start → 2026-09-14T12:32:49Z end. Log window: `pos-front` since ~10m (errors 12:26–12:27 from concurrent #399 WIP; green rebuilds from 12:28:04Z).
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development` (synced).
+3. **What was tested:** Bare `/loyalty` and `/loyalty/` need-link (no marketing landing/iframe); `/loyalty/1` join form; `/loyalty/card/<invalid>` membership-not-found; optional `test:landing-version`; front compile health.
+4. **Results:**
+   - Bare `/loyalty` need-link, not landing — **PASS** — `data-testid="loyalty-need-link"` present; `app-landing` absent; title “Loyalty club”; 0 iframes.
+   - `/loyalty/` same need-link — **PASS** — Angular normalizes to `/loyalty`; same markers.
+   - `/loyalty/1` join flow — **PASS** — `loyalty-public-page` + `.join-form`; title “Cafe Club 334”.
+   - `/loyalty/card/<invalid>` not landing — **PASS** — body “Membership not found.”; `app-landing` absent.
+   - Optional landing smoke — **PASS** — `npm run test:landing-version` → `RESULT: Landing version OK; … sidebar nav OK.`
+   - Front build — **PASS** — last successful `Application bundle generation complete` at 12:29:01Z; transient TS errors earlier were unrelated sidebar/changelog WIP, not this route.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Guests who open bare `/loyalty` now get a clear “need a restaurant link” page instead of the marketing site. Join and card paths still behave as documented. Safe to close.
+7. **URLs tested:**
+   1. http://127.0.0.1:4202/loyalty
+   2. http://127.0.0.1:4202/loyalty/
+   3. http://127.0.0.1:4202/loyalty/1
+   4. http://127.0.0.1:4202/loyalty/card/invalid-test-token-373
+8. **Relevant log excerpts:**
+```
+Application bundle generation complete. [2.233 seconds] - 2026-09-14T12:28:04.645Z
+Application bundle generation complete. [2.298 seconds] - 2026-09-14T12:29:01.636Z
+>>> RESULT: Landing version OK; demo restaurant card OK; demo login (tenant=1) OK; sidebar nav OK.
+```
