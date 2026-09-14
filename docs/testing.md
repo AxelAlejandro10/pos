@@ -808,6 +808,7 @@ From repo root: `npm run <script> --prefix front`. From `front/`: `npm run <scri
 - **Demo waiting list check:** `docker compose exec back python -m app.seeds.check_demo_waiting_list` (exit 0 = tenant 1 has ≥1 `waiting` and ≥1 `notified` row).
 - **Demo delivery fee/zone:** `docker compose exec back python -m app.seeds.seed_demo_delivery_settings` — sets tenant 1 fee (250¢) + postal codes when unset; idempotent. Bootstrap / `reset_demo_data` run this.
 - **Demo delivery settings check:** `docker compose exec back python -m app.seeds.check_demo_delivery_settings` (exit 0 = tenant 1 has non-zero fee and/or postal/radius).
+- **008 soft watch:** `scripts/enhancement-reviewer-preflight.sh` soft-runs the five tenant-1 checks above (tables, waiting list, products, delivery orders, delivery settings) and bumps `G008_DEMO_SIGNALS` on unowned fail.
 
 See `AGENTS.md` for full seed and deploy notes.
 
