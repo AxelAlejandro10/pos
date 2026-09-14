@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Settings → Printing had no clear link to the hardware printing runbook (`docs/0070-hardware-printing.md`) (#397).
+- **What was done:** Added a visible GitHub docs link (`settings-printing-docs-link`) plus i18n and a short agent command hint; smoke script and docs notes updated.
+- **What was tested:** `test:settings-printing-docs` PASS; GitHub runbook URL 200; print agent create/list UI still present; front logs clean.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-14 17:31
+---
+
 # Link hardware printing docs in Settings → Printing (#397)
 
 ## GitHub Issues
