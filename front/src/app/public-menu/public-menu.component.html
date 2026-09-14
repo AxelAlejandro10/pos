@@ -29,7 +29,17 @@
               {{ 'PUBLIC_MENU.LOAD_FAILED' | translate }}
             }
           </p>
-          <a routerLink="/" class="public-menu-back-link">{{ 'PUBLIC_MENU.BACK_HOME' | translate }}</a>
+          @if (tenantId() > 0) {
+            <a
+              [routerLink]="['/book', tenantId()]"
+              class="public-menu-back-link"
+              data-testid="public-menu-back-home"
+            >{{ 'PUBLIC_MENU.BACK_HOME' | translate }}</a>
+          } @else {
+            <a routerLink="/features" class="public-menu-back-link" data-testid="public-menu-back-home">{{
+              'PUBLIC_MENU.BACK_HOME' | translate
+            }}</a>
+          }
         </div>
       </main>
     </div>
@@ -123,7 +133,11 @@
       }
 
       <div class="public-menu-footer-actions">
-        <a routerLink="/" class="public-menu-back-link">{{ 'PUBLIC_MENU.BACK_HOME' | translate }}</a>
+        <a
+          [routerLink]="['/book', tenantId()]"
+          class="public-menu-back-link"
+          data-testid="public-menu-back-home"
+        >{{ 'PUBLIC_MENU.BACK_HOME' | translate }}</a>
         <app-legal-links
           [termsUrl]="tenant()?.terms_of_service_url"
           [privacyUrl]="tenant()?.privacy_policy_url"

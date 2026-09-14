@@ -29,7 +29,17 @@
               {{ 'DELIVERY_CHECKOUT.LOAD_FAILED' | translate }}
             }
           </p>
-          <a routerLink="/" class="delivery-back-link">{{ 'DELIVERY_CHECKOUT.BACK_HOME' | translate }}</a>
+          @if (tenantId() > 0) {
+            <a
+              [routerLink]="['/book', tenantId()]"
+              class="delivery-back-link"
+              data-testid="delivery-back-home"
+            >{{ 'DELIVERY_CHECKOUT.BACK_HOME' | translate }}</a>
+          } @else {
+            <a routerLink="/features" class="delivery-back-link" data-testid="delivery-back-home">{{
+              'DELIVERY_CHECKOUT.BACK_HOME' | translate
+            }}</a>
+          }
         </div>
       </main>
     </div>
@@ -331,7 +341,11 @@
         <a [routerLink]="['/public-menu', tenantId()]" class="delivery-back-link">
           {{ 'DELIVERY_CHECKOUT.VIEW_MENU_ONLY' | translate }}
         </a>
-        <a routerLink="/" class="delivery-back-link">{{ 'DELIVERY_CHECKOUT.BACK_HOME' | translate }}</a>
+        <a
+          [routerLink]="['/book', tenantId()]"
+          class="delivery-back-link"
+          data-testid="delivery-back-home"
+        >{{ 'DELIVERY_CHECKOUT.BACK_HOME' | translate }}</a>
         <app-legal-links
           [termsUrl]="tenant()?.terms_of_service_url"
           [privacyUrl]="tenant()?.privacy_policy_url"
