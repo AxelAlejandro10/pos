@@ -2957,7 +2957,12 @@
     "FINDING": "正在查找…",
     "FOUND": "已找到您的会员资格。",
     "NOT_FOUND": "未找到该邮箱或电话对应的会员。",
-    "OPEN_CARD": "打开我的会员卡"
+    "OPEN_CARD": "打开我的会员卡",
+    "CTA_NAV_ARIA": "下一步",
+    "CTA_HEADING": "继续逛这家餐厅",
+    "CTA_MENU": "查看菜单",
+    "CTA_BOOK": "预订餐位",
+    "CTA_DELIVERY": "外卖点餐"
   },
   "ABOUT_PAGE": {
     "BADGE": "公司",

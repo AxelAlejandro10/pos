@@ -3,62 +3,89 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiService } from '../services/api.service';
 import { LanguagePickerComponent } from '../shared/language-picker.component';
+import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
+import { PublicGuestSalesCtasComponent } from '../shared/public-guest-sales-ctas.component';
+import { LegalLinksComponent } from '../shared/legal-links.component';
 
 @Component({
   selector: 'app-loyalty-card-public',
   standalone: true,
-  imports: [TranslateModule, LanguagePickerComponent],
+  imports: [
+    TranslateModule,
+    LanguagePickerComponent,
+    PublicGuestHeaderComponent,
+    PublicGuestSalesCtasComponent,
+    LegalLinksComponent,
+  ],
   template: `
     <div class="book-page loyalty-card" data-testid="loyalty-card-page">
-      <app-language-picker></app-language-picker>
+      @if (tenantId(); as tid) {
+        <app-public-guest-header [tenantId]="tid" activePage="loyalty" />
+      } @else {
+        <header class="book-header">
+          <app-language-picker></app-language-picker>
+        </header>
+      }
       @if (loading()) {
-        <p>{{ 'COMMON.LOADING' | translate }}</p>
+        <p class="hint">{{ 'COMMON.LOADING' | translate }}</p>
       } @else if (error()) {
         <p class="error">{{ 'LOYALTY_PUBLIC.CARD_NOT_FOUND' | translate }}</p>
       } @else {
-        <h1>{{ programName() }}</h1>
-        <p>{{ displayName() }}</p>
-        <p class="balance">
-          {{ 'LOYALTY_PUBLIC.BALANCE' | translate }}: <strong>{{ balance() }}</strong>
-        </p>
-        @if (vipTier()) {
-          <p class="tier" data-testid="loyalty-card-vip">
-            {{ 'LOYALTY_PUBLIC.VIP_TIER' | translate }}: <strong>{{ vipTier() }}</strong>
+        <main class="book-main">
+          <h1>{{ programName() }}</h1>
+          <p>{{ displayName() }}</p>
+          <p class="balance">
+            {{ 'LOYALTY_PUBLIC.BALANCE' | translate }}: <strong>{{ balance() }}</strong>
           </p>
-        }
-        @if (referralCode() && tenantId()) {
-          <p class="hint">{{ 'LOYALTY_PUBLIC.REFERRAL_SHARE' | translate }}</p>
-          <p class="token">
-            <code>{{ origin }}/loyalty/{{ tenantId() }}?ref={{ referralCode() }}</code>
-          </p>
-        }
-        @if (applePkpassUrl() || googleSaveUrl()) {
-          <div class="wallet-actions" data-testid="loyalty-card-wallet-actions">
-            @if (applePkpassUrl(); as appleUrl) {
-              <a class="btn" [href]="appleUrl" data-testid="loyalty-card-add-apple">
-                {{ 'LOYALTY_PUBLIC.ADD_APPLE_WALLET' | translate }}
-              </a>
-            }
-            @if (googleSaveUrl(); as gUrl) {
-              <a
-                class="btn"
-                [href]="gUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                data-testid="loyalty-card-add-google"
-              >
-                {{ 'LOYALTY_PUBLIC.ADD_GOOGLE_WALLET' | translate }}
-              </a>
-            }
-          </div>
-        }
+          @if (vipTier()) {
+            <p class="tier" data-testid="loyalty-card-vip">
+              {{ 'LOYALTY_PUBLIC.VIP_TIER' | translate }}: <strong>{{ vipTier() }}</strong>
+            </p>
+          }
+          @if (referralCode() && tenantId()) {
+            <p class="hint">{{ 'LOYALTY_PUBLIC.REFERRAL_SHARE' | translate }}</p>
+            <p class="token">
+              <code>{{ origin }}/loyalty/{{ tenantId() }}?ref={{ referralCode() }}</code>
+            </p>
+          }
+          @if (applePkpassUrl() || googleSaveUrl()) {
+            <div class="wallet-actions" data-testid="loyalty-card-wallet-actions">
+              @if (applePkpassUrl(); as appleUrl) {
+                <a class="btn wallet" [href]="appleUrl" data-testid="loyalty-card-add-apple">
+                  {{ 'LOYALTY_PUBLIC.ADD_APPLE_WALLET' | translate }}
+                </a>
+              }
+              @if (googleSaveUrl(); as gUrl) {
+                <a
+                  class="btn wallet"
+                  [href]="gUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid="loyalty-card-add-google"
+                >
+                  {{ 'LOYALTY_PUBLIC.ADD_GOOGLE_WALLET' | translate }}
+                </a>
+              }
+            </div>
+          }
+          @if (tenantId(); as tid) {
+            <app-public-guest-sales-ctas [tenantId]="tid" />
+          }
+        </main>
       }
+      <app-legal-links></app-legal-links>
     </div>
   `,
   styles: [
     `
       .loyalty-card {
-        padding: 1.5rem;
+        padding: 0 0 1.5rem;
+      }
+      .loyalty-card .book-main {
+        padding: 1.25rem 1.5rem;
+      }
+      .loyalty-card .book-header {
+        padding: 0.75rem 1rem;
       }
       .balance,
       .tier {
@@ -66,9 +93,11 @@ import { LanguagePickerComponent } from '../shared/language-picker.component';
       }
       .error {
         color: #b00020;
+        padding: 1.5rem;
       }
       .hint {
         color: var(--text-muted, #666);
+        padding: 0 1.5rem;
       }
       .token code {
         word-break: break-all;
@@ -79,7 +108,7 @@ import { LanguagePickerComponent } from '../shared/language-picker.component';
         gap: 0.75rem;
         margin-top: 1rem;
       }
-      .wallet-actions .btn {
+      .wallet-actions .btn.wallet {
         display: inline-block;
         padding: 0.5rem 0.85rem;
         border-radius: 4px;

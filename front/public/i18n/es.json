@@ -2957,7 +2957,12 @@
     "FINDING": "Buscando…",
     "FOUND": "Hemos encontrado tu membresía.",
     "NOT_FOUND": "No hay membresía con ese email o teléfono.",
-    "OPEN_CARD": "Abrir mi tarjeta"
+    "OPEN_CARD": "Abrir mi tarjeta",
+    "CTA_NAV_ARIA": "Siguientes pasos",
+    "CTA_HEADING": "Continúa con el restaurante",
+    "CTA_MENU": "Ver menú",
+    "CTA_BOOK": "Reservar mesa",
+    "CTA_DELIVERY": "Pedir a domicilio"
   },
   "ABOUT_PAGE": {
     "BADGE": "Empresa",

@@ -8,13 +8,22 @@ import { merge } from 'rxjs';
 import { ApiService, LoyaltyProgramPublic } from '../services/api.service';
 import { LanguagePickerComponent } from '../shared/language-picker.component';
 import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
+import { PublicGuestSalesCtasComponent } from '../shared/public-guest-sales-ctas.component';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { contactEmailValid, contactPhoneValid } from '../shared/contact-validators';
 
 @Component({
   selector: 'app-loyalty-public',
   standalone: true,
-  imports: [FormsModule, TranslateModule, LanguagePickerComponent, PublicGuestHeaderComponent, LegalLinksComponent, RouterLink],
+  imports: [
+    FormsModule,
+    TranslateModule,
+    LanguagePickerComponent,
+    PublicGuestHeaderComponent,
+    PublicGuestSalesCtasComponent,
+    LegalLinksComponent,
+    RouterLink,
+  ],
   templateUrl: './loyalty-public.component.html',
   styleUrls: ['../book/book.component.scss', './loyalty-public.component.scss'],
 })

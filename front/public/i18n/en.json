@@ -2991,7 +2991,12 @@
     "REFERRAL_CODE": "Referral code (optional)",
     "REFERRAL_SHARE": "Share this link so friends can join with your referral:",
     "ADD_APPLE_WALLET": "Add to Apple Wallet",
-    "ADD_GOOGLE_WALLET": "Add to Google Wallet"
+    "ADD_GOOGLE_WALLET": "Add to Google Wallet",
+    "CTA_NAV_ARIA": "Next steps",
+    "CTA_HEADING": "Continue with the restaurant",
+    "CTA_MENU": "View menu",
+    "CTA_BOOK": "Book a table",
+    "CTA_DELIVERY": "Order delivery"
   },
   "ABOUT_PAGE": {
     "BADGE": "Company",

@@ -2957,7 +2957,12 @@
     "FINDING": "Suche…",
     "FOUND": "Wir haben deine Mitgliedschaft gefunden.",
     "NOT_FOUND": "Keine Mitgliedschaft für diese E-Mail oder Telefonnummer gefunden.",
-    "OPEN_CARD": "Meine Karte öffnen"
+    "OPEN_CARD": "Meine Karte öffnen",
+    "CTA_NAV_ARIA": "Nächste Schritte",
+    "CTA_HEADING": "Weiter zum Restaurant",
+    "CTA_MENU": "Speisekarte ansehen",
+    "CTA_BOOK": "Tisch reservieren",
+    "CTA_DELIVERY": "Lieferung bestellen"
   },
   "ABOUT_PAGE": {
     "BADGE": "Unternehmen",

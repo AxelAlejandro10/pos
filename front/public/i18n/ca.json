@@ -2957,7 +2957,12 @@
     "FINDING": "Cercant…",
     "FOUND": "Hem trobat la teva afiliació.",
     "NOT_FOUND": "No s’ha trobat cap afiliació amb aquest correu o telèfon.",
-    "OPEN_CARD": "Obre la meva targeta"
+    "OPEN_CARD": "Obre la meva targeta",
+    "CTA_NAV_ARIA": "Següents passos",
+    "CTA_HEADING": "Continua amb el restaurant",
+    "CTA_MENU": "Veure el menú",
+    "CTA_BOOK": "Reservar taula",
+    "CTA_DELIVERY": "Demanar a domicili"
   },
   "ABOUT_PAGE": {
     "BADGE": "Empresa",
