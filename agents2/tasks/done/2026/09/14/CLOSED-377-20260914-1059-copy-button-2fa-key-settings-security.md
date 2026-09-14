@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Settings → Security 2FA secret Copy did not put the TOTP key on the clipboard (reported in LibreWolf).
+- **What was done:** `copyOtpSecret()` now uses Clipboard API with `execCommand` fallback, Copied/error feedback, and smoke `test:settings-otp-copy`.
+- **What was tested:** Puppeteer OTP copy smoke PASS (clipboard matches secret); front rebuild OK; landing smoke PASS. LibreWolf manual SKIP.
+- **Why closed:** All acceptance criteria passed under tester verification.
+- **Closed at (UTC):** 2026-09-14 12:06
+---
+
 # Fix 2FA key copy button in Settings → Security (#377)
 
 ## GitHub Issues
