@@ -10,6 +10,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Added
 
+- **Settings → Printing docs link (#397):** Hardware printing tab links to the runbook on GitHub (`docs/0070-hardware-printing.md`). Smoke: `npm run test:settings-printing-docs --prefix front`.
+
 ### Changed
 
 - **Settings fiscal sections by country (#392):** Payments shows VeriFactu prep only for Country ISO `ES` (or when `fiscal_mode` is already on) and German TSE / KassenSichV prep only for `DE` (or when `tse_mode` is already on). Currency alone does not gate these blocks.

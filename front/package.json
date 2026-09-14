@@ -41,6 +41,7 @@
     "test:settings-logo": "node scripts/test-settings-logo-upload.mjs",
     "test:settings-otp-copy": "node scripts/test-settings-otp-copy.mjs",
     "test:settings-providers": "node scripts/test-settings-providers.mjs",
+    "test:settings-printing-docs": "node scripts/test-settings-printing-docs.mjs",
     "test:bartender-role": "node scripts/test-bartender-role.mjs",
     "test:support-access": "node scripts/test-support-access.mjs",
     "test:kitchen-status-dropdown": "node scripts/test-kitchen-status-dropdown.mjs",

@@ -298,6 +298,20 @@ npm run test:settings-providers --prefix front
 
 ---
 
+### 2e. Settings → Printing docs link
+
+Smoke test for the hardware printing runbook link (#397). Logs in, opens Settings → Printing, and asserts `data-testid="settings-printing-docs-link"` points at `docs/0070-hardware-printing.md` on GitHub (`target="_blank"`).
+
+```bash
+npm run test:settings-printing-docs --prefix front
+# Or: BASE_URL=http://127.0.0.1:4202 HEADLESS=1 npm run test:settings-printing-docs --prefix front
+```
+
+- **Env:** `BASE_URL`, `LOGIN_EMAIL`/`LOGIN_PASSWORD` or `DEMO_LOGIN_*`. `TENANT_ID` (default `1`). `HEADLESS`.
+- **Asserts:** Printing tab and docs link present; href is `https://github.com/satisfecho/pos/blob/master/docs/0070-hardware-printing.md`.
+
+---
+
 ### 3. Tables page (view toggle and table view)
 
 Login, open `/tables`, then if the view toggle is present (tables exist), switch to Table view and assert the data table with columns is shown.
@@ -759,6 +773,7 @@ From repo root: `npm run <script> --prefix front`. From `front/`: `npm run <scri
 | `test:order-tip-flows` | `scripts/test-order-tip-flows.mjs` (Settings tip entry mode + Reports tips card; owner/admin) |
 | `test:changelog` | `scripts/test-changelog.mjs` (Dashboard What's new → changelog modal; API serves CHANGELOG.md) |
 | `test:settings-providers` | `scripts/test-settings-providers.mjs` (Settings → Providers tab; personal providers smoke; uses .env, tenant=1) |
+| `test:settings-printing-docs` | `scripts/test-settings-printing-docs.mjs` (Settings → Printing runbook link to docs/0070 on GitHub; #397) |
 | `test:bartender-role` | `scripts/test-bartender-role.mjs` (Users → Add user → role dropdown includes Bartender) |
 | `test:kitchen-status-dropdown` | `scripts/test-kitchen-status-dropdown.mjs` (Kitchen display: status dropdown visible, not clipped) |
 | `test:bar-display` | `scripts/test-bar-display.mjs` (Bar display `/bar`: route + chrome + Bar title) |
