@@ -12,6 +12,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Changed
 
+- **Login Contact us email (#403):** Staff login footer **Contact us** now opens `mailto:support@satisfecho.de` instead of `hello@satisfecho.de`. Landing and other public footers stay on `hello@satisfecho.de`.
+
 ### Fixed
 
 ## [2.1.164] - 2026-09-14
