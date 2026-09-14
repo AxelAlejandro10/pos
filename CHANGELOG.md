@@ -20,6 +20,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+- **Book Time slot alignment (#369):** Public `/book` week summary keeps Time slot left-aligned under Date (no right-side float on wide viewports).
+
 - **Public menu Back to home (#386):** `/public-menu/:tenantId` (and delivery) **Back to home** goes to `/book/:tenantId` instead of marketing `/`.
 
 ## [2.1.172] - 2026-09-14
