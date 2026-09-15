@@ -3,9 +3,12 @@ from enum import Enum
 from typing import Any
 from uuid import UUID, uuid4
 
-from sqlalchemy import Column, Date, DateTime, Enum as SAEnum, Text, Time, UniqueConstraint
+from sqlalchemy import JSON as SA_JSON, Column, Date, DateTime, Enum as SAEnum, Text, Time, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB, UUID as PGUUID
 from sqlmodel import Field, Relationship, SQLModel
+
+# JSONB on PostgreSQL; generic JSON so SQLite unit-test DDL can compile (create_all).
+PgJSON = SA_JSON().with_variant(JSONB(), "postgresql")
 
 
 # ============ TAX (VAT/IVA) ============
@@ -213,7 +216,7 @@ class Tenant(SQLModel, table=True):
     kitchen_display_timer_red_minutes: int | None = Field(default=15)
 
     # POS checkout: up to 4 tip percentages (e.g. 5,10,15,20); empty list disables tips; null = legacy default in API
-    tip_preset_percents: list | None = Field(default=None, sa_column=Column(JSONB, nullable=True))
+    tip_preset_percents: list | None = Field(default=None, sa_column=Column(PgJSON, nullable=True))
     # VAT/IVA rate (0–100) applied to tip amount for invoice breakdown (tax-inclusive tip, same basis as menu prices)
     tip_tax_rate_percent: int | None = Field(default=0)
     # POS: "preset" = tip from tip_preset_percents; "overpayment" = staff enters amount paid, tip = difference (see OrderMarkPaid)
@@ -231,11 +234,11 @@ class Tenant(SQLModel, table=True):
     )
 
     # Staff app: JSONB stores only disabled module keys; see tenant_ui_modules.resolve_tenant_ui_modules
-    ui_modules: dict | None = Field(default=None, sa_column=Column(JSONB, nullable=True))
+    ui_modules: dict | None = Field(default=None, sa_column=Column(PgJSON, nullable=True))
 
     # Tenant-defined subcategory names per category (merged into GET /catalog/categories)
     custom_subcategories: dict | None = Field(
-        default=None, sa_column=Column(JSONB, nullable=True)
+        default=None, sa_column=Column(PgJSON, nullable=True)
     )
 
     # Staff clock-in: venue QR secret (hex digest of HMAC-SHA256); null = QR not required for clock actions

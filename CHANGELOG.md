@@ -26,6 +26,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+- **SQLite tenant tip presets for pytest (#406):** `Tenant.tip_preset_percents` (and sibling tenant JSON fields) use dialect-aware JSON so SQLite unit tests can `create_all`; PostgreSQL still stores JSONB. No migration change.
 - **Book Party size label once (#368):** Public `/book` (and staff reservation modal) no longer repeats **Party size** in the week-grid summary; the form field label is the single visible name.
 - **SMTP From name defaults to Business Name (#366):** Empty Settings → Email **From name** uses the tenant Business Name at send time; the field shows Business Name as a placeholder and does not overwrite a saved value.
 - **Book Time slot alignment (#369):** Public `/book` week summary keeps Time slot left-aligned under Date (no right-side float on wide viewports).
