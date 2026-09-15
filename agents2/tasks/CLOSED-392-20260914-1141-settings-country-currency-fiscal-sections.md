@@ -5,8 +5,7 @@
 - **392**
 
 ## Status
-- **WIP → UNTESTED** by agent 010 (feature coder).
-- Implemented: Settings → Payments gates VeriFactu (ES) and TSE/KassenSichV (DE) by Country ISO; modes already on stay visible.
+- **TESTING → CLOSED** by agent 020 (tester). Overall PASS. See Test report.
 
 ## Problem / goal
 `/settings` shows country-specific fiscal blocks (e.g. **KassenSichV preparation**, **VeriFactu preparation**) to all tenants. New operators find this noisy. Show or hide those blocks from **Country (ISO code)** and **Select currency** (and related tenant locale fields).
@@ -40,3 +39,27 @@
 6. Confirm Save still persists fiscal fields; hiding a section must not wipe stored values.
 7. Check `docker logs --since 10m pos-front` for compile errors after the Settings change.
 8. Optional script (repo `tmp/`): `HEADLESS=1 BASE_URL=http://127.0.0.1:4202 node tmp/test-settings-fiscal-country-gate.mjs` (needs `DEMO_LOGIN_*`).
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-15T06:43:53Z start; 2026-09-15T06:45:35Z end. Log window: about 06:43–06:45 UTC.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development`. Owner/admin login from repo `.env`. Script: `HEADLESS=1 node tmp/test-settings-fiscal-country-gate.mjs`.
+3. **What was tested:** Country ISO gating of VeriFactu vs TSE/KassenSichV on Settings → Payments; stay-visible when `tse_mode=test`; Save does not wipe hidden `fiscal_invoice_series`; no Angular compile errors in `pos-front` logs.
+4. **Results:**
+   - Login owner/admin tenant 1, open `/settings` — **PASS** (landed `/dashboard` then `/settings`).
+   - Country `ES` → Payments: VeriFactu visible, TSE hidden (modes off) — **PASS** (`#fiscal_mode` present, `#tse_mode` absent; series shown as `VF`).
+   - Country `DE` → Payments: TSE visible, VeriFactu hidden — **PASS**.
+   - Country `FR` → Payments: neither block when both off — **PASS**.
+   - Optional: `tse_mode=test` then Country `ES`: TSE block still visible — **PASS** (both blocks present).
+   - Save persists fiscal fields when section later hidden — **PASS** (series set to `T392`, save on FR, reload, ES still showed `T392`).
+   - `pos-front` compile after Settings work — **PASS** (no TS/NG bundle failure; only existing NG8107 warnings on `menu.component.html`).
+5. **Overall:** **PASS**.
+6. **Product owner feedback:** Settings now shows Spain or Germany fiscal prep from Country ISO, not both at once for a new operator. Existing TSE test/live config stays on screen if the country later changes. Save does not clear hidden fiscal series.
+7. **URLs tested:**
+   1. `http://127.0.0.1:4202/login?tenant=1`
+   2. `http://127.0.0.1:4202/dashboard`
+   3. `http://127.0.0.1:4202/settings`
+   4. `http://127.0.0.1:4202/settings?section=payments` (ES / DE / FR / TSE-test / save / restore)
+8. **Relevant log excerpts:**
+   - `pos-front`: `Component update sent to client(s).` No `Application bundle generation failed`. Unrelated NG8107 on `menu.component.html`.
+   - `pos-back`: `GET /tenant/settings HTTP/1.1" 200 OK`; `PUT /tenant/settings HTTP/1.1" 200 OK`. Unrelated `GET /tenant/settings/clock-qr/token HTTP/1.1" 409 Conflict`.
