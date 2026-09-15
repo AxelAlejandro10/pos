@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Staff with 2FA had no one-time recovery path when the authenticator was unavailable after logout.
+- **What was done:** Added 8 single-use recovery codes (`XXXX-XXXX`, SHA-256 at rest) for all OTP users: show once after enable/regenerate; login accepts TOTP or an unused recovery code.
+- **What was tested:** pytest (5 passed) and Puppeteer smoke PASS; regenerate/TOTP and log hygiene PASS; no plaintext codes in logs.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 10:00
+---
+
 # Add recovery codes for 2FA (#400)
 
 ## GitHub Issues
