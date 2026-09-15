@@ -3643,6 +3643,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
     delivery_fee_cents: 0,
     delivery_radius_meters: null,
     delivery_postal_codes: null,
+    latitude: null,
+    longitude: null,
+    location_radius_meters: 100,
+    location_check_enabled: false,
     public_google_review_url: null,
     public_google_maps_url: null,
     public_openstreetmap_url: null,
@@ -3799,6 +3803,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
           delivery_fee_cents: settings.delivery_fee_cents ?? 0,
           delivery_radius_meters: settings.delivery_radius_meters ?? null,
           delivery_postal_codes: this.formatDeliveryPostalCodesForForm(settings.delivery_postal_codes),
+          latitude: settings.latitude ?? null,
+          longitude: settings.longitude ?? null,
+          location_radius_meters: settings.location_radius_meters ?? 100,
+          location_check_enabled: settings.location_check_enabled ?? false,
           public_google_review_url: settings.public_google_review_url ?? null,
           public_google_maps_url: settings.public_google_maps_url ?? null,
           public_openstreetmap_url: settings.public_openstreetmap_url ?? null,
@@ -4985,6 +4993,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
       next: (updatedSettings) => {
         this.settings.set(updatedSettings);
         this.formData.default_tax_id = updatedSettings.default_tax_id ?? null;
+        this.formData.latitude = updatedSettings.latitude ?? null;
+        this.formData.longitude = updatedSettings.longitude ?? null;
+        this.formData.location_radius_meters = updatedSettings.location_radius_meters ?? 100;
+        this.formData.location_check_enabled = updatedSettings.location_check_enabled ?? false;
         this.api.applyTenantUiModulesFromSettings(updatedSettings);
         this.success.set('Settings saved successfully!');
         this.scheduleSuccessDismiss();
