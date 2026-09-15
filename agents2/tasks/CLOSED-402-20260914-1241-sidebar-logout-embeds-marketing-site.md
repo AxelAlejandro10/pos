@@ -30,3 +30,23 @@ Staff **Logout** in the sidebar ends on `/` (marketing / embedded Satisfecho lan
 5. Confirm `docker logs --since 10m pos-front` has no compile errors.
 6. Optional smoke: `BASE_URL=http://127.0.0.1:4202 node tmp/smoke-sidebar-logout.mjs` (uses DEMO_LOGIN_* from `.env`).
 7. Coder verified: smoke PASS (login → dashboard → logout → `/login`); front rebuild completed without TS errors.
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-15 07:29–07:31 UTC. Log window: `docker logs --since 15m` on `pos-front` / `pos-back`.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development` @ `3832c294`.
+3. **What was tested:** Staff sidebar logout destination is `/login` (staff form with password), not `/` / embedded marketing; front compile healthy.
+4. **Results:**
+   - App reachable on 4202 (`/` and `/login` → 200): **PASS**
+   - Staff login → sidebar logout (`[data-testid="sidebar-logout"]`) → URL contains `/login` (not `/`, not provider/courier): **PASS** — `BASE_URL=http://127.0.0.1:4202 HEADLESS=1 node front/scripts/test-sidebar-logout.mjs` → `PASS: sidebar logout icon left of POS; logout → /login`
+   - Staff login page shows password field / no marketing iframe chrome: **PASS** — Chrome DevTools snapshot of `http://127.0.0.1:4202/login?tenant=1` shows “Welcome back”, Email/Password, Sign In (no embedded marketing site)
+   - Code path: `SidebarComponent.logout()` → `router.navigate(['/login'])`: **PASS**
+   - `pos-front` compile errors in window: **PASS** — no TS/NG / “bundle generation failed” lines
+   - Optional `tmp/smoke-sidebar-logout.mjs`: **N/A (stale)** — failed waiting for `button.logout-btn` (UI now uses `logout-icon-btn` / `data-testid="sidebar-logout"`). Product behaviour covered by official script above.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Staff Logout now exits to the staff login screen instead of the marketing landing. The flow is clear for shift end. Keep the official Puppeteer script as the smoke; the tmp script selector is outdated.
+7. **URLs tested:**
+   1. `http://127.0.0.1:4202/` (health)
+   2. `http://127.0.0.1:4202/login?tenant=1` (login + post-logout target)
+   3. `http://127.0.0.1:4202/dashboard` (after login, before logout — via Puppeteer)
+8. **Relevant log excerpts:** No error lines in `pos-front` / `pos-back` for the 15m window during this verification. Puppeteer stdout: `PASS: sidebar logout icon left of POS; logout → /login`.
