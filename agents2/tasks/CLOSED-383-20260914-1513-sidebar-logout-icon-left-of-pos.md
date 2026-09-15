@@ -34,3 +34,34 @@ Staff sidebar **Log Out** is a full-width control that burns vertical space and 
 5. Automated: `BASE_URL=http://127.0.0.1:4202 npm run test:sidebar-logout --prefix front`.
 6. Optional: `npm run test:sidebar-brand-home --prefix front` (POS → dashboard still works).
 7. Front build: `docker logs --since 10m pos-front` shows no compile errors for `sidebar.component`.
+
+## Test report
+
+- **Date/time (UTC):** 2026-09-15 07:54:27 – 07:55:41 UTC (log window ~40m before end).
+- **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development`; `HEADLESS=1`; staff login via `DEMO_LOGIN_*` from `.env`.
+- **What was tested:** Sidebar Log Out as icon left of POS (#383) — footer control removed, header order logout | POS | language, logout → staff `/login`, POS brand → dashboard, front build clean.
+
+### Results
+1. Bulky footer Log Out gone — **PASS** (`test-sidebar-logout.mjs`: no `aside.sidebar .sidebar-footer .logout-btn`).
+2. Logout icon immediately left of POS; language icon right of POS — **PASS** (logo-row order `logoutIndex < brandIndex < langIndex`; `data-testid="sidebar-logout"`).
+3. Logout clears session → staff `/login` — **PASS** (`PASS: sidebar logout icon left of POS; logout → /login`).
+4. Automated `npm run test:sidebar-logout` — **PASS**.
+5. Optional `npm run test:sidebar-brand-home` — **PASS** (`PASS: sidebar POS brand navigates to /dashboard`).
+6. Front build clean — **PASS** (`docker logs --since 40m pos-front`: 0 matches for error / TS / bundle failure).
+
+### Overall: **PASS**
+
+### Product owner feedback
+Staff can leave the app from a small header icon next to POS without scrolling the sidebar. Logout still opens the staff login page, not the marketing home. Language control stays on the right of POS, so the header row stays balanced.
+
+### URLs tested
+1. http://127.0.0.1:4202/login?tenant=1
+2. http://127.0.0.1:4202/dashboard
+3. http://127.0.0.1:4202/login (after logout)
+
+### Relevant log excerpts
+```
+npm run test:sidebar-logout → PASS: sidebar logout icon left of POS; logout → /login
+npm run test:sidebar-brand-home → PASS: sidebar POS brand navigates to /dashboard
+docker logs --since 40m pos-front | grep -ciE 'error|Application bundle generation failed|TS[0-9]{4}' → 0
+```
