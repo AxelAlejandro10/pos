@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Logged-in users needed a working authenticator code to disable 2FA, which could lock them out of disable/reset while still in session.
+- **What was done:** `POST /users/me/otp/disable` and Settings → Security now require the account password instead of an OTP code; wrong password still fails; i18n and tests added.
+- **What was tested:** Backend pytest (4 passed), Puppeteer OTP-disable-password smoke, post-disable login without OTP, front build clean, landing smoke — all PASS.
+- **Why closed:** All tester criteria passed; enforce-2FA tenant/platform toggle left as follow-up on #401.
+- **Closed at (UTC):** 2026-09-15 07:46
+---
+
 # Allow disabling or resetting 2FA while logged in (#401)
 
 ## GitHub Issues
