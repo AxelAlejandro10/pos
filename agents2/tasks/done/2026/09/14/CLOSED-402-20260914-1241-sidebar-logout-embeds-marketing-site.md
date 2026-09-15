@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Staff sidebar Logout sent users to `/` (marketing / embedded Satisfecho landing) instead of the staff login screen.
+- **What was done:** `SidebarComponent.logout()` now navigates to `/login` after session clear. Other portal logout destinations stayed unchanged.
+- **What was tested:** Puppeteer `test-sidebar-logout.mjs` PASS (logout → `/login`); login page has staff form, no marketing iframe; front compile healthy.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 07:31
+---
+
 # Sidebar Logout navigates to embedded Satisfecho site (#402)
 
 ## GitHub Issues
