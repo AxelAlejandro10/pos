@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Settings public background colour treated RAL5002 as unclear overwrite of custom hex.
+- **What was done:** Preset became an optional Apply RAL5002 helper with clear hint; colour picker and hex stay in sync without wiping partial input.
+- **What was tested:** Custom hex and RAL5002 persist after save/reload; partial hex does not wipe; smoke PASS; front build clean.
+- **Why closed:** All testing criteria passed.
+- **Closed at (UTC):** 2026-09-15 10:10
+---
+
 # Clarify RAL5002 (Azul) preset vs custom hex in `/settings`
 
 ## GitHub Issues
