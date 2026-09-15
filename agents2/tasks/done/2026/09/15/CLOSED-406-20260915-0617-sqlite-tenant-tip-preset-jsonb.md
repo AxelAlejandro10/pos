@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** SQLite pytest failed to create the `tenant` table because `tip_preset_percents` (and related columns) compiled as postgres-only JSONB.
+- **What was done:** Model-only dialect fallback: `PgJSON = JSON().with_variant(JSONB(), "postgresql")` for Tenant `tip_preset_percents`, `ui_modules`, and `custom_subcategories`. No new migration. Postgres still uses JSONB.
+- **What was tested:** Required reservation zone tests 5 passed; optional capacity + tip tests 20 passed. No `CompileError` / `visit_JSONB`. Overall PASS.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 06:57
+---
+
 # SQLite tests: map tenant tip presets without postgres-only JSONB (#406)
 
 ## GitHub Issues
