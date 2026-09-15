@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Primary public CTAs used colours that read as cancel/stop; tenants needed a clear primary button colour control.
+- **What was done:** Added `public_primary_color` (API + Settings picker, blue/green presets, OOBE `#2563EB`); public pages bind `--color-primary`; waiting-list secondary stays muted.
+- **What was tested:** Tester PASS on `/book/1` OOBE blue, muted waitlist link, Settings green/clear vs background, waitlist/delivery/feedback spot-check, front logs, landing smoke.
+- **Why closed:** All testing criteria passed.
+- **Closed at (UTC):** 2026-09-15 11:13
+---
+
 # Allow changing colours of buttons / positive primary defaults (#370)
 
 ## GitHub Issues
