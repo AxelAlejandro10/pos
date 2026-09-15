@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Settings showed German and Spanish fiscal prep blocks to every tenant; operators found this noisy.
+- **What was done:** The UI now shows VeriFactu for country ES and TSE/KassenSichV for country DE (with fallback to `fiscal_country`). Blocks stay visible when `fiscal_mode` / `tse_mode` is already test or live. Save does not wipe hidden fiscal fields.
+- **What was tested:** Puppeteer on `/settings` for ES, DE, FR, TSE-test stay-visible, and persist-on-save — overall **PASS**. No Angular compile failure.
+- **Why closed:** All tester criteria passed.
+- **Closed at (UTC):** 2026-09-15 06:46
+---
+
 # Country/currency-gated fiscal prep sections in Settings (#392)
 
 ## GitHub Issues
