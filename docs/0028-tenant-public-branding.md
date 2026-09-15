@@ -4,7 +4,7 @@
 
 Restaurant owners can customise the look of **public-facing pages** (book a table, customer menu, reservation view, waiting list, guest feedback, delivery) with:
 
-- **Background colour** — Hex colour for the page background (e.g. `#1E22AA` for RAL5002 Azul). Set in **Settings → Business profile** via colour picker, hex input, or the **RAL5002 (Azul)** preset.
+- **Background colour** — Hex colour for the page background (e.g. `#1E22AA` for RAL5002 Azul). Set in **Settings → Business profile** via colour picker, hex input, or the optional **Apply RAL5002 (#1E22AA)** preset (one-click fill only; does not lock the field).
 - **Primary button colour** — Hex colour for primary CTAs (e.g. Book table, Submit). Set in the same Business profile section. Empty uses the OOBE default **blue** (`#2563EB`). Presets: blue and green. Secondary actions (e.g. waiting-list text link) stay muted and do not use this colour.
 - **Header background image** — Image shown behind the hero header (logo and restaurant name). Upload in **Settings → Business profile**; JPG, PNG, WebP or AVIF; same size/optimisation as logo. Remove via the ✕ button (calls `DELETE /tenant/header-background`).
 

@@ -1062,18 +1062,28 @@ const SETTINGS_SECTION_HASH: Record<SettingsSectionId, string> = {
                       <input
                         type="color"
                         id="public_background_color"
-                        [value]="formData.public_background_color || '#f5f5f5'"
-                        (input)="formData.public_background_color = $any($event.target).value"
+                        [value]="publicBackgroundColorPickerValue()"
+                        (input)="onPublicBackgroundColorPicked($any($event.target).value)"
                         class="color-input"
+                        data-testid="settings-public-background-color"
                       />
                       <input
                         type="text"
                         [(ngModel)]="formData.public_background_color"
+                        (ngModelChange)="onPublicBackgroundHexModelChange($event)"
                         name="public_background_color_hex"
                         placeholder="#1E22AA"
                         class="hex-input"
+                        data-testid="settings-public-background-color-hex"
+                        (blur)="normalizePublicBackgroundHex()"
                       />
-                      <button type="button" class="btn btn-secondary btn-sm" (click)="formData.public_background_color = '#1E22AA'" title="RAL5002 Azul">
+                      <button
+                        type="button"
+                        class="btn btn-secondary btn-sm"
+                        (click)="applyPublicBackgroundRal5002Preset()"
+                        [attr.title]="'SETTINGS.PRESET_RAL5002_TITLE' | translate"
+                        data-testid="settings-preset-ral5002"
+                      >
                         {{ 'SETTINGS.PRESET_RAL5002' | translate }}
                       </button>
                     </div>
@@ -3825,6 +3835,49 @@ export class SettingsComponent implements OnInit, OnDestroy {
     return this.translate.instant('SETTINGS.EMAIL_FROM_PLACEHOLDER');
   }
 
+  /** Optional one-click fill for public page background (RAL5002 Azul). */
+  readonly publicBackgroundRal5002 = '#1E22AA';
+
+  /** Colour input only accepts #RRGGBB; keep last valid value while the hex field is mid-edit. */
+  private publicBackgroundColorPickerFallback = '#f5f5f5';
+
+  private normalizeHex6(value: string | null | undefined): string | null {
+    const raw = (value || '').trim();
+    if (!raw) return null;
+    const body = raw.startsWith('#') ? raw.slice(1) : raw;
+    if (!/^[0-9A-Fa-f]{6}$/.test(body)) return null;
+    return `#${body.toUpperCase()}`;
+  }
+
+  publicBackgroundColorPickerValue(): string {
+    return this.normalizeHex6(this.formData.public_background_color) ?? this.publicBackgroundColorPickerFallback;
+  }
+
+  onPublicBackgroundColorPicked(value: string): void {
+    this.formData.public_background_color = value;
+    this.publicBackgroundColorPickerFallback = value;
+  }
+
+  onPublicBackgroundHexModelChange(value: string | null): void {
+    const normalized = this.normalizeHex6(value);
+    if (normalized) {
+      this.publicBackgroundColorPickerFallback = normalized;
+    }
+  }
+
+  normalizePublicBackgroundHex(): void {
+    const normalized = this.normalizeHex6(this.formData.public_background_color);
+    if (normalized) {
+      this.formData.public_background_color = normalized;
+      this.publicBackgroundColorPickerFallback = normalized;
+    }
+  }
+
+  applyPublicBackgroundRal5002Preset(): void {
+    this.formData.public_background_color = this.publicBackgroundRal5002;
+    this.publicBackgroundColorPickerFallback = this.publicBackgroundRal5002;
+  }
+
   loadSettings() {
     this.loading.set(true);
     this.api.getTenantSettings().subscribe({
@@ -3909,6 +3962,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
           tse_client_id: settings.tse_client_id?.trim() || null,
           tse_api_secret: null,
         };
+        this.publicBackgroundColorPickerFallback =
+          this.normalizeHex6(settings.public_background_color) ?? '#f5f5f5';
         this.clockQrLastToken.set(null);
         this.clockQrTokenLoading.set(false);
         if (settings.clock_qr_active && settings.clock_qr_downloadable) {
