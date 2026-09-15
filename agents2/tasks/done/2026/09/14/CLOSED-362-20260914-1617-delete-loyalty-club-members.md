@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Staff could manage Loyalty Club members in Settings but had no way to delete a member.
+- **What was done:** Added hard delete via `DELETE /loyalty/memberships/{id}` with `loyalty:write`, plus Settings UI Delete with confirm. Docs and version 2.1.174 updated.
+- **What was tested:** Settings delete + confirm, public card 404, waiter 403 / other-tenant 404, pytest delete membership, front logs, and landing-version all PASS.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 08:13
+---
+
 # Add way to delete Loyalty Club members
 
 ## GitHub Issues
