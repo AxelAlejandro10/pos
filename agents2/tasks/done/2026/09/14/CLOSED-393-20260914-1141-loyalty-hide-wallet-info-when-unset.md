@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Public `/loyalty/{tenantId}` showed operator Wallet setup copy and Wallet CTAs when Wallet was not configured.
+- **What was done:** Guest UI hides Add-to-Wallet and operator setup text unless Wallet URLs exist. Public wallet APIs omit `detail`. Staff program/settings still show Wallet status detail.
+- **What was tested:** Pytest wallet tests passed (6). Public join and public loyalty API omit setup `detail` and Wallet CTAs when unset. Staff Settings still show status. Overall **PASS**.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 06:10
+---
+
 # Hide Wallet setup text on public loyalty when not configured (#393)
 
 ## GitHub Issues

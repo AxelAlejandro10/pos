@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Settings → Providers still showed NAME/TYPE column headers when the tenant had no providers.
+- **What was done:** The providers table (headers and rows) renders only when `providers().length > 0`. The Add provider CTA stays visible. After create, `loadProviders()` refreshes the list in place.
+- **What was tested:** `test:settings-providers` passed. Empty-state intercept showed Add provider with no table/headers. Front logs had no compile errors. Overall **PASS**.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 06:10
+---
+
 # Hide Providers NAME/TYPE headers when empty (#398)
 
 ## GitHub Issues
