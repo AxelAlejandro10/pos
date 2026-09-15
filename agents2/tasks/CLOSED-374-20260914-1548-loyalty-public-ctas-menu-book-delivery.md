@@ -5,7 +5,7 @@
 - **374**
 
 ## Status
-- **UNTESTED** — implementation complete (coder 2026-09-14T15:59:01Z). Waiting for tester.
+- **CLOSED** — test PASS 2026-09-15T11:01:40Z. Tester started 2026-09-15T10:59:50Z.
 
 ## Problem / goal
 Public loyalty surfaces (`/loyalty/card/…`, `/loyalty/:tenantId`, and similar) miss easy next steps into the sales flow. Add clear CTAs so guests can open the public menu, reservations, and deliveries without leaving the product.
@@ -36,3 +36,26 @@ App up on HAProxy (example `http://127.0.0.1:4202`).
 5. Optional: `BASE_URL=http://127.0.0.1:4202 npm run test:landing-version --prefix front`; `BASE_URL=http://127.0.0.1:4202 npm run test:public-guest-header --prefix front`.
 
 Coder smoke: card CTAs + `/loyalty/1` header PASS; landing-version PASS; front bundle complete for `loyalty-card-public-component`.
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-15T10:59:50Z – 2026-09-15T11:01:40Z. Log window: `pos-front` / `pos-back` since ~10m–2h.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development`.
+3. **What was tested:** Sticky guest header on `/loyalty/1` and card; body sales CTAs after recover and on card; **View menu** navigation; front build; optional landing-version + public-guest-header smokes.
+4. **Results:**
+   - Sticky guest header Menu / Book / Delivery on `/loyalty/1` — **PASS** (banner nav hrefs `/public-menu/1`, `/book/1`, `/delivery/1`).
+   - Body block after recover — **PASS** (`Continue with the restaurant`; `data-testid=public-guest-sales-ctas`; menu/book/delivery hrefs correct).
+   - Card page header + body CTAs — **PASS** (`/loyalty/card/l3039-A72Jbco3oXqGMKySFYKfYrJuuH`; same three CTAs + testids).
+   - Tap **View menu** → `/public-menu/1` — **PASS** (landed `Demo Pizzeria — Menu`).
+   - Front build — **PASS** (no TS/NG errors for loyalty; `Application bundle generation complete` earlier in window; no fail during test).
+   - `test:landing-version` — **PASS**.
+   - `test:public-guest-header` — **PASS**.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Guests can move from loyalty join/recover and the card into menu, book, and delivery without hunting for URLs. The sticky header plus the body CTA block match the rest of the public guest chrome. Ready to close from a product view.
+7. **URLs tested:**
+   1. http://127.0.0.1:4202/loyalty/1
+   2. http://127.0.0.1:4202/loyalty/card/l3039-A72Jbco3oXqGMKySFYKfYrJuuH
+   3. http://127.0.0.1:4202/public-menu/1 (via **View menu**)
+8. **Relevant log excerpts:**
+   - `pos-front`: `Application bundle generation complete. [0.980 seconds] - 2026-09-15T09:54:06.173Z` (no `Application bundle generation failed` / loyalty TS errors in window).
+   - Smokes: `>>> RESULT: Landing version OK…`; `OK: sticky guest header on /book and menu link resolves.`
