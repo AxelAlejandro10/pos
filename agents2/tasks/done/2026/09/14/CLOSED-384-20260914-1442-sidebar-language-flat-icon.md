@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Sidebar language control was a bulky footer select; issue #384 asked for a flat icon right of POS.
+- **What was done:** Icon-mode language picker (globe + code) was placed in the sidebar header next to POS; footer select was removed.
+- **What was tested:** Tester PASS — locale switch, Escape/outside close, brand home, front build, landing smoke.
+- **Why closed:** All verification criteria passed.
+- **Closed at (UTC):** 2026-09-15 10:30
+---
+
 # Sidebar language control as flat icon by POS (#384)
 
 ## GitHub Issues
