@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Staff sidebar Log Out was a bulky full-width control; it is now a compact icon left of POS (#383).
+- **What was done:** Logout icon moved into `.logo-row` left of POS; footer logout removed; session clear still navigates to staff `/login`.
+- **What was tested:** `test:sidebar-logout` and `test:sidebar-brand-home` PASS; front build clean; footer control gone; header order logout | POS | language.
+- **Why closed:** All tester criteria passed.
+- **Closed at (UTC):** 2026-09-15 07:57
+---
+
 # Sidebar Log Out as icon left of POS (#383)
 
 ## GitHub Issues
