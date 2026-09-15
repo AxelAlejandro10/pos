@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Settings deep links with `#` hashes were added and verified on `/settings`.
+- **What was done:** Nav syncs `?section=` and `#hash`; `#openinghours` (and aliases) work; hash wins over query; unknown hash stays on general.
+- **What was tested:** `test:settings-vertical-nav` PASS — deep links, reload, Payments URL, unknown hash, clean front bundle.
+- **Why closed:** All acceptance criteria passed.
+- **Closed at (UTC):** 2026-09-15 10:19
+---
+
 # Add `#` anchors to URL in `/settings`
 
 ## GitHub Issues
