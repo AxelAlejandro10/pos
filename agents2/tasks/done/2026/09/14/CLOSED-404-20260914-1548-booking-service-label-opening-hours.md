@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Tenants needed editable service labels on booking (not fixed Lunch/dinner).
+- **What was done:** Optional service labels on opening-hours windows; book and staff reservation UIs show those labels with lunch/dinner API values kept.
+- **What was tested:** Settings labels, public `/book/1`, empty-label defaults, staff modal, front logs, landing smoke — all PASS.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 08:39
+---
+
 ## Status
 - **CLOSED** — verification PASS 2026-09-15T08:38:56Z
 
