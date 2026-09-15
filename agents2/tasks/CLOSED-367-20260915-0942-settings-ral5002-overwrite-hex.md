@@ -34,3 +34,28 @@ On `/settings`, the **RAL5002 (AZUL)** control appears to overwrite the user’s
 5. While typing a partial hex, the colour picker must not wipe the text field until you finish/blur or click the preset.
 6. Optional automated smoke (repo root, app on 4202): `BASE_URL=http://127.0.0.1:4202 node tmp/test-settings-ral5002-smoke.mjs`
 7. Front build: `docker logs --since 10m pos-front` shows no TS/NG compile errors.
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-15T10:08:02Z – 2026-09-15T10:08:59Z. Log window: `docker logs --since 30m`.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development`; login demo owner (`DEMO_LOGIN_EMAIL`).
+3. **What was tested:** Settings Business profile public background hex persistence, RAL5002 preset label/hint/apply, partial-hex typing vs colour picker, front compile health (per Testing instructions).
+4. **Results:**
+   - Custom hex `#C45C26` save + reload → **PASS** — smoke: `After reload: #C45C26`.
+   - Preset button text / hint (optional, click-only) → **PASS** — label `Apply RAL5002 (#1E22AA)`; hint states preset only changes value on click and does not lock the field.
+   - Click preset → `#1E22AA` → save + reload → **PASS** — smoke: field and persisted value `#1E22AA`.
+   - Partial hex typing does not wipe field → **PASS** — typed `#C45` stayed `#C45` (including after blur); full `#AABBCC` synced picker to `#AABBCC`.
+   - Automated smoke `tmp/test-settings-ral5002-smoke.mjs` → **PASS** — `PASS settings RAL5002 smoke`.
+   - Front build clean → **PASS** — no TS/NG compile errors in `pos-front` logs (only unrelated NG8107 warnings).
+5. **Overall:** **PASS**
+6. **Product owner feedback:** The preset now reads as an optional helper, not a lock. Custom hex and RAL5002 both persist after reload. Partial typing no longer fights the colour picker.
+7. **URLs tested:**
+   1. http://127.0.0.1:4202/login?tenant=1
+   2. http://127.0.0.1:4202/dashboard
+   3. http://127.0.0.1:4202/settings?section=general
+   4. http://127.0.0.1:4202/settings?section=general#general
+8. **Relevant log excerpts (last section):**
+```text
+# pos-front (--since 30m): no Application bundle / TS*/NG* errors; NG8107 optional-chain warnings only (unrelated).
+# Smoke stdout: PASS settings RAL5002 smoke
+```
