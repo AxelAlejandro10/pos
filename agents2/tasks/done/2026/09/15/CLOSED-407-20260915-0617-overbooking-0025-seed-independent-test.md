@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Pytest for overbooking 0025 failed on a fresh database because it expected demo tables on tenant 1.
+- **What was done:** The test now creates its own tenant, floor, and 10 tables (5×4 + 5×2). The ops checker `check_overbooking_0025` stayed seed-aware for tenant 1.
+- **What was tested:** `tests/test_overbooking_0025.py` passed (1 passed). Ops checker exit 0. Overall PASS.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 06:35
+---
+
 # Make overbooking 0025 pytest seed-independent (#407)
 
 ## Status
