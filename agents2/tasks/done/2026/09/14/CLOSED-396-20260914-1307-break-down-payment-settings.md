@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Payment Settings mixed delivery, location verification, and gateway config; the work split those into clearer Settings areas.
+- **What was done:** Added a Delivery section (fee/radius/postal + marketplace integrations), moved Location Verification into Business Profile, and fixed `loadSettings()` hydrate so lat/lng/radius/`location_check_enabled` persist after reload.
+- **What was tested:** Criteria 1–7 all PASS (vertical nav, Payment/Delivery/Business Profile placement, delivery fee + location hydrate, alias deep link, `test:settings-vertical-nav`, front logs clean).
+- **Why closed:** All pass/fail criteria passed, including prior FAIL on Location Verification hydrate (criterion 4).
+- **Closed at (UTC):** 2026-09-15 09:35
+---
+
 # Break down Payment Settings into further config areas (#396)
 
 ## GitHub Issues
@@ -50,3 +60,50 @@
 - `test:settings-vertical-nav` — PASS
 - Location Verification enable → PUT 200 → reload → checkbox checked, radius `150` — PASS
 - Front bundle generation complete; no TS/NG errors
+
+## Test report
+
+- **Date/time (UTC):** 2026-09-15T09:32:01Z start → 2026-09-15T09:34:03Z end
+- **Log window:** `docker logs --since 15m` (approx 09:19–09:34 UTC)
+- **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development`
+- **What was tested:** Criteria 1–7 from Testing instructions (Payment / Delivery / Business Profile regroup + hydrate + smoke + front logs)
+
+### Results
+
+1. **PASS** — Vertical nav has **Delivery** (`settings-delivery-tab`); no separate Integrations tab (`hasIntegrationsTab: false`).
+2. **PASS** — Payment Settings: currency present; no `#delivery_fee_cents`, no `location_check_enabled`, no delivery section (`test:settings-vertical-nav`).
+3. **PASS** — Delivery fee changed `199`→`249`, Save, reload `?section=delivery` → field still `249`.
+4. **PASS** — Business Profile Location Verification: enabled, lat `41.385064` / lng `2.173404` / radius `150`, Save, full reload `?section=general` → checkbox checked, radius fields visible with `150` (prior FAIL fixed).
+5. **PASS** — `/settings?section=delivery-integrations` opens Delivery with active nav (`legacy delivery-integrations alias true`).
+6. **PASS** — `BASE_URL=http://127.0.0.1:4202 npm run test:settings-vertical-nav --prefix front` → `Settings vertical nav smoke passed.`
+7. **PASS** — `docker logs --since 15m pos-front`: no TS/NG compile errors or bundle generation failure (only unrelated NG8107 warnings in `menu.component.html`).
+
+### Overall: **PASS**
+
+### Product owner feedback
+Payment, Delivery, and Location Verification are split as intended. Delivery fee and location settings survive a full reload. The earlier hydrate bug on Location Verification is fixed and verified.
+
+### URLs tested
+1. http://127.0.0.1:4202/login?tenant=1
+2. http://127.0.0.1:4202/settings
+3. http://127.0.0.1:4202/settings?section=payments
+4. http://127.0.0.1:4202/settings?section=delivery
+5. http://127.0.0.1:4202/settings?section=delivery-integrations
+6. http://127.0.0.1:4202/settings?section=general
+7. http://127.0.0.1:4202/settings?section=security
+
+### Relevant log excerpts (last section)
+```
+# test:settings-vertical-nav
+>>> RESULT: Settings vertical nav smoke passed.
+
+# tmp/test-396-hydrate.mjs
+delivery_fee { oldFee: '199', newFee: '249', feeAfter: '249' }
+PASS criterion 3
+location_after_reload { checked: true, lat: '41.385064', lng: '2.173404', rad: '150', ... }
+PASS criterion 4
+>>> RESULT: PASS
+
+# pos-front (--since 15m): no Application bundle generation failed / no TS* errors
+# (NG8107 optional-chain warnings in menu.component.html only — unrelated)
+```
