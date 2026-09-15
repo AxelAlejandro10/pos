@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Public loyalty join/card pages lacked usable spacing and structure compared with other public pages.
+- **What was done:** Applied book/waitlist layout (`book-content` / `book-card` / `book-form`) with tenant branding on `/loyalty/{tenantId}`, `/loyalty/card/{token}`, and bare `/loyalty`. No API or loyalty rule changes.
+- **What was tested:** Layout, branding, join, recover smoke, card page, bare `/loyalty`, and clean front build all PASS.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 07:08
+---
+
 # Improve public loyalty page layout (#405)
 
 ## GitHub Issues
