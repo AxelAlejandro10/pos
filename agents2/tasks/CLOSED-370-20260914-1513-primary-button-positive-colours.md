@@ -34,3 +34,31 @@ Primary actions (e.g. **Book table** on public booking) use colours that read as
 4. Optional: spot-check `/waitlist/1`, `/delivery/1`, `/feedback/1` primary buttons follow the same token.
 5. Front build: `docker logs --since 10m pos-front` has no `Application bundle generation failed` / TS errors.
 6. Smoke: `BASE_URL=http://127.0.0.1:4202 npm run test:landing-version --prefix front`.
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-15T11:10:17Z start → 2026-09-15T11:12:11Z end. Log window: last ~30m.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development` @ `7a5dfa8c`.
+3. **What was tested:** OOBE blue primary on `/book/1`; muted waiting-list link; Settings primary colour green → save → book; clear → OOBE blue; background hex unchanged; spot-check waitlist/delivery/feedback; front logs; landing smoke.
+4. **Results:**
+   - Criterion 1 (Book table OOBE blue): **PASS** — `button.btn-primary` “Book table” `backgroundColor=rgb(37, 99, 235)`; host `--color-primary: #2563EB` with `public_primary_color=null`.
+   - Criterion 2 (waiting-list muted): **PASS** — link “No table now? Join the waiting list” `color=rgb(120, 113, 108)`, transparent bg (not primary fill).
+   - Criterion 3 (Settings green / clear / background separate): **PASS** — set Green `#16A34A`, Save; API `public_primary_color=#16A34A`, `public_background_color=#1E22AA`; book button `rgb(22, 163, 74)`. Cleared hex + Save; API primary `null`, background still `#1E22AA`; book button back to `rgb(37, 99, 235)`.
+   - Criterion 4 (spot-check): **PASS** — `/waitlist/1` Join waiting list `rgb(37, 99, 235)`; `/delivery/1` host `--color-primary: #2563EB`; `/feedback/1` Send feedback `rgb(37, 99, 235)`.
+   - Criterion 5 (front build): **PASS** — `docker logs --since 30m pos-front` no bundle/TS errors.
+   - Criterion 6 (landing smoke): **PASS** — `npm run test:landing-version` RESULT OK (version 2.1.174).
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Public primary CTAs now read as confirm (blue by default). Tenants can set green or custom hex in Business profile without changing the page background colour. Secondary waiting-list action stays a quiet text link.
+7. **URLs tested:**
+   1. http://127.0.0.1:4202/book/1
+   2. http://127.0.0.1:4202/waitlist/1
+   3. http://127.0.0.1:4202/delivery/1
+   4. http://127.0.0.1:4202/feedback/1
+   5. http://127.0.0.1:4202/login?tenant=1
+   6. http://127.0.0.1:4202/dashboard
+   7. http://127.0.0.1:4202/settings
+8. **Relevant log excerpts:**
+   - pos-front (30m): no `Application bundle generation failed` / `error TS` matches.
+   - pos-back (30m): no error/exception/500 lines in window.
+   - API after green save: `public_primary_color=#16A34A`, `public_background_color=#1E22AA`.
+   - API after clear: `public_primary_color=null`, `public_background_color=#1E22AA`.
