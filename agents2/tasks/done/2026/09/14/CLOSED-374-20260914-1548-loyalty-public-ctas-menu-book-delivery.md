@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Public loyalty join/card pages lacked clear next-step links into menu, book, and delivery.
+- **What was done:** Reused the sticky guest header on the card page and added shared Menu / Book / Delivery body CTAs on card and join/recover success, with i18n and channel hide flags.
+- **What was tested:** Header and body CTAs on `/loyalty/1` and card, View menu navigation, front build, landing-version and public-guest-header smokes — all PASS.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 11:02
+---
+
 # CTAs on public loyalty pages for menu, book, delivery (#374)
 
 ## GitHub Issues
