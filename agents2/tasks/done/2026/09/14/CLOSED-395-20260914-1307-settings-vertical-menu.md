@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** `/settings` used horizontal scrolling tabs that did not scale as sections grew.
+- **What was done:** Replaced the tab strip with a vertical settings nav (sticky sidebar from 900px; stacked list on narrow viewports), `?section=` deep links for all sections, and i18n for nav chrome.
+- **What was tested:** Vertical nav smoke, Business Profile save, mobile column layout, Providers regression, and clean `pos-front` build all PASS.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 08:56
+---
+
 # Replace horizontal settings tabs with a vertical menu (#395)
 
 ## GitHub Issues
