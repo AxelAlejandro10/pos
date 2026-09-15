@@ -27,6 +27,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+- **Public button contrast on branded page wash (#408):** Secondary and calendar-nav controls use `--color-subtle` (not `--color-bg`) so a dark tenant page background no longer makes black-on-blue map/calendar buttons; primary CTAs keep white `--color-on-primary` text.
 - **Overbooking 0025 pytest without demo seed (#407):** `tests/test_overbooking_0025.py` creates its own tenant and 10 tables (5×4 + 5×2 = 30 seats) and no longer needs `seed_demo_tables` / tenant 1.
 - **SQLite tenant tip presets for pytest (#406):** `Tenant.tip_preset_percents` (and sibling tenant JSON fields) use dialect-aware JSON so SQLite unit tests can `create_all`; PostgreSQL still stores JSONB. No migration change.
 - **Book Party size label once (#368):** Public `/book` (and staff reservation modal) no longer repeats **Party size** in the week-grid summary; the form field label is the single visible name.

@@ -552,7 +552,7 @@
 .btn-primary {
   width: 100%;
   background: var(--color-primary);
-  color: white;
+  color: var(--color-on-primary, #ffffff);
   margin-top: var(--space-2);
 
   &:disabled {
@@ -562,6 +562,7 @@
 
   &:hover:not(:disabled) {
     background: var(--color-primary-hover);
+    color: var(--color-on-primary, #ffffff);
   }
 }
 
@@ -569,7 +570,7 @@
   display: block;
   width: 100%;
   margin-top: var(--space-4);
-  background: var(--color-bg);
+  background: var(--color-subtle, var(--color-surface));
   color: var(--color-text);
   border: 1px solid var(--color-border);
 
@@ -584,7 +585,7 @@
 }
 .book-success-card .btn-primary {
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary, #fff);
 }
 .book-success-card .btn-secondary {
   background: #fff;
