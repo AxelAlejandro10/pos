@@ -4,13 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { merge } from 'rxjs';
-import { ApiService, LoyaltyProgramPublic } from '../services/api.service';
+import { forkJoin, merge, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ApiService, LoyaltyProgramPublic, TenantSummary } from '../services/api.service';
 import { LanguagePickerComponent } from '../shared/language-picker.component';
 import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 import { PublicGuestSalesCtasComponent } from '../shared/public-guest-sales-ctas.component';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { contactEmailValid, contactPhoneValid } from '../shared/contact-validators';
+import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
 
 @Component({
   selector: 'app-loyalty-public',
@@ -28,6 +30,7 @@ import { contactEmailValid, contactPhoneValid } from '../shared/contact-validato
   styleUrls: ['../book/book.component.scss', './loyalty-public.component.scss'],
 })
 export class LoyaltyPublicComponent implements OnInit {
+  readonly resolvePublicPrimaryColor = resolvePublicPrimaryColor;
   private route = inject(ActivatedRoute);
   private api = inject(ApiService);
   private translate = inject(TranslateService);
@@ -35,6 +38,8 @@ export class LoyaltyPublicComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   tenantId = signal(0);
+  tenant = signal<TenantSummary | null>(null);
+  logoUrl = signal<string | null>(null);
   program = signal<LoyaltyProgramPublic | null>(null);
   loading = signal(true);
   errorKind = signal<'missing_link' | 'invalid_tenant' | 'not_enabled' | null>(null);
@@ -97,15 +102,33 @@ export class LoyaltyPublicComponent implements OnInit {
     if (ref?.trim()) {
       this.referralCode = ref.trim();
     }
-    this.api.getPublicLoyaltyProgram(id).subscribe({
-      next: (p) => {
-        this.program.set(p);
+    forkJoin({
+      program: this.api.getPublicLoyaltyProgram(id),
+      tenant: this.api.getPublicTenant(id).pipe(catchError(() => of(null))),
+    }).subscribe({
+      next: ({ program, tenant }) => {
+        this.program.set(program);
+        if (tenant) {
+          this.tenant.set(tenant);
+          this.logoUrl.set(this.api.getTenantLogoUrl(tenant.logo_filename ?? undefined, tenant.id));
+        }
         this.loading.set(false);
         this.updateDocumentTitle();
       },
       error: () => {
-        this.errorKind.set('not_enabled');
-        this.loading.set(false);
+        // Program failed — still try tenant branding for the error shell.
+        this.api.getPublicTenant(id).subscribe({
+          next: (t) => {
+            this.tenant.set(t);
+            this.logoUrl.set(this.api.getTenantLogoUrl(t.logo_filename ?? undefined, t.id));
+            this.errorKind.set('not_enabled');
+            this.loading.set(false);
+          },
+          error: () => {
+            this.errorKind.set('not_enabled');
+            this.loading.set(false);
+          },
+        });
       },
     });
   }
