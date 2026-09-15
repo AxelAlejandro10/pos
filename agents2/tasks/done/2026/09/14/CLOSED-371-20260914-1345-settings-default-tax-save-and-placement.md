@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Default tax (IVA) in Settings Contact Information did not persist and was in the wrong place.
+- **What was done:** Moved Default tax to Settings → Taxes; fixed PUT `/tenant/settings` null clear and Taxes save/sync; release 2.1.168.
+- **What was tested:** Tester PASS — pytest (2 passed), Puppeteer `test:settings-contact-tax`, placement on Taxes not Contact, IVA 0%/None persistence; front compile clean.
+- **Why closed:** All acceptance criteria passed.
+- **Closed at (UTC):** 2026-09-15 09:24
+---
+
 # Fix Default tax (IVA) save and placement in Settings (#371)
 
 ## GitHub Issues
