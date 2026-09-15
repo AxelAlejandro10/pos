@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Public menu and delivery prices lacked a currency symbol while staff Products already showed one.
+- **What was done:** Shared `formatMoneyCents` (Intl symbol from tenant ISO currency) was applied on `/public-menu` and delivery checkout prices (v2.1.170).
+- **What was tested:** Tester PASS — `/public-menu/1` and `/delivery/1` show EUR symbols (e.g. `€9.50`, cart `€17.50`); front build clean in window; landing smoke OK. GBP switch skipped to keep demo settings.
+- **Why closed:** All required test criteria passed.
+- **Closed at (UTC):** 2026-09-15 07:22
+---
+
 # Show currency symbol on public pages like `/public-menu/1` (#387)
 
 ## GitHub Issues
