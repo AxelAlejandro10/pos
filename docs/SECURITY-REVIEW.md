@@ -53,7 +53,7 @@ The app mounted `StaticFiles` on `/uploads` over the entire `uploads/` tree. Sta
 | `/users/me` | Uses `get_current_user_optional` — returns `null` for anonymous (no credential leak). |
 | `/ws-token` | Returns bearer token for WebSocket upgrade; same-origin + CORS limits cross-site reads of the response body. |
 | Password reset | Raw token hashed (SHA-256) in DB; generic API messages to reduce enumeration; rate limits on reset endpoints (`back/app/main.py`). |
-| OTP | `otp_pending` JWT type; TOTP verify with window 1. |
+| OTP | `otp_pending` JWT type; TOTP verify with window 1. **Recovery codes (#400):** 8 single-use codes (`XXXX-XXXX`); SHA-256 hashes in `user_otp_recovery_code`; plaintext returned once on enable/regenerate; accepted on `POST /token/otp` as alternative to TOTP; do not log full codes. |
 | Refresh token | **No rotation:** same refresh JWT valid until expiry; compromise window is `REFRESH_TOKEN_EXPIRE_DAYS`. Consider refresh rotation + reuse detection for higher assurance. |
 
 ## 3. Multi-tenant IDOR (sampled)

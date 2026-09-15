@@ -36,6 +36,7 @@ from sqlalchemy.exc import IntegrityError, InvalidRequestError, OperationalError
 from sqlmodel import Session, select
 
 from . import models, security
+from . import otp_recovery
 from .db import check_db_connection, create_db_and_tables, get_session, engine
 from .provider_images import (
     provider_product_image_url,
@@ -830,6 +831,7 @@ class TenantSummary(_BaseModel):
     address: str | None = None
     opening_hours: str | None = None
     public_background_color: str | None = None
+    public_primary_color: str | None = None
     take_away_table_token: str | None = None  # Token for take-away/home ordering if a table is configured
     # Reservation rules (for book page and reservation view)
     reservation_prepayment_cents: int | None = None
@@ -1088,6 +1090,7 @@ def _tenant_to_summary(t: models.Tenant, session: Session) -> TenantSummary:
         address=t.address,
         opening_hours=t.opening_hours,
         public_background_color=t.public_background_color,
+        public_primary_color=getattr(t, "public_primary_color", None),
         take_away_table_token=take_away_token,
         reservation_prepayment_cents=t.reservation_prepayment_cents,
         reservation_prepayment_text=t.reservation_prepayment_text,
@@ -1181,6 +1184,7 @@ def get_public_tenant(
         "address": summary.address,
         "opening_hours": summary.opening_hours,
         "public_background_color": summary.public_background_color,
+        "public_primary_color": summary.public_primary_color,
         "take_away_table_token": summary.take_away_table_token,
         "reservation_prepayment_cents": summary.reservation_prepayment_cents,
         "reservation_prepayment_text": summary.reservation_prepayment_text,
@@ -1913,7 +1917,7 @@ def public_loyalty_program_info(
             getattr(program, "vip_gold_min_lifetime_units", 0) or 0
         ),
         "referral_bonus_units": int(getattr(program, "referral_bonus_units", 0) or 0),
-        "wallet": loyalty_svc.wallet_pass_status(program),
+        "wallet": loyalty_svc.wallet_pass_status(program, include_detail=False),
     }
 
 
@@ -1963,7 +1967,61 @@ def public_loyalty_join(
         "membership": loyalty_svc.membership_to_dict(
             membership, include_token=True, program=program
         ),
-        "wallet": pass_info.get("wallet") or loyalty_svc.wallet_pass_status(program),
+        "wallet": pass_info.get("wallet")
+        or loyalty_svc.wallet_pass_status(program, include_detail=False),
+    }
+    if pass_info.get("apple_pkpass_path"):
+        payload["apple_pkpass_path"] = pass_info["apple_pkpass_path"]
+    if pass_info.get("google_save_url"):
+        payload["google_save_url"] = pass_info["google_save_url"]
+    return payload
+
+
+@app.post("/public/tenants/{tenant_id}/loyalty/recover")
+@limiter.limit(
+    f"{getattr(settings, 'rate_limit_loyalty_join_per_hour', 20)}/hour",
+    key_func=_rate_limit_key,
+)
+def public_loyalty_recover(
+    request: Request,
+    response: Response,
+    tenant_id: int,
+    body: models.LoyaltyRecoverCreate,
+    session: Session = Depends(get_session),
+) -> dict:
+    """Find an existing membership by email or phone and return the card token (#372)."""
+    tenant = session.get(models.Tenant, tenant_id)
+    if not tenant:
+        raise HTTPException(status_code=404, detail="Tenant not found")
+    program = loyalty_svc.get_program(session, tenant_id)
+    if not program or not program.enabled:
+        raise HTTPException(status_code=404, detail="Loyalty program is not enabled")
+    email = normalize_email_address(body.email) if body.email else None
+    phone = None
+    if body.phone:
+        try:
+            phone = normalize_phone_e164(body.phone, settings.default_phone_country)
+        except ValueError:
+            phone = body.phone.strip()[:40] or None
+    if not email and not phone:
+        raise HTTPException(status_code=400, detail="email or phone is required")
+    membership = loyalty_svc.find_membership_by_contact(
+        session, tenant_id=tenant_id, email=email, phone=phone
+    )
+    if not membership:
+        raise HTTPException(status_code=404, detail="Membership not found")
+    pass_info = loyalty_wallet.prepare_passes_on_join(
+        session, membership=membership, program=program, tenant=tenant
+    )
+    session.commit()
+    session.refresh(membership)
+    payload = {
+        "ok": True,
+        "membership": loyalty_svc.membership_to_dict(
+            membership, include_token=True, program=program
+        ),
+        "wallet": pass_info.get("wallet")
+        or loyalty_svc.wallet_pass_status(program, include_detail=False),
     }
     if pass_info.get("apple_pkpass_path"):
         payload["apple_pkpass_path"] = pass_info["apple_pkpass_path"]
@@ -1993,7 +2051,7 @@ def public_loyalty_balance(
             membership, include_token=False, program=program
         ),
         "program": loyalty_svc.program_to_dict(program) if program else None,
-        "wallet": loyalty_svc.wallet_pass_status(program),
+        "wallet": loyalty_svc.wallet_pass_status(program, include_detail=False),
     }
 
 
@@ -2013,7 +2071,7 @@ def public_loyalty_wallet_status(
     if not membership:
         raise HTTPException(status_code=404, detail="Membership not found")
     program = session.get(models.LoyaltyProgram, membership.program_id)
-    status_payload = loyalty_svc.wallet_pass_status(program)
+    status_payload = loyalty_svc.wallet_pass_status(program, include_detail=False)
     status_payload["membership_id"] = membership.id
     if status_payload.get("apple_wallet_available"):
         status_payload["apple_pkpass_path"] = (
@@ -2063,11 +2121,11 @@ def public_loyalty_apple_pkpass(
     tenant = session.get(models.Tenant, membership.tenant_id)
     if not program or not tenant:
         raise HTTPException(status_code=404, detail="Membership not found")
-    status = loyalty_svc.wallet_pass_status(program)
+    status = loyalty_svc.wallet_pass_status(program, include_detail=False)
     if not status.get("apple_wallet_available"):
         raise HTTPException(
             status_code=503,
-            detail=status.get("detail") or "Apple Wallet passes are not available",
+            detail="Apple Wallet passes are not available",
         )
     try:
         data = loyalty_wallet.build_pkpass_bytes(
@@ -2106,11 +2164,11 @@ def public_loyalty_google_save(
     tenant = session.get(models.Tenant, membership.tenant_id)
     if not program or not tenant:
         raise HTTPException(status_code=404, detail="Membership not found")
-    status = loyalty_svc.wallet_pass_status(program)
+    status = loyalty_svc.wallet_pass_status(program, include_detail=False)
     if not status.get("google_wallet_available"):
         raise HTTPException(
             status_code=503,
-            detail=status.get("detail") or "Google Wallet passes are not available",
+            detail="Google Wallet passes are not available",
         )
     oid = loyalty_wallet.ensure_google_loyalty_object(
         session, membership=membership, program=program, tenant=tenant
@@ -2393,6 +2451,21 @@ def adjust_loyalty_membership(
         ),
         "entry": loyalty_svc.ledger_to_dict(entry),
     }
+
+
+@app.delete("/loyalty/memberships/{membership_id}")
+def delete_loyalty_membership(
+    membership_id: int,
+    current_user: Annotated[models.User, Depends(require_permission(Permission.LOYALTY_WRITE))],
+    session: Session = Depends(get_session),
+) -> dict:
+    """Hard-delete a loyalty membership (tenant-scoped). Ledger/devices cascade; orders unlink."""
+    membership = session.get(models.LoyaltyMembership, membership_id)
+    if not membership or membership.tenant_id != current_user.tenant_id:
+        raise HTTPException(status_code=404, detail="Membership not found")
+    session.delete(membership)
+    session.commit()
+    return {"ok": True, "id": membership_id}
 
 
 @app.put("/orders/{order_id}/loyalty-membership")
@@ -2923,8 +2996,18 @@ def login_with_otp(
             detail=api_error_payload("otp_session_invalid", lang),
         )
     import pyotp
-    totp = pyotp.TOTP(user.otp_secret)
-    if not totp.verify(body.code, valid_window=1):
+
+    code_ok = False
+    raw_code = (body.code or "").strip()
+    if otp_recovery.looks_like_totp_code(raw_code):
+        totp = pyotp.TOTP(user.otp_secret)
+        code_ok = bool(totp.verify(raw_code, valid_window=1))
+    else:
+        # Single-use recovery code (#400); mark consumed only on success path below.
+        code_ok = otp_recovery.try_consume_recovery_code(session, user.id, raw_code)
+        if code_ok:
+            session.commit()
+    if not code_ok:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=api_error_payload("invalid_otp_code", lang),
@@ -3169,13 +3252,33 @@ def read_users_me(
 @app.get("/users/me/otp/status")
 def get_otp_status(
     current_user: Annotated[models.User, Depends(security.get_current_user)],
+    session: Session = Depends(get_session),
 ) -> dict:
-    """Return whether OTP is enabled for the current user (no secret)."""
-    return {"otp_enabled": getattr(current_user, "otp_enabled", False)}
+    """Return whether OTP is enabled and how many unused recovery codes remain (#400)."""
+    enabled = getattr(current_user, "otp_enabled", False)
+    remaining = 0
+    if enabled and current_user.id is not None:
+        remaining = otp_recovery.unused_recovery_code_count(session, current_user.id)
+    return {
+        "otp_enabled": enabled,
+        "recovery_codes_remaining": remaining,
+    }
 
 
 class OTPConfirmBody(_BaseModel):
     code: str
+
+
+class OTPDisableBody(_BaseModel):
+    """Disable OTP for the authenticated user by re-entering the account password (#401)."""
+
+    password: str = Field(..., min_length=1, max_length=256)
+
+
+class OTPRecoveryRegenerateBody(_BaseModel):
+    """Regenerate recovery codes; requires account password (#400)."""
+
+    password: str = Field(..., min_length=1, max_length=256)
 
 
 @app.post("/users/me/otp/setup")
@@ -3195,6 +3298,7 @@ def otp_setup(
     if user:
         user.otp_secret = secret
         user.otp_enabled = False
+        otp_recovery.delete_recovery_codes_for_user(session, user.id)
         session.add(user)
         session.commit()
     return {"secret": secret, "provisioning_uri": provisioning_uri}
@@ -3206,7 +3310,7 @@ def otp_confirm(
     current_user: Annotated[models.User, Depends(security.get_current_user)],
     session: Session = Depends(get_session),
 ) -> dict:
-    """Verify the OTP code and enable OTP for this user."""
+    """Verify the OTP code, enable OTP, and return one-time recovery codes (#400)."""
     import pyotp
     user = session.get(models.User, current_user.id)
     if not user or not getattr(user, "otp_secret", None):
@@ -3214,26 +3318,68 @@ def otp_confirm(
     totp = pyotp.TOTP(user.otp_secret)
     if not totp.verify(body.code, valid_window=1):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired code")
+    plain_codes = otp_recovery.generate_recovery_codes()
+    otp_recovery.replace_recovery_codes(session, user.id, plain_codes)
     user.otp_enabled = True
     session.add(user)
     session.commit()
-    return {"status": "ok", "otp_enabled": True}
+    return {
+        "status": "ok",
+        "otp_enabled": True,
+        "recovery_codes": plain_codes,
+    }
+
+
+@app.post("/users/me/otp/recovery-codes/regenerate")
+def otp_regenerate_recovery_codes(
+    body: OTPRecoveryRegenerateBody,
+    current_user: Annotated[models.User, Depends(security.get_current_user)],
+    session: Session = Depends(get_session),
+    lang: str = Depends(_get_requested_language),
+) -> dict:
+    """Replace unused recovery codes after password re-entry. Plaintext returned once (#400)."""
+    user = session.get(models.User, current_user.id)
+    if not user or not getattr(user, "otp_enabled", False) or not getattr(user, "otp_secret", None):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="OTP is not enabled",
+        )
+    if not security.verify_password(body.password.strip(), user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=api_error_payload("incorrect_actor_password", lang),
+        )
+    plain_codes = otp_recovery.generate_recovery_codes()
+    otp_recovery.replace_recovery_codes(session, user.id, plain_codes)
+    session.commit()
+    return {
+        "status": "ok",
+        "recovery_codes": plain_codes,
+        "recovery_codes_remaining": len(plain_codes),
+    }
 
 
 @app.post("/users/me/otp/disable")
 def otp_disable(
-    body: OTPConfirmBody,
+    body: OTPDisableBody,
     current_user: Annotated[models.User, Depends(security.get_current_user)],
     session: Session = Depends(get_session),
+    lang: str = Depends(_get_requested_language),
 ) -> dict:
-    """Verify the OTP code and disable OTP for this user."""
-    import pyotp
+    """Disable OTP for the current user after password re-entry (logged-in session; #401).
+
+    Does not require a working authenticator code so lost-device lockout does not block disable.
+    Unauthenticated callers still cannot reach this endpoint (get_current_user).
+    """
     user = session.get(models.User, current_user.id)
     if not user or not getattr(user, "otp_secret", None):
         return {"status": "ok", "otp_enabled": False}
-    totp = pyotp.TOTP(user.otp_secret)
-    if not totp.verify(body.code, valid_window=1):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired code")
+    if not security.verify_password(body.password.strip(), user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=api_error_payload("incorrect_actor_password", lang),
+        )
+    otp_recovery.delete_recovery_codes_for_user(session, user.id)
     user.otp_secret = None
     user.otp_enabled = False
     session.add(user)
@@ -4080,8 +4226,8 @@ def update_tenant_settings(
         )
     if tenant_update.immediate_payment_required is not None:
         tenant.immediate_payment_required = tenant_update.immediate_payment_required
-    if tenant_update.default_tax_id is not None:
-        # Validate tax belongs to tenant
+    # Use model_fields_set so explicit null clears the default (None alone is the unset default).
+    if "default_tax_id" in tenant_update.model_fields_set:
         if tenant_update.default_tax_id:
             tax = session.get(models.Tax, tenant_update.default_tax_id)
             if not tax or tax.tenant_id != current_user.tenant_id:
@@ -4308,6 +4454,22 @@ def update_tenant_settings(
                 tenant.public_background_color = None
         else:
             tenant.public_background_color = None
+
+    if tenant_update.public_primary_color is not None:
+        val = (
+            tenant_update.public_primary_color.strip()
+            if isinstance(tenant_update.public_primary_color, str)
+            else None
+        )
+        if val:
+            if not val.startswith("#"):
+                val = "#" + val
+            if len(val) <= 20 and all(c in "0123456789abcdefABCDEF#" for c in val):
+                tenant.public_primary_color = val
+            else:
+                tenant.public_primary_color = None
+        else:
+            tenant.public_primary_color = None
 
     if tenant_update.public_google_review_url is not None:
         tenant.public_google_review_url = _normalize_public_http_url(
@@ -9106,6 +9268,7 @@ def list_tables_with_status(
             "payment_status": payment_status,
             "is_active": table.is_active,
             "active_order_id": table.active_order_id,
+            "activated_at": table.activated_at.isoformat() if table.activated_at else None,
             "assigned_waiter_id": table.assigned_waiter_id,
             "assigned_waiter_name": waiter_map.get(table.assigned_waiter_id) if table.assigned_waiter_id else None,
             "effective_waiter_id": effective_waiter_id,
@@ -12003,6 +12166,7 @@ def get_menu(
                 "tenant_header_background_filename": tenant.header_background_filename if tenant else None,
                 "tenant_id": table.tenant_id,
                 "tenant_public_background_color": tenant.public_background_color if tenant else None,
+                "tenant_public_primary_color": getattr(tenant, "public_primary_color", None) if tenant else None,
             },
         )
 
@@ -12443,6 +12607,7 @@ def get_menu(
         if tenant
         else False,
         "tenant_public_background_color": tenant.public_background_color if tenant else None,
+        "tenant_public_primary_color": getattr(tenant, "public_primary_color", None) if tenant else None,
         # Table session status (take-away/home ordering tables do not require PIN; staff_access also skips PIN)
         "table_is_active": table.is_active,
         "table_requires_pin": False

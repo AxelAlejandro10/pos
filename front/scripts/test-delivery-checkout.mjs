@@ -143,15 +143,24 @@ async function main() {
       await page.click('button.delivery-floating-cta');
       // Cart step only (not menu "View cart" / Ver carrito copy)
       await page.waitForSelector('ul.delivery-cart-list', { timeout: 10000 });
-      console.log('Cart step OK (via floating CTA)');
+      // Floating bar is menu-only; cart uses inline actions (no overlap)
+      const barOnCart = await page.$('.delivery-floating-bar');
+      if (barOnCart) {
+        throw new Error('Floating checkout bar must not show on cart step (#360 overlap fix)');
+      }
+      console.log('Cart step OK (via floating CTA); no floating bar on cart');
 
       // Address → create order (regression: TenantProduct menu IDs must not 400)
-      const continueBtn = await page.$('button.delivery-floating-cta');
+      const continueBtn = await page.$('.delivery-actions button.btn-primary');
       if (!continueBtn) {
-        throw new Error('Could not open address step from cart floating CTA');
+        throw new Error('Could not open address step from cart inline Continue');
       }
       await continueBtn.click();
       await page.waitForSelector('form.delivery-form', { timeout: 10000 });
+      const barOnAddress = await page.$('.delivery-floating-bar');
+      if (barOnAddress) {
+        throw new Error('Floating checkout bar must not show on address step (#360 overlap fix)');
+      }
       await page.type('input[name="phone"]', '+34600111222');
       await page.type('textarea[name="address"]', 'Calle Smoke Test 1, Madrid');
       const postal = await page.$('input[name="postal"]');
@@ -166,7 +175,7 @@ async function main() {
           res.request().method() === 'POST',
         { timeout: 30000 },
       );
-      await page.click('button.delivery-floating-cta');
+      await page.click('form.delivery-form .delivery-actions button.btn-primary');
       const createResp = await createRespPromise;
       const createStatus = createResp.status();
       const createBody = await createResp.json().catch(() => ({}));

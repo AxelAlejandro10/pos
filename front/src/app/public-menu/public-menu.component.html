@@ -2,21 +2,22 @@
   class="book-page public-menu-page"
   [style.--color-bg]="tenant()?.public_background_color ?? null"
   [style.--hero-header-bg]="tenant()?.public_background_color ?? null"
+  [style.--color-primary]="resolvePublicPrimaryColor(tenant()?.public_primary_color)"
 >
+  <app-public-guest-header
+    [tenantId]="tenantId()"
+    [tenantName]="tenant()?.name ?? null"
+    [logoUrl]="logoUrl()"
+    activePage="menu"
+  />
   @if (loading()) {
     <div class="public-menu-shell">
-      <div class="public-menu-top-bar">
-        <app-language-picker class="book-language-picker"></app-language-picker>
-      </div>
       <div class="loading-screen">
         <p>{{ 'PUBLIC_MENU.LOADING' | translate }}</p>
       </div>
     </div>
   } @else if (errorKind()) {
     <div class="public-menu-shell">
-      <div class="public-menu-top-bar">
-        <app-language-picker class="book-language-picker"></app-language-picker>
-      </div>
       <main class="book-content">
         <div class="book-card public-menu-error-card">
           <h1>{{ 'PUBLIC_MENU.PAGE_TITLE' | translate }}</h1>
@@ -29,7 +30,17 @@
               {{ 'PUBLIC_MENU.LOAD_FAILED' | translate }}
             }
           </p>
-          <a routerLink="/" class="public-menu-back-link">{{ 'PUBLIC_MENU.BACK_HOME' | translate }}</a>
+          @if (tenantId() > 0) {
+            <a
+              [routerLink]="['/book', tenantId()]"
+              class="public-menu-back-link"
+              data-testid="public-menu-back-home"
+            >{{ 'PUBLIC_MENU.BACK_HOME' | translate }}</a>
+          } @else {
+            <a routerLink="/features" class="public-menu-back-link" data-testid="public-menu-back-home">{{
+              'PUBLIC_MENU.BACK_HOME' | translate
+            }}</a>
+          }
         </div>
       </main>
     </div>
@@ -40,7 +51,6 @@
       [style.background-image]="headerBackgroundStyle()"
     >
       <div class="hero-overlay"></div>
-      <app-language-picker class="book-language-picker"></app-language-picker>
       <div class="hero-content">
         <div class="hero-top-row">
           @if (logoUrl()) {
@@ -124,7 +134,11 @@
       }
 
       <div class="public-menu-footer-actions">
-        <a routerLink="/" class="public-menu-back-link">{{ 'PUBLIC_MENU.BACK_HOME' | translate }}</a>
+        <a
+          [routerLink]="['/book', tenantId()]"
+          class="public-menu-back-link"
+          data-testid="public-menu-back-home"
+        >{{ 'PUBLIC_MENU.BACK_HOME' | translate }}</a>
         <app-legal-links
           [termsUrl]="tenant()?.terms_of_service_url"
           [privacyUrl]="tenant()?.privacy_policy_url"

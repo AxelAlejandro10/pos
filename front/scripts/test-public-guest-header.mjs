@@ -1,0 +1,109 @@
+#!/usr/bin/env node
+/**
+ * Puppeteer: public guest sticky header on /book/:tenantId (#376).
+ *
+ * Usage (from repo root, app running):
+ *   node front/scripts/test-public-guest-header.mjs
+ *   BASE_URL=http://127.0.0.1:4202 HEADLESS=1 node front/scripts/test-public-guest-header.mjs
+ *
+ * Env: BASE_URL, TENANT_ID (default 1), HEADLESS (default headless; 0/false/no = visible)
+ */
+
+import { isHeadless } from './puppeteer-headless.mjs';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const puppeteer = require('puppeteer-core');
+
+const CHROME_PATH =
+  process.env.PUPPETEER_EXECUTABLE_PATH ||
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+
+const TENANT_ID = Number(process.env.TENANT_ID || 1);
+
+async function detectBaseUrl() {
+  let baseUrl = process.env.BASE_URL;
+  if (!baseUrl) {
+    for (const port of [4203, 4202, 4200]) {
+      try {
+        const res = await fetch(`http://127.0.0.1:${port}/`, {
+          method: 'head',
+          signal: AbortSignal.timeout(1500),
+        });
+        if (res.ok || res.status < 500) {
+          baseUrl = `http://127.0.0.1:${port}`;
+          break;
+        }
+      } catch (_) {}
+    }
+    baseUrl = baseUrl || 'http://127.0.0.1:4202';
+  }
+  return baseUrl.replace(/\/$/, '');
+}
+
+async function main() {
+  const baseUrl = await detectBaseUrl();
+  const headless = isHeadless();
+  const bookUrl = `${baseUrl}/book/${TENANT_ID}`;
+  console.log('BASE_URL:', baseUrl);
+  console.log('Headless:', headless);
+  console.log('Open', bookUrl);
+
+  const browser = await puppeteer.launch({
+    executablePath: CHROME_PATH,
+    headless,
+    defaultViewport: { width: 390, height: 844 },
+  });
+  const page = await browser.newPage();
+  await page.goto(bookUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+  await page.waitForSelector('[data-testid="public-guest-header"]', { timeout: 15000 });
+
+  const menuHref = await page.$eval('[data-testid="public-guest-nav-menu"]', (el) => el.getAttribute('href'));
+  const waitHref = await page.$eval('[data-testid="public-guest-nav-waitlist"]', (el) => el.getAttribute('href'));
+  const delHref = await page.$eval('[data-testid="public-guest-nav-delivery"]', (el) => el.getAttribute('href'));
+
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await new Promise((r) => setTimeout(r, 400));
+  const sticky = await page.$eval('[data-testid="public-guest-header"]', (el) => {
+    const r = el.getBoundingClientRect();
+    const style = window.getComputedStyle(el.parentElement || el);
+    return {
+      top: r.top,
+      visible: r.height > 0 && r.width > 0,
+      hostSticky: style.position,
+    };
+  });
+
+  const fails = [];
+  if (!menuHref || !menuHref.includes(`/public-menu/${TENANT_ID}`)) {
+    fails.push(`menu href unexpected: ${menuHref}`);
+  }
+  if (!waitHref || !waitHref.includes(`/waitlist/${TENANT_ID}`)) {
+    fails.push(`waitlist href unexpected: ${waitHref}`);
+  }
+  if (!delHref || !delHref.includes(`/delivery/${TENANT_ID}`)) {
+    fails.push(`delivery href unexpected: ${delHref}`);
+  }
+  if (!sticky.visible) fails.push('header not visible after scroll');
+  if (sticky.top > 8) fails.push(`header not stuck to top after scroll (top=${sticky.top})`);
+
+  await page.click('[data-testid="public-guest-nav-menu"]');
+  await page.waitForFunction(
+    (tid) => location.pathname.includes(`/public-menu/${tid}`),
+    { timeout: 10000 },
+    TENANT_ID,
+  );
+  await page.waitForSelector('[data-testid="public-guest-header"]', { timeout: 10000 });
+
+  await browser.close();
+
+  if (fails.length) {
+    console.error('FAIL:', fails.join('; '));
+    process.exit(1);
+  }
+  console.log('OK: sticky guest header on /book and menu link resolves.');
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

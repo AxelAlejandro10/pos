@@ -3,9 +3,12 @@ from enum import Enum
 from typing import Any
 from uuid import UUID, uuid4
 
-from sqlalchemy import Column, Date, DateTime, Enum as SAEnum, Text, Time, UniqueConstraint
+from sqlalchemy import JSON as SA_JSON, Column, Date, DateTime, Enum as SAEnum, Text, Time, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB, UUID as PGUUID
 from sqlmodel import Field, Relationship, SQLModel
+
+# JSONB on PostgreSQL; generic JSON so SQLite unit-test DDL can compile (create_all).
+PgJSON = SA_JSON().with_variant(JSONB(), "postgresql")
 
 
 # ============ TAX (VAT/IVA) ============
@@ -102,6 +105,8 @@ class Tenant(SQLModel, table=True):
     header_background_filename: str | None = None  # Stored in uploads/{tenant_id}/header/
     # Public-facing pages (book, menu, reservation view): background color as hex (e.g. #1E22AA for RAL5002 Azul)
     public_background_color: str | None = None
+    # Primary CTA / button colour on public pages (hex). Null → front uses blue OOBE default.
+    public_primary_color: str | None = None
     opening_hours: str | None = (
         None  # JSON string: {"monday": {"open": "09:00", "close": "22:00", "closed": false}, ...}
     )
@@ -211,7 +216,7 @@ class Tenant(SQLModel, table=True):
     kitchen_display_timer_red_minutes: int | None = Field(default=15)
 
     # POS checkout: up to 4 tip percentages (e.g. 5,10,15,20); empty list disables tips; null = legacy default in API
-    tip_preset_percents: list | None = Field(default=None, sa_column=Column(JSONB, nullable=True))
+    tip_preset_percents: list | None = Field(default=None, sa_column=Column(PgJSON, nullable=True))
     # VAT/IVA rate (0–100) applied to tip amount for invoice breakdown (tax-inclusive tip, same basis as menu prices)
     tip_tax_rate_percent: int | None = Field(default=0)
     # POS: "preset" = tip from tip_preset_percents; "overpayment" = staff enters amount paid, tip = difference (see OrderMarkPaid)
@@ -229,11 +234,11 @@ class Tenant(SQLModel, table=True):
     )
 
     # Staff app: JSONB stores only disabled module keys; see tenant_ui_modules.resolve_tenant_ui_modules
-    ui_modules: dict | None = Field(default=None, sa_column=Column(JSONB, nullable=True))
+    ui_modules: dict | None = Field(default=None, sa_column=Column(PgJSON, nullable=True))
 
     # Tenant-defined subcategory names per category (merged into GET /catalog/categories)
     custom_subcategories: dict | None = Field(
-        default=None, sa_column=Column(JSONB, nullable=True)
+        default=None, sa_column=Column(PgJSON, nullable=True)
     )
 
     # Staff clock-in: venue QR secret (hex digest of HMAC-SHA256); null = QR not required for clock actions
@@ -299,6 +304,23 @@ class User(SQLModel, table=True):
     otp_secret: str | None = Field(default=None, exclude=True)  # Never serialized in API responses
     otp_enabled: bool = Field(default=False)
     employee_number: str | None = Field(default=None, max_length=64)
+
+
+class UserOtpRecoveryCode(SQLModel, table=True):
+    """Hashed single-use recovery code for OTP lockout (#400). Plaintext is never stored."""
+
+    __tablename__ = "user_otp_recovery_code"
+
+    id: int | None = Field(default=None, primary_key=True)
+    user_id: int = Field(foreign_key="user.id", index=True)
+    code_hash: str = Field(max_length=64, index=True)
+    used_at: datetime | None = Field(
+        default=None, sa_column=Column(DateTime(timezone=True), nullable=True)
+    )
+    created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        sa_column=Column(DateTime(timezone=True), nullable=False),
+    )
 
 
 class PasswordResetToken(SQLModel, table=True):
@@ -1542,6 +1564,13 @@ class LoyaltyJoinCreate(SQLModel):
     referral_code: str | None = Field(default=None, max_length=32)
 
 
+class LoyaltyRecoverCreate(SQLModel):
+    """Public recover body: find existing membership by email or phone (#372)."""
+
+    email: str | None = Field(default=None, max_length=320)
+    phone: str | None = Field(default=None, max_length=40)
+
+
 class LoyaltyAdjustCreate(SQLModel):
     """Staff manual balance adjustment (owner/admin)."""
 
@@ -1868,6 +1897,8 @@ class TenantUpdate(SQLModel):
 
     # Public-facing pages background color (hex, e.g. #1E22AA for RAL5002 Azul)
     public_background_color: str | None = None
+    # Primary CTA / button colour on public pages (hex); empty string clears
+    public_primary_color: str | None = None
 
     # Reservation options (pre-payment, policies, reminders)
     reservation_prepayment_cents: int | None = None

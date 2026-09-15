@@ -19,18 +19,21 @@ import {
   PublicTenantMenuResponse,
   TenantSummary,
 } from '../services/api.service';
-import { LanguagePickerComponent } from '../shared/language-picker.component';
+import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
+import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
 import { LanguageService } from '../services/language.service';
 import { LegalLinksComponent } from '../shared/legal-links.component';
+import { formatMoneyCents } from '../shared/currency-symbol';
 
 @Component({
   selector: 'app-public-menu',
   standalone: true,
-  imports: [RouterLink, TranslateModule, LanguagePickerComponent, LegalLinksComponent],
+  imports: [RouterLink, TranslateModule, PublicGuestHeaderComponent, LegalLinksComponent],
   templateUrl: './public-menu.component.html',
   styleUrls: ['../book/book.component.scss', './public-menu.component.scss'],
 })
 export class PublicMenuComponent implements OnInit, OnDestroy {
+  readonly resolvePublicPrimaryColor = resolvePublicPrimaryColor;
   private route = inject(ActivatedRoute);
   private api = inject(ApiService);
   private translate = inject(TranslateService);
@@ -185,10 +188,6 @@ export class PublicMenuComponent implements OnInit, OnDestroy {
     return this.menu()?.tenant_name?.trim() || this.tenant()?.name?.trim() || '';
   }
 
-  currencyLabel(): string {
-    return this.menu()?.currency?.trim() || '';
-  }
-
   getLogoSafeUrl(url: string | null): SafeResourceUrl | string {
     if (!url) return '';
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
@@ -209,11 +208,8 @@ export class PublicMenuComponent implements OnInit, OnDestroy {
     return url.startsWith('/') ? base + url : `${base}/${url}`;
   }
 
-  formatPrice(product: { price_formatted: string }): string {
-    const amount = product.price_formatted;
-    const code = this.currencyLabel();
-    if (!code) return amount;
-    return `${amount} ${code}`;
+  formatPrice(product: { price_cents: number }): string {
+    return formatMoneyCents(this.translate, product.price_cents, this.menu()?.currency);
   }
 
   private updateDocumentTitle(): void {

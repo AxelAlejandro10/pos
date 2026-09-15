@@ -1,4 +1,10 @@
-<div class="book-page" [style.--color-bg]="tenant()?.public_background_color ?? null" [style.--hero-header-bg]="tenant()?.public_background_color ?? null">
+<div class="book-page" [style.--color-bg]="tenant()?.public_background_color ?? null" [style.--hero-header-bg]="tenant()?.public_background_color ?? null" [style.--color-primary]="primaryColorCss()">
+  <app-public-guest-header
+    [tenantId]="tenantId()"
+    [tenantName]="tenant()?.name ?? null"
+    [logoUrl]="logoUrl()"
+    activePage="book"
+  />
   @if (loading()) {
     <div class="loading-screen">
       <div class="loading-content">
@@ -23,7 +29,6 @@
     <!-- Hero Header (same structure as /menu) -->
     <header class="hero-header" [class.has-bg-image]="tenant()?.header_background_filename" [style.background-image]="headerBackgroundStyle()">
       <div class="hero-overlay"></div>
-      <app-language-picker class="book-language-picker"></app-language-picker>
       <div class="hero-content">
         <div class="hero-content-panel">
           <div class="hero-top-row">
@@ -191,9 +196,9 @@
                 <div class="form-group">
                   <label for="book-service">{{ 'BOOK.SERVICE_TYPE' | translate }}</label>
                   <select id="book-service" [(ngModel)]="formService" name="serviceType">
-                    <option value="all">{{ 'BOOK.SERVICE_ALL' | translate }}</option>
-                    <option value="lunch">{{ 'BOOK.SERVICE_LUNCH' | translate }}</option>
-                    <option value="dinner">{{ 'BOOK.SERVICE_DINNER' | translate }}</option>
+                    <option value="all">{{ serviceOptionLabel('all') }}</option>
+                    <option value="lunch">{{ serviceOptionLabel('lunch') }}</option>
+                    <option value="dinner">{{ serviceOptionLabel('dinner') }}</option>
                   </select>
                 </div>
               }
@@ -246,6 +251,7 @@
               [timezone]="tenant()?.timezone ?? null"
               [weekAnchorSeed]="formDate"
               [serviceType]="hasMealSplit() ? formService : 'all'"
+              [openingHoursJson]="tenant()?.opening_hours ?? null"
               [bookFloorId]="formFloorId"
               [(selectedDate)]="formDate"
               [(selectedTime)]="formTime"

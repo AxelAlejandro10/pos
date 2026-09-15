@@ -10,17 +10,18 @@ import {
   TenantSummary,
 } from '../services/api.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LanguagePickerComponent } from '../shared/language-picker.component';
+import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { ReservationWeekSlotGridComponent } from '../shared/reservation-week-slot-grid.component';
-import { tenantOpeningHoursHasMealSplit } from '../shared/booking-meal-split';
+import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
+import { tenantOpeningHoursHasMealSplit, resolveBookingServiceLabel } from '../shared/booking-meal-split';
 import { contactEmailValid, contactPhoneValid } from '../shared/contact-validators';
 import { ApiErrorMessageService } from '../services/api-error-message.service';
 
 @Component({
   selector: 'app-book',
   standalone: true,
-  imports: [FormsModule, TranslateModule, LanguagePickerComponent, ReservationWeekSlotGridComponent, LegalLinksComponent, RouterLink],
+  imports: [FormsModule, TranslateModule, PublicGuestHeaderComponent, ReservationWeekSlotGridComponent, LegalLinksComponent, RouterLink],
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss',
 })
@@ -97,6 +98,20 @@ export class BookComponent implements OnInit {
 
   hasMealSplit = computed(() => tenantOpeningHoursHasMealSplit(this.tenant()?.opening_hours));
 
+  /** Display labels for the service select / summary (custom opening-hours labels or i18n defaults). */
+  serviceOptionLabel(service: 'all' | 'lunch' | 'dinner'): string {
+    return resolveBookingServiceLabel(
+      this.tenant()?.opening_hours,
+      service,
+      {
+        all: this.translate.instant('BOOK.SERVICE_ALL'),
+        lunch: this.translate.instant('BOOK.SERVICE_LUNCH'),
+        dinner: this.translate.instant('BOOK.SERVICE_DINNER'),
+      },
+      this.formDate || null,
+    );
+  }
+
   maxPartySize = computed(() => {
     const cap = this.tenant()?.reservation_max_guests_per_slot;
     if (cap != null && cap > 0) return Math.min(20, cap);
@@ -107,6 +122,10 @@ export class BookComponent implements OnInit {
   openstreetmapUrl = computed(() => this.tenant()?.public_openstreetmap_url?.trim() || null);
   termsOfServiceUrl = computed(() => this.tenant()?.terms_of_service_url?.trim() || null);
   privacyPolicyUrl = computed(() => this.tenant()?.privacy_policy_url?.trim() || null);
+  /** Primary CTA colour for public book page (#370); blue OOBE when unset. */
+  primaryColorCss = computed(() =>
+    resolvePublicPrimaryColor(this.tenant()?.public_primary_color),
+  );
 
   /** Public booking: ensure http(s) href so the link works when settings omit the scheme. */
   websiteHref = computed((): string | null => {

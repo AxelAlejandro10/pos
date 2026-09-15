@@ -18,6 +18,7 @@ This document describes how table reservations work for **staff** and **end user
 ### End users (public, no login)
 
 - **Book a table**: Public page at **`/book/:tenantId`**. Form: date, time, party size, name, phone. Submit creates a reservation (status `booked`). Success screen shows a link to view/cancel. When no slot is available, guests can follow **“Join the waiting list”** to **`/waitlist/:tenantId`**.
+- **Service labels**: Under **Settings → Opening hours**, staff can set an optional **service label** on each day (continuous hours) or **morning / evening** labels when the day has a break. The public book page and staff reservation form show those labels for **Service** (empty = default “Lunch” / “Dinner” / “Lunch and dinner”). API values stay `lunch` / `dinner` for filtering.
 - **Join the waiting list**: Public page at **`/waitlist/:tenantId`**. Form: name, party size, phone (no date/time). Submit adds the guest to the tenant queue (status `waiting`). Also reachable from the book page link above.
 - **View or cancel**: Public page at **`/reservation?token=...`**. Shows reservation details and status; allows cancelling if status is `booked` or `seated`.
 - **Leave feedback**: Public page at **`/feedback/:tenantId`** (no login). Guests submit a rating and optional comment; staff review entries at **`/guest-feedback`**. Optional `?token=` binds the submission to a reservation. Receipt printers can encode the same URLs (see `docs/0064-guest-feedback-analytics.md`).

@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService, TenantSummary } from '../services/api.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LanguagePickerComponent } from '../shared/language-picker.component';
+import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
+import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { contactPhoneValid } from '../shared/contact-validators';
 import { ApiErrorMessageService } from '../services/api-error-message.service';
@@ -12,11 +13,12 @@ import { ApiErrorMessageService } from '../services/api-error-message.service';
 @Component({
   selector: 'app-waitlist-public',
   standalone: true,
-  imports: [FormsModule, TranslateModule, LanguagePickerComponent, LegalLinksComponent, RouterLink],
+  imports: [FormsModule, TranslateModule, PublicGuestHeaderComponent, LegalLinksComponent, RouterLink],
   templateUrl: './waitlist-public.component.html',
   styleUrls: ['../book/book.component.scss', './waitlist-public.component.scss'],
 })
 export class WaitlistPublicComponent implements OnInit {
+  readonly resolvePublicPrimaryColor = resolvePublicPrimaryColor;
   private route = inject(ActivatedRoute);
   private api = inject(ApiService);
   private translate = inject(TranslateService);

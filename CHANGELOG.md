@@ -10,9 +10,132 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Added
 
+- **Loyalty public Menu / Book / Delivery CTAs (#374):** `/loyalty/card/:token` uses the sticky guest header; card and join-success show body CTAs to `/public-menu`, `/book`, and `/delivery` for that tenant.
+- **Settings → Loyalty club docs link (#394):** Loyalty club tab links to the runbook on GitHub (`docs/0066-club-loyalty.md`). Smoke: `npm run test:settings-loyalty-docs --prefix front`.
+- **Sidebar mobile brand link fix (#390):** Close the broken mobile header `<a>` so the Angular template compiles again (desktop POS → dashboard link was already correct).
+
 ### Changed
 
+- **Settings RAL5002 preset clarity (#367):** Public background colour preset is labelled **Apply RAL5002 (#1E22AA)** with hint/title that it is optional and does not lock the field; colour picker and hex stay in sync while typing.
+- **Settings → Loyalty club docs link (#394):** Loyalty club tab links to the runbook on GitHub (`docs/0066-club-loyalty.md`). Smoke: `npm run test:settings-loyalty-docs --prefix front`.
+- **Sidebar mobile brand link fix (#390):** Close the broken mobile header `<a>` so the Angular template compiles again (desktop POS → dashboard link was already correct).
+
+### Changed
+
+- **Sidebar Log Out as icon (#383):** Staff sidebar Log Out is a compact icon left of `POS` (not a full-width footer button). Logout still goes to staff `/login`. Smoke: `npm run test:sidebar-logout --prefix front`.
+- **Sidebar language as flat icon (#384):** Staff sidebar language control is a compact globe+code icon to the right of `POS` (not a full select in the footer). Other pages keep the select picker.
+
 ### Fixed
+
+- **Overbooking 0025 pytest without demo seed (#407):** `tests/test_overbooking_0025.py` creates its own tenant and 10 tables (5×4 + 5×2 = 30 seats) and no longer needs `seed_demo_tables` / tenant 1.
+- **SQLite tenant tip presets for pytest (#406):** `Tenant.tip_preset_percents` (and sibling tenant JSON fields) use dialect-aware JSON so SQLite unit tests can `create_all`; PostgreSQL still stores JSONB. No migration change.
+- **Book Party size label once (#368):** Public `/book` (and staff reservation modal) no longer repeats **Party size** in the week-grid summary; the form field label is the single visible name.
+- **SMTP From name defaults to Business Name (#366):** Empty Settings → Email **From name** uses the tenant Business Name at send time; the field shows Business Name as a placeholder and does not overwrite a saved value.
+- **Book Time slot alignment (#369):** Public `/book` week summary keeps Time slot left-aligned under Date (no right-side float on wide viewports).
+
+- **Public menu Back to home (#386):** `/public-menu/:tenantId` (and delivery) **Back to home** goes to `/book/:tenantId` instead of marketing `/`.
+
+## [2.1.174] - 2026-09-14
+
+### Added
+
+- **Delete Loyalty Club members (#362):** Settings → Loyalty club has a Delete action per member (confirm). `DELETE /loyalty/memberships/{id}` requires `loyalty:write`; hard delete cascades ledger/devices and unlinks orders.
+
+## [2.1.173] - 2026-09-14
+
+### Added
+
+- **Booking service labels on opening hours (#404):** Settings → Opening hours accepts optional service names (`serviceLabel`, or `morningLabel` / `eveningLabel` with a break). Public `/book` and staff reservations show those names instead of fixed “Lunch and dinner” when set; empty keeps the previous defaults.
+
+## [2.1.172] - 2026-09-14
+
+### Added
+
+- **Loyalty recover lost card (#372):** Public `/loyalty/{tenantId}` has **Already a member?** (email/phone → card link via `POST …/loyalty/recover`). Join/recover always show the balance card link. Staff Settings → Loyalty club: member search + copy card link. Smoke: `npm run test:loyalty-recover --prefix front`.
+
+## [2.1.171] - 2026-09-14
+
+### Added
+
+- **Public primary button colour (#370):** Settings → Business profile can set a **primary button colour** for public pages. Empty uses blue (`#2563EB`). Waiting-list link on `/book` is muted (not the same strong colour as Book table). See `docs/0028-tenant-public-branding.md`.
+
+## [2.1.170] - 2026-09-14
+
+### Fixed
+
+- **Public menu currency symbol (#387):** `/public-menu/:tenantId` and delivery menu prices use the same Intl currency formatting as Products (tenant ISO code → symbol, e.g. `€9.50` / `£9.50`), via shared `formatMoneyCents`.
+
+## [2.1.169] - 2026-09-14
+
+### Added
+
+- **Sidebar POS → dashboard (#390):** The staff sidebar (and mobile header) **POS** brand is a link to `/dashboard`. Version control still opens the changelog. Smoke: `npm run test:sidebar-brand-home --prefix front`.
+
+## [2.1.168] - 2026-09-14
+
+### Changed
+
+- **Settings default tax placement (#371):** **Default tax (IVA)** moves from Contact Information to **Settings → Taxes**, with its own Save control.
+
+### Fixed
+
+- **Default tax (IVA) save (#371):** `PUT /tenant/settings` now clears `default_tax_id` when the client sends `null` (previously ignored). Changing the default rate and saving persists across reload.
+
+## [2.1.167] - 2026-09-14
+
+### Added
+
+- **2FA recovery codes (#400):** Settings → Security shows one-time recovery codes after enabling OTP (copy/download + confirm saved). Login accepts a 6-digit TOTP or an unused recovery code (`XXXX-XXXX`); used codes cannot be reused. Regenerate with account password. Backend: `user_otp_recovery_code` (hashed). Smoke: `npm run test:otp-recovery-codes --prefix front`.
+
+## [2.1.166] - 2026-09-14
+
+### Changed
+
+- **Settings Payment / Delivery regroup (#396):** Payment Settings keeps currency, gateways, fiscal, and tips. **Delivery** is its own nav section (Satisfecho Delivery + marketplace integrations). **Location Verification** moves under Business Profile. Legacy `?section=delivery-integrations` opens Delivery. Smoke: `npm run test:settings-vertical-nav --prefix front`.
+
+## [2.1.165] - 2026-09-14
+
+### Changed
+
+- **Settings vertical menu (#395):** `/settings` replaces the horizontal scrolling tab strip with a vertical section menu (sidebar from 900px up; stacked scrollable list on narrow viewports). Section deep links use `?section=` for all settings areas (including Security). Smoke: `npm run test:settings-vertical-nav --prefix front`.
+
+## [2.1.164] - 2026-09-14
+
+### Added
+
+- **Sidebar version opens changelog (#399):** The version string under **POS** in the staff sidebar is a button. It opens the same changelog modal as Dashboard **What's new**. Smoke: `npm run test:changelog --prefix front`.
+
+- **Settings → Printing docs link (#397):** Hardware printing tab links to the runbook on GitHub (`docs/0070-hardware-printing.md`). Smoke: `npm run test:settings-printing-docs --prefix front`.
+
+### Changed
+
+- **Disable 2FA with password while logged in (#401):** Settings → Security no longer requires an authenticator code to turn off OTP. Re-enter the account password instead (session still required). Smoke: `npm run test:settings-otp-disable-password --prefix front`.
+
+- **Settings fiscal sections by country (#392):** Payments shows VeriFactu prep only for Country ISO `ES` (or when `fiscal_mode` is already on) and German TSE / KassenSichV prep only for `DE` (or when `tse_mode` is already on). Currency alone does not gate these blocks.
+
+### Fixed
+
+- **Staff sidebar Logout (#402):** After logout, the sidebar sends staff to `/login` instead of `/` (embedded Satisfecho marketing landing). Provider / courier / platform / customer logout destinations unchanged.
+
+- **Public loyalty Wallet copy (#393):** Guests on `/loyalty/{tenantId}` no longer see operator PassKit / Google issuer setup text. Add-to-Wallet and “Save this card link” show only when Wallet issuance is available; staff Settings still show wallet status detail.
+
+## [2.1.163] - 2026-09-14
+
+### Added
+
+- **Catalog & Inventory hub (#391):** Sidebar **Catalog & Inventory** opens a `/dashboard`-style hub at `/catalog-inventory` with tiles for products, provider catalog, and inventory destinations. Chevron still expands the nested menu; child deep links unchanged.
+
+## [2.1.162] - 2026-09-14
+
+### Added
+
+- **Public sticky guest header (#376, #364):** Tenant-scoped public pages (`/book`, `/public-menu`, `/waitlist`, `/delivery`, `/loyalty`, `/feedback`, reservation view) show a compact sticky bar with branding and links while the guest scrolls.
+
+### Fixed
+
+- **Bare `/loyalty` landing (#373):** `/loyalty` and `/loyalty/` show a short “need a restaurant link” page instead of falling through to the Satisfecho marketing landing. Join `/loyalty/{tenantId}` and card `/loyalty/card/{token}` unchanged.
+- **2FA secret Copy (#377):** Settings → Security Copy uses Clipboard API with an `execCommand` fallback and shows Copied / error feedback (helps LibreWolf and other strict browsers).
+- **Delivery floating CTA overlap (#360):** Fixed bottom total + CTA shows on the delivery **menu** step only. Cart and address keep inline actions so the bar no longer covers cart lines or Continue buttons.
 
 ## [2.1.161] - 2026-09-14
 

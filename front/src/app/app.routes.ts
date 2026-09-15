@@ -86,6 +86,8 @@ export const routes: Routes = [
   { path: 'waitlist/:tenantId', loadComponent: () => import('./waitlist-public/waitlist-public.component').then(m => m.WaitlistPublicComponent) },
   { path: 'feedback/:tenantId', loadComponent: () => import('./feedback-public/feedback-public.component').then(m => m.FeedbackPublicComponent) },
   { path: 'loyalty/card/:memberToken', loadComponent: () => import('./loyalty-public/loyalty-card-public.component').then(m => m.LoyaltyCardPublicComponent) },
+  // Bare /loyalty and /loyalty/ must not fall through to landing (Satisfecho marketing) — #373
+  { path: 'loyalty', pathMatch: 'full', loadComponent: () => import('./loyalty-public/loyalty-public.component').then(m => m.LoyaltyPublicComponent) },
   { path: 'loyalty/:tenantId', loadComponent: () => import('./loyalty-public/loyalty-public.component').then(m => m.LoyaltyPublicComponent) },
   // Public take-away / home ordering: list tenants with ordering link
   { path: 'orders', loadComponent: () => import('./orders-public/orders-public.component').then(m => m.OrdersPublicComponent) },
@@ -96,6 +98,12 @@ export const routes: Routes = [
 
   // Protected routes - accessible by all authenticated users
   { path: 'dashboard', canActivate: [authGuard], loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent) },
+  {
+    path: 'catalog-inventory',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./catalog-inventory-hub/catalog-inventory-hub.component').then((m) => m.CatalogInventoryHubComponent),
+  },
   { path: 'my-shift', canActivate: [authGuard], loadComponent: () => import('./my-shift/my-shift.component').then(m => m.MyShiftComponent) },
   // Talk to POS (#344): staff voice/text navigation shortcuts (no mutations)
   { path: 'talk', canActivate: [authGuard], loadComponent: () => import('./talk/talk.component').then(m => m.TalkComponent) },
