@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Staff sidebar **Catalog & Inventory** looked right-justified vs other nav groups.
+- **What was done:** Overlay chevron, left-align section headers, and keep labels on one line with ellipsis in `sidebar.component.scss`.
+- **What was tested:** Alignment, expand/collapse, hub navigation, Puppeteer hub + landing, front logs — all **PASS**.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-15 10:52
+---
+
 # Sidebar "Catalog & Inventory" alignment (#385)
 
 ## GitHub Issues
