@@ -840,7 +840,7 @@ From repo root: `npm run <script> --prefix front`. From `front/`: `npm run <scri
 ## Backend / data checks (non-Puppeteer)
 
 - **Demo tables:** `docker compose exec back python -m app.seeds.check_demo_tables` (exit 0 = T01–T10 present for tenant 1).
-- **Overbooking 0025 (one empty table / full slot):** `docker compose exec back python -m app.seeds.check_overbooking_0025` (exit 0 = pass; creates/cleanup test data). Unittest: `docker compose exec back python -m tests.test_overbooking_0025 -v`. Scenario notes: `docs/0058-test-scenario-one-empty-table.md` (demo seats = 5×4 + 5×2 = 30).
+- **Overbooking 0025 (one empty table / full slot):** `docker compose exec back python -m app.seeds.check_overbooking_0025` (exit 0 = pass; creates/cleanup test data on tenant 1). Isolated pytest: `docker compose exec back python3 -m pytest tests/test_overbooking_0025.py -q` (own tenant/tables; no `seed_demo_tables`). Scenario notes: `docs/0058-test-scenario-one-empty-table.md` (demo seats = 5×4 + 5×2 = 30).
 - **Seed tables:** `docker compose exec back python -m app.seeds.seed_demo_tables` (idempotent).
 - **Seed demo products:** `docker compose exec back python -m app.seeds.seed_demo_products` (idempotent; fills missing DEMO_PRODUCTS names on partial tenants).
 - **Import products CSV (migration #321):** dry-run then apply — see [0062-pos-migration-import.md](0062-pos-migration-import.md). Example: `docker compose exec back python -m app.seeds.import_products_csv --tenant-id 1 --csv /app/fixtures/migration/sample_products.csv --dry-run`. Tests: `docker compose exec back python3 -m pytest tests/test_import_products_csv.py -q`.

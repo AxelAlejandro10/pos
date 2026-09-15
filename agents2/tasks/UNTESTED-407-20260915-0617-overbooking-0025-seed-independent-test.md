@@ -1,5 +1,8 @@
 # Make overbooking 0025 pytest seed-independent (#407)
 
+## Status
+Implemented. pytest creates an isolated tenant (10 tables, 5×4 + 5×2 = 30 seats) and rolls back via `PgClientTestCase`. `check_overbooking_0025` is unchanged (tenant 1 ops check).
+
 ## GitHub Issues
 - **Issue:** https://github.com/satisfecho/pos/issues/407
 - **407**
@@ -16,3 +19,14 @@ See `docs/0025-reservation-overbooking-detection.md` and `docs/0058-test-scenari
 - Keep scenario meaning: one empty table vs full slot vs tenant-level capacity (demo seats in docs: 5×4 + 5×2 = 30 if you keep that shape).
 - Leave `check_overbooking_0025` as the seed-aware ops check; pytest is the isolated path.
 - Re-run the same pytest module in the back container until it passes without a prior demo seed.
+
+## Testing instructions
+
+1. From repo root, with the stack up:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml exec -T back python3 -m pytest tests/test_overbooking_0025.py -q
+```
+
+2. Pass: `1 passed`. Fail: any error that mentions `seed_demo_tables` or missing tenant 1 tables.
+3. Optional ops check (still seed-aware, tenant 1): `docker compose exec back python -m app.seeds.check_overbooking_0025` (exit 0).
