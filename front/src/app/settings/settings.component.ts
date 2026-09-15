@@ -54,9 +54,38 @@ type SettingsSectionId =
   | 'security'
   | 'data-privacy';
 
-/** Legacy deep-link id from before Delivery regroup (#396). */
+/**
+ * Extra deep-link ids (query `?section=` or hash `#…`) → canonical section.
+ * Legacy: delivery-integrations (#396). Docs-friendly: openinghours (#365).
+ */
 const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
   'delivery-integrations': 'delivery',
+  openinghours: 'hours',
+  'opening-hours': 'hours',
+};
+
+/** Public hash slug per section (e.g. `/settings#openinghours`). */
+const SETTINGS_SECTION_HASH: Record<SettingsSectionId, string> = {
+  general: 'general',
+  navigation: 'navigation',
+  contact: 'contact',
+  hours: 'openinghours',
+  payments: 'payments',
+  delivery: 'delivery',
+  email: 'email',
+  reservations: 'reservations',
+  taxes: 'taxes',
+  'kitchen-stations': 'kitchen-stations',
+  loyalty: 'loyalty',
+  printing: 'printing',
+  promos: 'promos',
+  'restaurant-group': 'restaurant-group',
+  'social-posts': 'social-posts',
+  'contract-templates': 'contract-templates',
+  providers: 'providers',
+  translations: 'translations',
+  security: 'security',
+  'data-privacy': 'data-privacy',
 };
 
 @Component({
@@ -129,6 +158,7 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
           <button 
             type="button" 
             class="settings-nav-item" 
+            data-testid="settings-hours-tab"
             [class.active]="activeSection() === 'hours'"
             (click)="selectSection('hours')">
             <svg class="settings-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1318,7 +1348,7 @@ const SETTINGS_SECTION_ALIASES: Record<string, SettingsSectionId> = {
 
               <!-- Hours Section -->
               @if (activeSection() === 'hours') {
-                <div class="section">
+                <div class="section" data-testid="settings-hours-section">
                   <div class="section-header">
                     <h2>{{ 'SETTINGS.OPENING_HOURS' | translate }}</h2>
                     <p>{{ 'SETTINGS.OPENING_HOURS_SUBTITLE' | translate }}</p>
@@ -3677,14 +3707,36 @@ export class SettingsComponent implements OnInit, OnDestroy {
       this.allTimezones = [];
     }
     this.filteredTimezones = this.allTimezones;
-    this.applySectionFromQuery(this.route.snapshot.queryParams['section']);
+    // Prefer `#hash` (#365); fall back to legacy `?section=` (#395).
+    const initial =
+      this.resolveSectionId(this.route.snapshot.fragment) ??
+      this.resolveSectionId(this.route.snapshot.queryParams['section']);
+    if (initial) {
+      this.selectSection(initial, true);
+      this.scrollActiveSectionIntoView();
+    }
+    this.route.fragment.subscribe((fragment) => {
+      const resolved = this.resolveSectionId(fragment);
+      if (resolved) {
+        this.applySectionFromUrl(fragment, true);
+        return;
+      }
+      // Unknown non-empty hash: ignore safely → default section (#365).
+      if (fragment && fragment.trim() && this.activeSection() !== 'general') {
+        this.selectSection('general', false);
+      }
+    });
     this.route.queryParams.subscribe((params) => {
-      this.applySectionFromQuery(params['section']);
+      // Only apply query when there is no known hash (hash wins).
+      if (this.resolveSectionId(this.route.snapshot.fragment)) {
+        return;
+      }
+      this.applySectionFromUrl(params['section'], false);
     });
     this.loadSettings();
   }
 
-  /** Open a settings section; optionally sync `?section=` for deep links / refresh. */
+  /** Open a settings section; sync `?section=` and `#hash` for deep links / refresh. */
   selectSection(section: SettingsSectionId, updateUrl = true): void {
     this.activeSection.set(section);
     if (section === 'taxes') {
@@ -3695,34 +3747,58 @@ export class SettingsComponent implements OnInit, OnDestroy {
       this.loadOtpStatus();
     }
     if (updateUrl) {
-      const current = this.route.snapshot.queryParams['section'];
-      if (current !== section) {
+      const hash = SETTINGS_SECTION_HASH[section];
+      const currentQ = this.route.snapshot.queryParams['section'];
+      const currentF = this.route.snapshot.fragment;
+      if (currentQ !== section || currentF !== hash) {
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams: { section },
           queryParamsHandling: 'merge',
+          fragment: hash,
           replaceUrl: true,
         });
       }
     }
   }
 
-  private applySectionFromQuery(section: string | null | undefined): void {
-    if (!section || typeof section !== 'string') {
-      return;
+  private resolveSectionId(raw: string | null | undefined): SettingsSectionId | null {
+    if (!raw || typeof raw !== 'string') {
+      return null;
     }
-    const resolved =
-      SETTINGS_SECTION_ALIASES[section] ??
-      ((SettingsComponent.SETTINGS_SECTION_IDS as readonly string[]).includes(section)
-        ? (section as SettingsSectionId)
-        : null);
+    const key = raw.trim().toLowerCase().replace(/^#/, '');
+    if (!key) {
+      return null;
+    }
+    return (
+      SETTINGS_SECTION_ALIASES[key] ??
+      ((SettingsComponent.SETTINGS_SECTION_IDS as readonly string[]).includes(key)
+        ? (key as SettingsSectionId)
+        : null)
+    );
+  }
+
+  private applySectionFromUrl(raw: string | null | undefined, scroll: boolean): void {
+    const resolved = this.resolveSectionId(raw);
     if (!resolved) {
       return;
     }
-    if (this.activeSection() === resolved) {
-      return;
+    const changed = this.activeSection() !== resolved;
+    if (changed) {
+      this.selectSection(resolved, false);
     }
-    this.selectSection(resolved, false);
+    if (scroll && changed) {
+      this.scrollActiveSectionIntoView();
+    }
+  }
+
+  private scrollActiveSectionIntoView(): void {
+    queueMicrotask(() => {
+      const el =
+        document.querySelector<HTMLElement>('.content .section') ??
+        document.querySelector<HTMLElement>('.content');
+      el?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
   }
 
   settingsModuleTabVisible(key: TenantUiModuleKey): boolean {

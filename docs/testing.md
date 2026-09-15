@@ -298,9 +298,11 @@ npm run test:settings-providers --prefix front
 
 ---
 
-### 2d2. Settings vertical nav (#395)
+### 2d2. Settings vertical nav (#395, #365)
 
-Smoke test for the settings section menu. Logs in, opens `/settings`, asserts a vertical nav (`data-testid="settings-nav"`) in a row layout on desktop, clicks Payment Settings and confirms `?section=payments` survives reload, then checks column layout + Security deep link on a narrow viewport.
+Smoke test for the settings section menu. Logs in, opens `/settings`, asserts a vertical nav (`data-testid="settings-nav"`) in a row layout on desktop, clicks Payment Settings and confirms `?section=payments` and `#payments` survive reload, checks `#openinghours` / `#loyalty` hash deep links, then checks column layout + Security deep link on a narrow viewport.
+
+Example anchors: `/settings#openinghours`, `/settings#payments`, `/settings#loyalty` (legacy `?section=` still works).
 
 ```bash
 npm run test:settings-vertical-nav --prefix front
@@ -802,7 +804,7 @@ From repo root: `npm run <script> --prefix front`. From `front/`: `npm run <scri
 | `test:sidebar-brand-home` | `scripts/test-sidebar-brand-home.mjs` (sidebar POS brand → `/dashboard`; #390) |
 | `test:sidebar-logout` | `scripts/test-sidebar-logout.mjs` (sidebar logout icon left of POS → `/login`; #383) |
 | `test:settings-providers` | `scripts/test-settings-providers.mjs` (Settings → Providers tab; personal providers smoke; uses .env, tenant=1) |
-| `test:settings-vertical-nav` | `scripts/test-settings-vertical-nav.mjs` (Settings vertical section menu + `?section=` deep link; #395) |
+| `test:settings-vertical-nav` | `scripts/test-settings-vertical-nav.mjs` (Settings vertical section menu + `?section=` / `#hash` deep links; #395, #365) |
 | `test:settings-printing-docs` | `scripts/test-settings-printing-docs.mjs` (Settings → Printing runbook link to docs/0070 on GitHub; #397) |
 | `test:settings-loyalty-docs` | `scripts/test-settings-loyalty-docs.mjs` (Settings → Loyalty club runbook link to docs/0066 on GitHub; #394) |
 | `test:bartender-role` | `scripts/test-bartender-role.mjs` (Users → Add user → role dropdown includes Bartender) |

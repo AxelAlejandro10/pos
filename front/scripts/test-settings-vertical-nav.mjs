@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Smoke: Settings vertical nav layout + ?section= deep link (#395).
+ * Smoke: Settings vertical nav layout + ?section= (#395) and #hash deep links (#365).
  */
 import { createRequire } from 'module';
 import { readFileSync, existsSync } from 'fs';
@@ -104,12 +104,50 @@ try {
   }
 
   await page.click('[data-testid="settings-payments-tab"]');
-  await page.waitForFunction(() => location.search.includes('section=payments'), { timeout: 5000 });
+  await page.waitForFunction(
+    () => location.search.includes('section=payments') && location.hash === '#payments',
+    { timeout: 5000 }
+  );
   console.log('url after payments', page.url());
 
   await page.reload({ waitUntil: 'networkidle2' });
   await page.waitForSelector('[data-testid="settings-payments-tab"].active', { timeout: 10000 });
   console.log('payments active after reload');
+
+  // #365: hash deep links (docs-friendly openinghours + loyalty)
+  await page.goto(`${baseUrl}/settings#openinghours`, { waitUntil: 'networkidle2' });
+  await page.waitForSelector('[data-testid="settings-hours-section"]', { timeout: 10000 });
+  await page.waitForFunction(
+    () =>
+      location.hash === '#openinghours' &&
+      !!document.querySelector('[data-testid="settings-hours-tab"].active'),
+    { timeout: 10000 }
+  );
+  console.log('hash openinghours ok');
+
+  await page.goto(`${baseUrl}/settings#loyalty`, { waitUntil: 'networkidle2' });
+  await page.waitForSelector('[data-testid="settings-loyalty-section"]', { timeout: 10000 });
+  await page.waitForFunction(() => location.hash === '#loyalty', { timeout: 5000 });
+  console.log('hash loyalty ok');
+
+  await page.reload({ waitUntil: 'networkidle2' });
+  await page.waitForSelector('[data-testid="settings-loyalty-section"]', { timeout: 10000 });
+  console.log('loyalty active after hash reload');
+
+  await page.goto(`${baseUrl}/settings#not-a-real-section`, { waitUntil: 'networkidle2' });
+  await page.waitForSelector('[data-testid="settings-nav"]', { timeout: 15000 });
+  const unknownHashOk = await page.evaluate(() => {
+    return (
+      !!document.querySelector('[data-testid="settings-nav"]') &&
+      !document.querySelector('[data-testid="settings-loyalty-section"]') &&
+      !document.querySelector('[data-testid="settings-hours-section"]')
+    );
+  });
+  console.log('unknown hash ignored', unknownHashOk);
+  if (!unknownHashOk) {
+    console.error('FAIL: unknown hash should leave default section');
+    failed = true;
+  }
 
   // #396: Delivery nav + legacy alias deep-link
   await page.click('[data-testid="settings-delivery-tab"]');
