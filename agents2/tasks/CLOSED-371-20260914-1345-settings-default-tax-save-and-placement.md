@@ -33,3 +33,40 @@ In Settings → **Contact Information**, changing **Default tax (IVA)** (e.g. fr
    - `docker compose -f docker-compose.yml -f docker-compose.dev.yml exec -T back python3 -m pytest tests/test_default_tax_settings.py -q`
    - `BASE_URL=http://127.0.0.1:4202 HEADLESS=1 npm run test:settings-contact-tax --prefix front`
 8. Check `docker logs --since 10m pos-front` for compile errors.
+
+## Test report
+
+- **Date/time (UTC):** 2026-09-15T09:20:36Z → 2026-09-15T09:23:36Z
+- **Log window:** `docker logs --since 30m` (pos-front, pos-back)
+- **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development`
+- **What was tested:** Settings → Taxes default IVA placement and persistence; Contact without control; pytest + Puppeteer smoke; front build logs
+
+### Results
+
+| Criterion | Result | Evidence |
+|-----------|--------|----------|
+| Taxes section has Default tax (IVA) with 10% and 0% | PASS | Puppeteer `test:settings-contact-tax`; options include IVA 0% and IVA 10% |
+| Control not on Contact Information | PASS | `/settings?section=contact` — no `#default_tax_id` / default-tax label |
+| Save IVA 0% persists across reload | PASS | Smoke script: selected IVA 0% after reload |
+| Save None persists; restore IVA 10% | PASS | Selected `None (no default)` after reload; restored `IVA 10% (alimentos y bebidas) (10%)` |
+| `tests/test_default_tax_settings.py` | PASS | `2 passed` in 1.34s |
+| `npm run test:settings-contact-tax` | PASS | `RESULT: Settings taxes default tax dropdown populated and save persists.` |
+| Front compile (no bundle/TS errors) | PASS | `FRONT_ERR_COUNT=0`; only NG8107 warnings; app HTTP 200 |
+
+### Overall: **PASS**
+
+### Product owner feedback
+Default tax now lives on Taxes and saves correctly, including clearing to None. Contact Information no longer shows a conflicting editor. Demo tenant was restored to IVA 10% after checks.
+
+### URLs tested
+1. http://127.0.0.1:4202/login?tenant=1
+2. http://127.0.0.1:4202/settings?section=taxes
+3. http://127.0.0.1:4202/settings?section=contact
+
+### Relevant log excerpts
+```
+pos-front: Application bundle generation complete (no Application bundle generation failed / TS errors in window)
+pos-front: FRONT_ERR_COUNT=0
+curl http://127.0.0.1:4202/ → 200
+pytest: 2 passed
+```
