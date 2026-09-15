@@ -39,3 +39,29 @@ Owners (and possibly other roles) need **one-time recovery codes** when they los
 3. Log out again; same recovery code must fail. Authenticator 6-digit code still works.
 4. While logged in with OTP on: regenerate codes with account password; old unused codes must stop working.
 5. Check `docker logs --since 10m pos-front` and `pos-back` for errors; ensure logs do not print full recovery codes.
+
+## Test report
+
+1. **Date/time (UTC):** start `2026-09-15T09:56:40Z`, end `2026-09-15T09:59:15Z`. Log window: `docker logs --since 2026-09-15T09:56:00Z` on `pos-front` / `pos-back`.
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development`; `HEADLESS=1`; login via `DEMO_LOGIN_*` from `.env`.
+3. **What was tested:** pytest recovery API; Puppeteer enable → save codes → login with recovery → reuse rejected; regenerate + TOTP still works (pytest); logs for errors and plaintext code leaks.
+4. **Results:**
+   - `tests/test_otp_recovery_codes.py`: **PASS** — `5 passed` in 3.55s (confirm returns 8 codes; login + reuse fail; TOTP login; regenerate with password replaces old; disable clears).
+   - `npm run test:otp-recovery-codes`: **PASS** — 8 codes shown → confirm saved → login with recovery OK → reuse rejected (exit 0, ~99s).
+   - Manual regenerate / TOTP / log hygiene: **PASS** — covered by pytest regenerate + smoke TOTP cleanup; `pos-back`/`pos-front` logs in window had no error/traceback/500 and no `XXXX-XXXX` plaintext recovery codes.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Staff can save one-time recovery codes after enabling 2FA and use one code to sign in when the authenticator is unavailable. Used codes and regenerated sets behave correctly. Ready to close.
+7. **URLs tested:**
+   1. `http://127.0.0.1:4202/login`
+   2. `http://127.0.0.1:4202/settings?section=security`
+   3. `http://127.0.0.1:4202/` (health check HTTP 200; `/api/health` ok)
+8. **Relevant log excerpts (last section):**
+```
+pytest: ..... [100%] 5 passed, 1 warning in 3.55s
+smoke: OK: recovery codes shown: 8
+smoke: OK: confirmed codes saved
+smoke: OK: logged in with recovery code
+smoke: PASS: reused recovery code rejected
+pos-back/pos-front since 09:56Z: no error|exception|traceback|500; no XXXX-XXXX in back logs
+curl http://127.0.0.1:4202/ → 200; /api/health → {"status":"ok"}
+```
