@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Public `/book/` Time slot control sat out of line with left-justified fields in the week summary.
+- **What was done:** CSS-only fix in `reservation-week-slot-grid.component.scss`: week summary stacks Date then Time slot left-aligned; removed ≥480px `space-between` that pushed Time slot right.
+- **What was tested:** Desktop/mobile alignment, slot behaviour, landing smoke, and front build logs — overall **PASS** (2026-09-15T10:40:18Z).
+- **Why closed:** All acceptance criteria passed; tester verified.
+- **Closed at (UTC):** 2026-09-15 10:41
+---
+
 # Align Time slot control on public booking form (#369)
 
 ## GitHub Issues
