@@ -1,5 +1,5 @@
 ## Status
-**UNTESTED** — feature coder 010 finished; waiting for tester
+**CLOSED** — tester verified PASS (2026-09-15T11:40:53Z)
 
 # Blue primary buttons need white text (#408)
 
@@ -35,3 +35,28 @@ Related: `docs/0028-tenant-public-branding.md` (tenant primary button colour / C
 5. Spot-check a staff primary button (e.g. dashboard / tables) still has white text on primary.
 6. `docker logs --since 10m pos-front` — no Angular/TS build errors.
 7. Optional: `BASE_URL=http://127.0.0.1:4202 npm run test:landing-version --prefix front`.
+
+## Test report
+
+1. **Date/time (UTC):** start `2026-09-15T11:39:17Z`, end `2026-09-15T11:40:53Z`. Log window: `pos-front` `--since 20m` (approx. 11:26–11:40 UTC).
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development`.
+3. **What was tested:** `/book/1` calendar nav + map buttons + Book table primary; staff `/tables` primary; front build logs; optional landing smoke.
+4. **Results:**
+   - Calendar **‹** / **›** dark text on light fill — **PASS** (`btn-cal-nav` color `rgb(28, 25, 23)` on `rgb(250, 249, 247)` while `.book-page` wash `--color-bg: #1E22AA`).
+   - **Open in Google Maps** / **OpenStreetMap** dark on light — **PASS** (`btn-secondary book-maps-btn` same contrast).
+   - **Book table** white on primary blue — **PASS** (`btn-primary` color `rgb(255, 255, 255)` on `rgb(37, 99, 235)`).
+   - Staff primary (**Add Table** on `/tables`) white on primary — **PASS** (`rgb(255, 255, 255)` on `rgb(211, 82, 51)`).
+   - `pos-front` build — **PASS** (bundle complete; no TS/Angular errors; only existing NG8107 warnings).
+   - Optional `npm run test:landing-version` — **PASS** (`RESULT: Landing version OK; … sidebar nav OK`).
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Blue page wash no longer paints calendar or map controls. Primary CTAs keep white labels on solid primary. Contrast on public book and staff tables is readable.
+7. **URLs tested:**
+   1. `http://127.0.0.1:4202/book/1`
+   2. `http://127.0.0.1:4202/tables`
+   3. Landing smoke also hit `/`, demo login, `/talk`, `/staff/orders`, `/tables`, `/kitchen`, `/bar`, `/customers` via `test:landing-version`
+8. **Relevant log excerpts:**
+   ```
+   Application bundle generation complete. [1.349 seconds] - 2026-09-15T11:37:14.031Z
+   (no ERROR / Application bundle generation failed in window)
+   >>> RESULT: Landing version OK; demo restaurant card OK; demo login (tenant=1) OK; sidebar nav OK.
+   ```
