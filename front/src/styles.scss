@@ -16,8 +16,12 @@
 :root {
   /* Warm, appetite-friendly palette (staff app chrome) */
   --color-bg: #FAF9F7;
+  /* Light chrome fill for secondary controls; public branding must not override this (#408) */
+  --color-subtle: #FAF9F7;
   --color-surface: #FFFFFF;
   --color-primary: #D35233;
+  /* Text/icons on solid primary fills */
+  --color-on-primary: #ffffff;
   /* Hover/light follow --color-primary so public pages can override one token (#370) */
   --color-primary-hover: color-mix(in srgb, var(--color-primary) 82%, black);
   --color-primary-light: color-mix(in srgb, var(--color-primary) 12%, transparent);

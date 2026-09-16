@@ -79,27 +79,29 @@ cursor_agent_timeout_seconds_for() {
 }
 
 # Run cursor-agent with a wall-clock cap so the loop never blocks 30+ minutes on a hung step.
+# Always pin --workspace to REPO_ROOT so MCP/node does not inherit Downloads/Desktop cwd (macOS TCC).
 invoke_cursor_agent() {
   local step="$1"
   shift
   local secs
   secs=$(cursor_agent_timeout_seconds_for "$step")
+  local -a ca_args=(--trust --workspace "$REPO_ROOT" "$@")
   if ((secs <= 0)); then
-    cursor-agent "$@"
+    (cd "$REPO_ROOT" && cursor-agent "${ca_args[@]}")
     return $?
   fi
   local mins=$((secs / 60))
   echo "cursor-agent wall-clock limit: ${mins}m (${secs}s, step=${step}; AGENT_CURSOR_TIMEOUT=0 disables)" >&2
   if command -v timeout >/dev/null 2>&1; then
-    timeout --preserve-status --foreground "$secs" cursor-agent "$@"
+    (cd "$REPO_ROOT" && timeout --preserve-status --foreground "$secs" cursor-agent "${ca_args[@]}")
     return $?
   fi
   if command -v gtimeout >/dev/null 2>&1; then
-    gtimeout --preserve-status --foreground "$secs" cursor-agent "$@"
+    (cd "$REPO_ROOT" && gtimeout --preserve-status --foreground "$secs" cursor-agent "${ca_args[@]}")
     return $?
   fi
   # macOS / minimal env: poll and SIGTERM, then SIGKILL
-  cursor-agent "$@" &
+  (cd "$REPO_ROOT" && cursor-agent "${ca_args[@]}") &
   local pid=$!
   local waited=0
   while kill -0 "$pid" 2>/dev/null && ((waited < secs)); do
@@ -468,7 +470,7 @@ run_agent() {
     echo "msg: $msg"
     echo "---"
     set +e
-    invoke_cursor_agent "$step" --yolo -p "$prompt" "$msg"
+    invoke_cursor_agent "$step" --yolo -p "$p" "$msg"
     local _ca_rc=$?
     set -e
     if ((_ca_rc == 124)); then

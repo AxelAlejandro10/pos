@@ -109,7 +109,7 @@ import { LanguageService, SUPPORTED_LANGUAGES, LanguageCode } from '../services/
 
       &:hover {
         color: var(--color-primary, #D35233);
-        background: var(--color-bg, #f9fafb);
+        background: var(--color-subtle, var(--color-bg, #f9fafb));
       }
 
       &:focus-visible {
@@ -155,7 +155,7 @@ import { LanguageService, SUPPORTED_LANGUAGES, LanguageCode } from '../services/
       cursor: pointer;
 
       &:hover {
-        background: var(--color-bg, #f9fafb);
+        background: var(--color-subtle, var(--color-bg, #f9fafb));
       }
 
       &.is-active {

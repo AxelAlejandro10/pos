@@ -44,7 +44,8 @@
     height: 2.25rem;
     border-radius: var(--radius-sm);
     border: 1px solid var(--color-border);
-    background: var(--color-bg);
+    /* Keep light fill when public pages override --color-bg (#408) */
+    background: var(--color-subtle, var(--color-surface));
     color: var(--color-text);
     font-size: 1.25rem;
     line-height: 1;
@@ -115,7 +116,7 @@
       background 0.1s ease,
       border-color 0.1s ease,
       box-shadow 0.1s ease;
-    background: var(--color-bg);
+    background: var(--color-subtle, var(--color-surface));
     color: var(--color-text);
 
     &.dm-available {
@@ -335,7 +336,7 @@
     padding: var(--space-3);
     border-radius: var(--radius-md);
     border: 1px solid var(--color-border);
-    background: var(--color-bg);
+    background: var(--color-subtle, var(--color-surface));
     font-size: 0.875rem;
     color: var(--color-text);
   }
