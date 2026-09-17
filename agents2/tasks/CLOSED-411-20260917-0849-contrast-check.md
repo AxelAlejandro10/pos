@@ -5,7 +5,7 @@
 - **411**
 
 ## Status
-**WIP → UNTESTED** (feature coder 010, 2026-09-17T08:56:00Z)
+**TESTING → CLOSED** (tester 020, 2026-09-17T09:19:12Z) — overall **PASS**
 
 ## Problem / goal
 After recent colour work, the top menu (nav) has poor contrast and is hard to read (screenshot on the issue). Fix the contrast for that chrome. Also update design rules so future UI work always checks contrast ratio, and require testers to fail builds that ship unreadable contrast (open a contrast issue instead of closing as pass).
@@ -46,3 +46,23 @@ Do **not** close as PASS. Open or reopen a contrast GitHub issue (or comment on 
 ### URLs
 - `http://127.0.0.1:4202/book/1`
 - optionally `/public-menu/1`, `/waitlist/1` for the same sticky header
+
+## Test report
+
+1. **Date/time (UTC):** start 2026-09-17T09:18:08Z, end 2026-09-17T09:19:12Z. Log window: `docker logs --since 15m pos-front`.
+2. **Environment:** `docker compose -f docker-compose.yml -f docker-compose.dev.yml`, `BASE_URL=http://127.0.0.1:4202`, branch `development` @ `568e68c00`.
+3. **What was tested:** Sticky guest nav contrast (dark + light wash), `test:public-guest-header` smoke, primary Book CTA contrast, front compile logs, contrast duty in `020-test.md` / `docs/testing.md`.
+4. **Results:**
+   - Sticky guest nav (dark wash `#1E22AA`): **PASS** — smoke reported `Contrast OK: 11.26:1 (ink=light)` on `/book/1`.
+   - Light wash path (`#D4E157` set via DB, then restored to `#1E22AA`): **PASS** — smoke reported `Contrast OK: 12.25:1 (ink=dark)`; header readable on `/book/1`, `/public-menu/1`, `/waitlist/1`.
+   - Smoke script `npm run test:public-guest-header`: **PASS** (dark and light runs both OK).
+   - Primary CTAs (#408): **PASS** — `.btn.btn-primary` “Book table” white on `rgb(37, 99, 235)`, ratio **5.17:1**.
+   - Front logs: **PASS** — no TS/NG/bundle errors in the window (0 matching error lines).
+   - Contrast duty (meta): **PASS** — `agents2/020-test.md` §Contrast check and `docs/testing.md` (lines 15–19) require fail + open/reopen contrast issue, no CLOSED pass.
+5. **Overall:** **PASS**
+6. **Product owner feedback:** Guest sticky nav now picks light or dark ink from the wash luminance, so lime and navy both stay readable. The smoke gate at ≥4.5:1 makes this hard to regress. Demo tenant public background was restored to `#1E22AA` after the light-wash check.
+7. **URLs tested:**
+   1. `http://127.0.0.1:4202/book/1`
+   2. `http://127.0.0.1:4202/public-menu/1`
+   3. `http://127.0.0.1:4202/waitlist/1`
+8. **Relevant log excerpts:** Front container had no compile/error lines in the window. Smoke stdout: `Contrast OK: 11.26:1 (ink=light)` then after light wash `Contrast OK: 12.25:1 (ink=dark)`; final restore smoke again `11.26:1 (ink=light)`.
