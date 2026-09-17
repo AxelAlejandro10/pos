@@ -4,6 +4,10 @@
 - **Issue:** https://github.com/satisfecho/pos/issues/413
 - **413**
 
+## Status
+- **Blocked — waiting for human** (slug format: name-only vs name+location; no tenant slug in DB yet)
+- **Waiting notice posted:** 2026-09-17T09:16:55Z
+
 ## Problem / goal
 Public menu URLs use the numeric tenant id today (e.g. `https://satisfecho.de/public-menu/175`). Prefer a human-readable path that includes restaurant name and location (or a stable slug derived from them), while keeping links from internal pages correct.
 
