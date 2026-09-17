@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Public menu URLs used numeric tenant ids; product asked for readable name-city paths while keeping old links.
+- **What was done:** Added tenant `city` + unique `public_slug`, dual API/route resolve (id or slug), Settings fields, and internal links that prefer the slug; numeric URLs still work and rewrite.
+- **What was tested:** API id/slug, browser dual route + canonicalize, landing links, Settings uniqueness (400), pytest (8 passed), Puppeteer public-menu-slug + landing — all **PASS**.
+- **Why closed:** All testing criteria passed.
+- **Closed at (UTC):** 2026-09-17 14:36
+---
+
 # Public menu URL with restaurant name / location (#413)
 
 ## GitHub Issues
