@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Sticky guest top nav had poor contrast on light tenant washes; #411 asked for a fix plus mandatory contrast checks.
+- **What was done:** Header picks light/dark ink from wash luminance (`pickContrastingForeground`); contrast rules/docs and tester duty updated; smoke asserts ≥4.5:1.
+- **What was tested:** Tester PASS — dark/light washes, `test:public-guest-header`, primary CTAs, clean front logs, contrast duty in docs.
+- **Why closed:** All criteria passed.
+- **Closed at (UTC):** 2026-09-17 09:20
+---
+
 # Fix top-menu contrast and require contrast checks (#411)
 
 ## GitHub Issues
