@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Role `platform_operator` showed raw key `USERS.ROLES.PLATFORM_OPERATOR` because the i18n string was missing.
+- **What was done:** Added `USERS.ROLES.PLATFORM_OPERATOR` to all 10 locale files, aligned with each locale's `PLATFORM_AUTH.TITLE`.
+- **What was tested:** Locale keys, served en.json, Users/sidebar/working-plan paths, landing + platform-operator smokes — all PASS.
+- **Why closed:** All testing criteria passed; safe to archive.
+- **Closed at (UTC):** 2026-09-17 09:07
+---
+
 # Add i18n for USERS.ROLES.PLATFORM_OPERATOR
 
 ## GitHub Issues
