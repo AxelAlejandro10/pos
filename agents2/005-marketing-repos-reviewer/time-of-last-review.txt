@@ -28531,3 +28531,139 @@
 
 2026-09-17T02:25:30Z UTC | 005 review | registered=1 (bar-jupiter) deploy_triggered=pending feat_mkt=0 untracked_issues=0 changed=0
 2026-09-17T02:29:28Z UTC | 005 review done | registered=1 (bar-jupiter) deploy_triggered=1 run=35174391740 feat_mkt=0 | live https://www.satisfecho.de/bar-jupiter/ OK
+2026-09-17T02:29:50Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T02:36:17Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T02:42:36Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T02:49:07Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T02:56:27Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T03:02:51Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T03:09:14Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T03:15:28Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T03:21:46Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T03:28:13Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T03:34:34Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T03:40:54Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T03:47:07Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T03:53:25Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T03:59:47Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T04:06:08Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T04:12:29Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T04:18:41Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T04:25:01Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T04:31:16Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T04:37:30Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T04:43:49Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T04:50:09Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T04:56:31Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T05:02:52Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T05:09:07Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T05:15:20Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T05:21:39Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T05:27:54Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T05:34:08Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T05:40:23Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T05:46:45Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T05:53:06Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T05:59:21Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T06:05:41Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T06:12:02Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T06:18:21Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T06:24:42Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T06:30:56Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T06:37:12Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T06:43:28Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T06:49:52Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T06:56:13Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T07:02:32Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T07:08:55Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T07:15:11Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T07:21:25Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T07:27:42Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T07:34:01Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T07:40:25Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T07:46:49Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T07:53:05Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T07:59:26Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T08:05:57Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T08:12:22Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T08:18:47Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T08:25:06Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T08:33:24Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T08:51:14Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T09:15:41Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T09:27:07Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T09:38:00Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T09:50:14Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T09:56:37Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T10:03:02Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T10:09:23Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T10:15:46Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
+2026-09-17T10:22:04Z UTC | 005 preflight | new=0 changed=0 untracked_issues=0 deploy_candidates=0
+
