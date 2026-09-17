@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Guests on `/book` needed public nav plus a working hero “Book a table” CTA; #376 already shipped the sticky header.
+- **What was done:** Hero “Book a table” became a button that scrolls to `#book-form`; `test:public-guest-header` asserts the scroll. No second chrome bar.
+- **What was tested:** Guest header, hero CTA scroll, button semantics, `test:public-guest-header`, `test:landing-version`, and front compile — overall **PASS**.
+- **Why closed:** All acceptance criteria passed.
+- **Closed at (UTC):** 2026-09-17 08:42
+---
+
 # Public pages nav menu / tabs (remaining gap after guest header)
 
 ## GitHub Issues
