@@ -6,6 +6,7 @@
 
 ## Status
 - **Implemented:** 2026-09-17T09:02:00Z
+- **Testing:** 2026-09-17T09:29:11Z–2026-09-17T09:31:09Z — **FAIL** (contrast). Returned to **WIP**. Contrast issue #414.
 - Contact footer on `/public-menu/{tenantId}` using existing `GET /public/tenants/{id}` fields (phone, email, WhatsApp, address, maps). No API change. Reused `BOOK.*` / `SETTINGS.WHATSAPP` i18n keys.
 
 ## Problem / goal
@@ -36,3 +37,24 @@ See `docs/0028-tenant-public-branding.md` for public page coverage and shared he
 5. Optional: clear phone/email/whatsapp/address/maps on a test tenant — footer section should hide when all empty.
 6. `docker logs --since 10m pos-front` — no Angular/TS build errors.
 7. `BASE_URL=http://127.0.0.1:4202 npm run test:landing-version --prefix front` passes.
+
+## Test report
+
+1. **Date/time (UTC):** 2026-09-17T09:29:11Z start → 2026-09-17T09:31:09Z end. Log window: `docker logs --since 15m` (pos-front, pos-back).
+2. **Environment:** `docker-compose.yml` + `docker-compose.dev.yml`; `BASE_URL=http://127.0.0.1:4202`; branch `development` @ `296121f62`.
+3. **What was tested:** Testing instructions 1–4, 6–7 (optional empty-footer step 5 not run). Puppeteer one-off `tmp/test-public-menu-footer-412.mjs` + contrast probe; landing smoke `LANDING_VERSION_ONLY=1`.
+4. **Results:**
+   - Footer present below products (`[data-testid="public-menu-contact-footer"]`) — **PASS** (visible with contact title + fields).
+   - Tenant 1 phone `+34717102603`, WhatsApp, email `hello@satisfecho.de`, address `Carrer de Arribau 42`, Google Maps + OpenStreetMap buttons — **PASS**.
+   - Back/home link below contact — **PASS** (navigates to `/book/1`). Legal: `app-legal-links` mounted; tenant 1 has null `terms_of_service_url` / `privacy_policy_url` so no legal anchors rendered — **PASS** (component present; no URLs to open).
+   - Mobile ~390px wrap / no horizontal overflow — **PASS**. Contrast on footer surface — **FAIL** (title/address **1.55:1**, contact links **2.18:1** vs footer bg `rgb(30, 34, 170)` = tenant wash `#1E22AA`). Root cause: `[style.--color-bg]="tenant()?.public_background_color"` remaps `--color-bg`; footer uses `background: var(--color-bg)` with dark `--color-text`. Contrast issue: https://github.com/satisfecho/pos/issues/414
+   - Front logs (15m) — **PASS** (no Angular/TS build errors in window).
+   - `npm run test:landing-version` (`LANDING_VERSION_ONLY=1`) — **PASS** (version `2.1.174 ee02d6b6`, demo card OK).
+5. **Overall:** **FAIL** — contrast AA on contact footer with dark tenant wash (criterion 4 / mandatory UI contrast).
+6. **Product owner feedback:** Contact data and maps show correctly, and back/home works. Guests still cannot read the footer on dark brand washes until the surface or text colour is fixed. Prefer a content panel that does not inherit the public wash as `--color-bg`.
+7. **URLs tested:**
+   1. `http://127.0.0.1:4202/public-menu/1`
+   2. `http://127.0.0.1:4202/book/1` (via back/home)
+   3. `http://127.0.0.1:4202/` (landing smoke)
+8. **Relevant log excerpts:** `pos-front` / `pos-back` for the 15m window had no matching `error|TS*|NG*|Application bundle generation failed` lines. Landing smoke: `Version element text: 2.1.174 ee02d6b6 …` / `RESULT: Landing page shows version and demo restaurant card.`
+
