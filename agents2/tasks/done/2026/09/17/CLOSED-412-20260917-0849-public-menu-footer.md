@@ -1,3 +1,13 @@
+---
+## Closing summary (TOP)
+
+- **What happened:** Public menu lacked a restaurant contact footer; first test failed WCAG contrast on dark tenant wash (#414).
+- **What was done:** Contact footer added on `/public-menu/{tenantId}` (phone, WhatsApp, email, address, maps); footer bg switched to `--color-surface` so text stays readable.
+- **What was tested:** Retest PASS — footer present, tenant 1 contact data OK, mobile wrap OK, contrast ≥4.5:1 (title 17.49, links 5.17), front logs clean, landing smoke PASS.
+- **Why closed:** All testing criteria passed after contrast fix.
+- **Closed at (UTC):** 2026-09-17 09:43
+---
+
 # Public menu footer with restaurant contact (#412)
 
 ## GitHub Issues
