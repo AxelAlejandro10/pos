@@ -2665,7 +2665,8 @@
       "BARTENDER": "Camarero de barra",
       "WAITER": "Camarero",
       "RECEPTIONIST": "Recepcionista",
-      "COURIER": "Repartidor"
+      "COURIER": "Repartidor",
+      "PLATFORM_OPERATOR": "Operador de plataforma"
     }
   },
   "TRANSLATIONS": {

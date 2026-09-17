@@ -2802,7 +2802,8 @@
       "BARTENDER": "Cambrer de barra",
       "WAITER": "Cambrer",
       "RECEPTIONIST": "Recepcionista",
-      "COURIER": "Repartidor"
+      "COURIER": "Repartidor",
+      "PLATFORM_OPERATOR": "Operador de plataforma"
     }
   },
   "TRANSLATIONS": {

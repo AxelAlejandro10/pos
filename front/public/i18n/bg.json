@@ -2665,7 +2665,8 @@
       "BARTENDER": "Барман",
       "WAITER": "Севритъор",
       "RECEPTIONIST": "Рецепционист",
-      "COURIER": "Куриер"
+      "COURIER": "Куриер",
+      "PLATFORM_OPERATOR": "Оператор на платформата"
     }
   },
   "TRANSLATIONS": {

@@ -2665,7 +2665,8 @@
       "BARTENDER": "Barkeeper",
       "WAITER": "Kellner",
       "RECEPTIONIST": "Empfangsmitarbeiter",
-      "COURIER": "Kurier"
+      "COURIER": "Kurier",
+      "PLATFORM_OPERATOR": "Plattform-Betreiber"
     }
   },
   "TRANSLATIONS": {

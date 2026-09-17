@@ -1459,7 +1459,8 @@
       "BARTENDER": "بارمان",
       "WAITER": "نادل",
       "RECEPTIONIST": "موظف استقبال",
-      "COURIER": "عامل توصيل"
+      "COURIER": "عامل توصيل",
+      "PLATFORM_OPERATOR": "مشغّل المنصة"
     }
   },
   "CONTRACTS": {

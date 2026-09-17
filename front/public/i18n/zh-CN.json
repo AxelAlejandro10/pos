@@ -2802,7 +2802,8 @@
       "BARTENDER": "调酒师",
       "WAITER": "服务员",
       "RECEPTIONIST": "接待员",
-      "COURIER": "配送员"
+      "COURIER": "配送员",
+      "PLATFORM_OPERATOR": "平台运营"
     }
   },
   "TRANSLATIONS": {

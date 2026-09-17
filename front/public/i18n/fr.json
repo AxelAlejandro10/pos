@@ -2612,7 +2612,8 @@
       "BARTENDER": "Barman",
       "WAITER": "Serveur",
       "RECEPTIONIST": "Réception",
-      "COURIER": "Livreur"
+      "COURIER": "Livreur",
+      "PLATFORM_OPERATOR": "Opérateur plateforme"
     }
   },
   "TRANSLATIONS": {
