@@ -13,6 +13,7 @@ Restaurant owners can customise the look of **public-facing pages** (book a tabl
 | Page | Background colour | Primary button colour | Header image |
 |------|-------------------|----------------------|--------------|
 | `/book/:tenantId` | ✓ | ✓ | ✓ |
+| `/public-menu/:tenantId` | ✓ | ✓ | ✓ |
 | `/menu/:token` | ✓ | ✓ | ✓ |
 | `/reservation?token=...` | ✓ | ✓ | ✓ |
 | `/waitlist/:tenantId` | ✓ | ✓ | ✓ |
@@ -31,7 +32,7 @@ When a header image is set, a dark overlay keeps text readable.
 ## Frontend
 
 - **Settings:** Business profile tab: “Public site background color” (colour + hex + RAL5002 preset), “Public primary button colour” (colour + hex + blue/green presets), “Header background image” (upload + remove).
-- **Public pages:** Root container gets `[style.--color-bg]` when background colour is set; `[style.--color-primary]` from tenant primary or blue default (`resolvePublicPrimaryColor` in `front/src/app/shared/public-brand-colors.ts`); hero header gets `[style.background-image]` and class `has-bg-image` when header image is set (with overlay in SCSS). Shared **`app-public-guest-header`** stays at the top while scrolling (logo, name, links to menu / book / waitlist / delivery / loyalty / feedback, language picker). Loyalty join (`/loyalty/:tenantId`) and card (`/loyalty/card/:token`) use that header; card and join-success also show **`app-public-guest-sales-ctas`** (menu / book / delivery body CTAs, #374).
+- **Public pages:** Root container gets `[style.--color-bg]` when background colour is set; `[style.--color-primary]` from tenant primary or blue default (`resolvePublicPrimaryColor` in `front/src/app/shared/public-brand-colors.ts`); hero header gets `[style.background-image]` and class `has-bg-image` when header image is set (with overlay in SCSS). Shared **`app-public-guest-header`** stays at the top while scrolling (logo, name, links to menu / book / waitlist / delivery / loyalty / feedback, language picker). Loyalty join (`/loyalty/:tenantId`) and card (`/loyalty/card/:token`) use that header; card and join-success also show **`app-public-guest-sales-ctas`** (menu / book / delivery body CTAs, #374). **`/public-menu/:tenantId`** also shows a contact footer (phone / WhatsApp / email / address / maps) above back and legal links (#412), using the same public tenant fields as `/book`.
 - **Hover/light tokens:** Global `--color-primary-hover` and `--color-primary-light` use `color-mix` from `--color-primary`, so a single page override updates button hover states.
 - **Button contrast (#408):** Primary CTAs use `--color-on-primary` (white) on `--color-primary`. Secondary / calendar-nav controls use `--color-subtle` (fixed light chrome), not `--color-bg`, so a dark tenant page wash does not produce black text on a blue control fill. Do not override `--color-subtle` or `--color-on-primary` from tenant branding.
 - **Guest nav contrast (#411):** Sticky `app-public-guest-header` uses the tenant wash as `--hero-header-bg`. Ink is `--hero-header-fg` from `pickContrastingForeground()` in `front/src/app/shared/public-brand-colors.ts` (dark ink on light washes, white on dark). Pass `[headerBackgroundColor]` from the page tenant payload so ink resolves without a flash. Do not hard-code white text on that bar.

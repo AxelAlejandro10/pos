@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   inject,
   signal,
   OnInit,
@@ -51,6 +52,9 @@ export class PublicMenuComponent implements OnInit, OnDestroy {
   errorKind = signal<'invalid_tenant' | 'tenant_not_found' | 'menu_load_failed' | null>(null);
   /** Category ids collapsed by user toggle (default: all expanded). */
   private collapsedCategoryIds = signal<Set<string>>(new Set());
+
+  googleMapsUrl = computed(() => this.tenant()?.public_google_maps_url?.trim() || null);
+  openstreetmapUrl = computed(() => this.tenant()?.public_openstreetmap_url?.trim() || null);
 
   constructor() {
     afterNextRender(() => this.updateDocumentTitle());
@@ -210,6 +214,12 @@ export class PublicMenuComponent implements OnInit, OnDestroy {
 
   formatPrice(product: { price_cents: number }): string {
     return formatMoneyCents(this.translate, product.price_cents, this.menu()?.currency);
+  }
+
+  /** Build WhatsApp wa.me link from phone string (e.g. +34 612 345 678 -> https://wa.me/34612345678). */
+  getWhatsAppUrl(phone: string): string {
+    const digits = (phone || '').replace(/\D/g, '');
+    return `https://wa.me/${digits}`;
   }
 
   private updateDocumentTitle(): void {
