@@ -6,6 +6,7 @@
 >
   <app-public-guest-header
     [tenantId]="tenantId()"
+    [publicMenuRef]="tenant()?.public_slug?.trim() || tenantId()"
     [tenantName]="tenant()?.name ?? null"
     [logoUrl]="logoUrl()"
     [headerBackgroundColor]="tenant()?.public_background_color ?? null"

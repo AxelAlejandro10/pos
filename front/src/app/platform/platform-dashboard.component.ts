@@ -104,7 +104,7 @@ import { ApiService, PlatformInfo, PlatformMetrics, PlatformTenantSummary } from
                       <td>{{ t.product_count }}</td>
                       <td>{{ formatDate(t.created_at) }}</td>
                       <td class="actions-cell">
-                        <a [href]="publicUrl('public-menu', t.id)" target="_blank" rel="noopener noreferrer" class="action-link">
+                        <a [href]="publicUrl('public-menu', t)" target="_blank" rel="noopener noreferrer" class="action-link">
                           {{ 'PLATFORM_DASHBOARD.LINK_MENU' | translate }}
                         </a>
                         <a [routerLink]="['/platform/tenants', t.id]" class="action-link">
@@ -290,9 +290,13 @@ export class PlatformDashboardComponent implements OnInit {
     }
   }
 
-  publicUrl(segment: string, tenantId: number): string {
-    if (typeof window === 'undefined') return `/${segment}/${tenantId}`;
-    return `${window.location.origin}/${segment}/${tenantId}`;
+  publicUrl(segment: string, tenant: { id: number; public_slug?: string | null }): string {
+    const ref =
+      segment === 'public-menu' && tenant.public_slug?.trim()
+        ? tenant.public_slug.trim()
+        : tenant.id;
+    if (typeof window === 'undefined') return `/${segment}/${ref}`;
+    return `${window.location.origin}/${segment}/${ref}`;
   }
 
   logout(): void {

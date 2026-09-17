@@ -30,7 +30,7 @@ export type PublicGuestNavKey = 'menu' | 'book' | 'waitlist' | 'delivery' | 'loy
       >
         <a
           class="public-guest-header__brand"
-          [routerLink]="['/public-menu', tenantId()]"
+          [routerLink]="['/public-menu', menuLinkRef()]"
           [attr.title]="name()"
         >
           @if (logoSafe()) {
@@ -42,7 +42,7 @@ export type PublicGuestNavKey = 'menu' | 'book' | 'waitlist' | 'delivery' | 'loy
         </a>
         <nav class="public-guest-header__nav" [attr.aria-label]="'PUBLIC_GUEST_NAV.ARIA' | translate">
           <a
-            [routerLink]="['/public-menu', tenantId()]"
+            [routerLink]="['/public-menu', menuLinkRef()]"
             class="public-guest-header__link"
             [class.is-active]="activePage() === 'menu'"
             data-testid="public-guest-nav-menu"
@@ -204,6 +204,8 @@ export class PublicGuestHeaderComponent implements OnInit {
   private sanitizer = inject(DomSanitizer);
 
   tenantId = input(0);
+  /** Optional /public-menu path segment (slug preferred). Defaults to tenantId. */
+  publicMenuRef = input<string | number | null>(null);
   tenantName = input<string | null>(null);
   logoUrl = input<string | null>(null);
   /** Tenant public wash hex; when set, drives nav ink contrast (#411). */
@@ -213,8 +215,12 @@ export class PublicGuestHeaderComponent implements OnInit {
   private fetchedName = signal<string | null>(null);
   private fetchedLogo = signal<string | null>(null);
   private fetchedBg = signal<string | null>(null);
+  private fetchedMenuRef = signal<string | number | null>(null);
 
   name = computed(() => this.tenantName()?.trim() || this.fetchedName() || '');
+  menuLinkRef = computed(
+    () => this.publicMenuRef() ?? this.fetchedMenuRef() ?? this.tenantId(),
+  );
   logoSafe = computed((): SafeResourceUrl | null => {
     const url = this.logoUrl() || this.fetchedLogo();
     if (!url) return null;
@@ -239,7 +245,9 @@ export class PublicGuestHeaderComponent implements OnInit {
     const haveName = !!this.tenantName()?.trim();
     const haveLogo = !!this.logoUrl();
     const haveBg = !!normalizeHex6(this.headerBackgroundColor());
-    if (haveName && haveLogo && haveBg) return;
+    const haveMenuRef =
+      this.publicMenuRef() != null && String(this.publicMenuRef()).trim() !== '';
+    if (haveName && haveLogo && haveBg && haveMenuRef) return;
     this.api.getPublicTenant(id).subscribe({
       next: (t) => {
         if (!haveName) this.fetchedName.set(t.name);
@@ -249,6 +257,8 @@ export class PublicGuestHeaderComponent implements OnInit {
         if (!haveBg) {
           this.fetchedBg.set(t.public_background_color ?? null);
         }
+        const slug = t.public_slug?.trim();
+        this.fetchedMenuRef.set(slug || t.id);
       },
       error: () => {
         /* Parent pages already show load errors. */

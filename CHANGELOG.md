@@ -10,6 +10,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Added
 
+- **Public menu URL slug (#413):** `/public-menu/{slug}` uses a unique **name-city** `public_slug` (plus optional `city` in Settings). Numeric `/public-menu/{id}` still works and redirects to the slug when set. Landing QR, guest nav, delivery, loyalty CTAs, and platform shortcuts prefer the slug.
 - **Agent loop vs untrusted GitHub input:** New `docs/0077-agent-untrusted-github-input.md` (linked from `docs/README.md` and `docs/SECURITY-REVIEW.md`) explains soft controls, invisible UTF-8 risk, and hardening for malicious issues.
 - **Public menu contact footer (#412):** `/public-menu/{tenantId}` shows restaurant phone, WhatsApp, email, address, and maps links above the existing back/legal footer (same tenant fields as `/book`).
 - **Loyalty public Menu / Book / Delivery CTAs (#374):** `/loyalty/card/:token` uses the sticky guest header; card and join-success show body CTAs to `/public-menu`, `/book`, and `/delivery` for that tenant.

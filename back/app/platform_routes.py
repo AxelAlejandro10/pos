@@ -107,6 +107,8 @@ def _tenant_summary(
         owner_last_login_at=owner_last_login_at,
         tenant_email=tenant.email,
         tenant_phone=tenant.phone,
+        public_slug=getattr(tenant, "public_slug", None),
+        city=getattr(tenant, "city", None),
         product_count=_count_for_tenant(session, models.Product, tenant_id),
         table_count=_count_for_tenant(session, models.Table, tenant_id),
         user_count=_count_for_tenant(session, models.User, tenant_id),

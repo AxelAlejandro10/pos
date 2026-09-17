@@ -340,7 +340,7 @@
       }
 
       <div class="delivery-footer-actions">
-        <a [routerLink]="['/public-menu', tenantId()]" class="delivery-back-link">
+        <a [routerLink]="['/public-menu', tenant()?.public_slug?.trim() || tenantId()]" class="delivery-back-link">
           {{ 'DELIVERY_CHECKOUT.VIEW_MENU_ONLY' | translate }}
         </a>
         <a

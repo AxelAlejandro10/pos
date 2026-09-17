@@ -2296,7 +2296,10 @@
     "MORNING_LABEL": "Етикет за сутрешна смяна",
     "MORNING_LABEL_PLACEHOLDER": "Обяд / Закуска",
     "EVENING_LABEL": "Етикет за вечерна смяна",
-    "EVENING_LABEL_PLACEHOLDER": "Вечеря"
+    "EVENING_LABEL_PLACEHOLDER": "Вечеря",
+    "CITY": "Град",
+    "PUBLIC_SLUG": "Slug за публичното меню",
+    "PUBLIC_SLUG_HINT": "За /public-menu/{slug} (име-град). Букви, цифри, тирета. Празно = авто от име и град."
   },
   "PAYMENTS": {
     "PAYMENT": "Плащане:",

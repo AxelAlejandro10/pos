@@ -91,7 +91,10 @@ import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
               </div>
             }
             @if (tenantId(); as tid) {
-              <app-public-guest-sales-ctas [tenantId]="tid" />
+              <app-public-guest-sales-ctas
+                [tenantId]="tid"
+                [publicMenuRef]="tenant()?.public_slug?.trim() || tid"
+              />
             }
           </div>
         </main>
