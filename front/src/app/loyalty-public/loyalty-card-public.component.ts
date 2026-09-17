@@ -31,6 +31,7 @@ import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
           [tenantId]="tid"
           [tenantName]="tenant()?.name ?? null"
           [logoUrl]="logoUrl()"
+          [headerBackgroundColor]="tenant()?.public_background_color ?? null"
           activePage="loyalty"
         />
       } @else {

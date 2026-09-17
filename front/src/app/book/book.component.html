@@ -3,6 +3,7 @@
     [tenantId]="tenantId()"
     [tenantName]="tenant()?.name ?? null"
     [logoUrl]="logoUrl()"
+    [headerBackgroundColor]="tenant()?.public_background_color ?? null"
     activePage="book"
   />
   @if (loading()) {

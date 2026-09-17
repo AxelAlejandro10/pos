@@ -10,6 +10,14 @@ This document describes the UI test suite maintained for the POS project. All UI
 
 Tests auto-detect the first responding port among **4203, 4202, 4200** when `BASE_URL` is not set. For production (e.g. satisfecho.de), set `BASE_URL` explicitly.
 
+## Contrast (UI colour)
+
+When verifying UI that changes colours, backgrounds, or chrome (nav, buttons, tenant branding):
+
+1. Confirm text and icons stay readable on their background (aim **WCAG AA** ~4.5:1).
+2. For public guest pages, check sticky `app-public-guest-header` on both light and dark tenant washes (`docs/0028-tenant-public-branding.md`, #411).
+3. On fail: open or reopen a contrast GitHub issue; do not close the task as pass. Tester playbook: `agents2/020-test.md`.
+
 ## Environment variables (common)
 
 | Variable | Description |
