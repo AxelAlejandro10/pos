@@ -3,10 +3,12 @@
 ## GitHub Issues
 - **Issue:** https://github.com/satisfecho/pos/issues/412
 - **412**
+- Contrast follow-up: https://github.com/satisfecho/pos/issues/414
 
 ## Status
 - **Implemented:** 2026-09-17T09:02:00Z
 - **Testing:** 2026-09-17T09:29:11Z–2026-09-17T09:31:09Z — **FAIL** (contrast). Returned to **WIP**. Contrast issue #414.
+- **Contrast fix:** 2026-09-17T09:40:00Z — contact footer uses `--color-surface` (not remapped `--color-bg` wash). Ready for retest.
 - Contact footer on `/public-menu/{tenantId}` using existing `GET /public/tenants/{id}` fields (phone, email, WhatsApp, address, maps). No API change. Reused `BOOK.*` / `SETTINGS.WHATSAPP` i18n keys.
 
 ## Problem / goal
@@ -28,15 +30,17 @@ See `docs/0028-tenant-public-branding.md` for public page coverage and shared he
 - Shows phone / WhatsApp / email and address + Google Maps / OpenStreetMap when set (same density as book).
 - Content-area styles (primary links) so text stays readable outside the hero.
 - Token menu `/menu/...` unchanged (already has phone/WhatsApp in hero; out of this footer scope).
+- **#414 contrast:** footer background changed from `var(--color-bg)` (tenant wash) to `var(--color-surface)` so dark text / primary links stay AA-readable on dark washes. Doc note in `docs/0028-tenant-public-branding.md`.
 
 ## Testing instructions
 1. Open `http://127.0.0.1:4202/public-menu/1` (or production equivalent). Confirm `[data-testid="public-menu-contact-footer"]` shows below the menu products.
 2. For tenant 1 demo: expect phone `+34717102603`, WhatsApp, email `hello@satisfecho.de`, address, and both maps buttons.
 3. Confirm back/home link and legal links still work below the contact block.
-4. Narrow viewport (~390px): contact block wraps cleanly; no white-on-white text.
+4. Narrow viewport (~390px): contact block wraps cleanly; **footer surface must be light (`--color-surface` / white), not the dark tenant wash**; title/address/links vs footer bg ≥ ~4.5:1 WCAG AA (dark wash `#1E22AA` on page root is OK; do not paint footer with that wash).
 5. Optional: clear phone/email/whatsapp/address/maps on a test tenant — footer section should hide when all empty.
 6. `docker logs --since 10m pos-front` — no Angular/TS build errors.
 7. `BASE_URL=http://127.0.0.1:4202 npm run test:landing-version --prefix front` passes.
+8. Optional probe: `BASE_URL=http://127.0.0.1:4202 node tmp/test-public-menu-footer-contrast-412.mjs` — expect `titleVsFooterBg` / `linkVsFooterBg` ≥ 4.5.
 
 ## Test report
 
@@ -58,3 +62,5 @@ See `docs/0028-tenant-public-branding.md` for public page coverage and shared he
    3. `http://127.0.0.1:4202/` (landing smoke)
 8. **Relevant log excerpts:** `pos-front` / `pos-back` for the 15m window had no matching `error|TS*|NG*|Application bundle generation failed` lines. Landing smoke: `Version element text: 2.1.174 ee02d6b6 …` / `RESULT: Landing page shows version and demo restaurant card.`
 
+## Coder notes (contrast retest)
+- Local probe after fix: footer bg `rgb(255,255,255)`; title **17.49:1**, link **5.17:1**. Front rebuild OK. Landing smoke PASS.
