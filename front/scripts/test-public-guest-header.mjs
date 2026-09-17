@@ -86,6 +86,30 @@ async function main() {
   if (!sticky.visible) fails.push('header not visible after scroll');
   if (sticky.top > 8) fails.push(`header not stuck to top after scroll (top=${sticky.top})`);
 
+  // #364: hero "Book a table" pill scrolls to the booking form
+  await page.goto(bookUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+  await page.waitForSelector('[data-testid="book-hero-cta"]', { timeout: 15000 });
+  await page.waitForSelector('[data-testid="book-form"]', { timeout: 15000 });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await new Promise((r) => setTimeout(r, 200));
+  const formTopBefore = await page.$eval('[data-testid="book-form"]', (el) => el.getBoundingClientRect().top);
+  await page.click('[data-testid="book-hero-cta"]');
+  await page.waitForFunction(
+    () => {
+      const form = document.querySelector('[data-testid="book-form"]');
+      if (!form) return false;
+      const top = form.getBoundingClientRect().top;
+      return top > 0 && top < 220;
+    },
+    { timeout: 5000 },
+  ).catch(() => null);
+  const formTopAfter = await page.$eval('[data-testid="book-form"]', (el) => el.getBoundingClientRect().top);
+  if (!(formTopAfter > 0 && formTopAfter < 220)) {
+    fails.push(
+      `book hero CTA did not scroll form into view (before top=${formTopBefore}, after top=${formTopAfter})`,
+    );
+  }
+
   await page.click('[data-testid="public-guest-nav-menu"]');
   await page.waitForFunction(
     (tid) => location.pathname.includes(`/public-menu/${tid}`),
@@ -100,7 +124,7 @@ async function main() {
     console.error('FAIL:', fails.join('; '));
     process.exit(1);
   }
-  console.log('OK: sticky guest header on /book and menu link resolves.');
+  console.log('OK: sticky guest header on /book, hero Book CTA scrolls to form, menu link resolves.');
 }
 
 main().catch((err) => {

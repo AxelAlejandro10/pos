@@ -27,6 +27,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+- **Book a table hero pill scrolls to form (#364):** On `/book/:tenantId`, the hero **"Book a table"** pill is a button that smooth-scrolls to the booking form (clears sticky guest header). Smoke: `npm run test:public-guest-header --prefix front`.
 - **Platform operator role i18n (#409):** Add `USERS.ROLES.PLATFORM_OPERATOR` to all `front/public/i18n/*.json` locales so sidebar/users/working-plan show a translated label instead of the raw key.
 - **Public button contrast on branded page wash (#408):** Secondary and calendar-nav controls use `--color-subtle` (not `--color-bg`) so a dark tenant page background no longer makes black-on-blue map/calendar buttons; primary CTAs keep white `--color-on-primary` text.
 - **Overbooking 0025 pytest without demo seed (#407):** `tests/test_overbooking_0025.py` creates its own tenant and 10 tables (5×4 + 5×2 = 30 seats) and no longer needs `seed_demo_tables` / tenant 1.
