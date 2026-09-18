@@ -48,7 +48,7 @@ def _seed_tenant_tables(session, tenant_id: int) -> None:
     else:
         session.execute(
             text(
-                "INSERT INTO floor (tenant_id, name, sort_order, created_at) VALUES (:tid, :name, 0, NOW())"
+                "INSERT INTO floor (tenant_id, name, sort_order, created_at, is_active, seating_zone) VALUES (:tid, :name, 0, NOW(), true, 'any')"
             ),
             {"tid": tenant_id, "name": FLOOR_NAME},
         )
