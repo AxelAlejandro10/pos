@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   inject,
   signal,
   OnInit,
@@ -9,7 +10,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeResourceUrl, SafeStyle, Title } from '@angular/platform-browser';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { merge } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -21,6 +22,7 @@ import {
 } from '../services/api.service';
 import { PublicGuestHeaderComponent } from '../shared/public-guest-header.component';
 import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
+import { publicMenuTenantRef } from '../shared/public-menu-path';
 import { LanguageService } from '../services/language.service';
 import { LegalLinksComponent } from '../shared/legal-links.component';
 import { formatMoneyCents } from '../shared/currency-symbol';
@@ -35,6 +37,7 @@ import { formatMoneyCents } from '../shared/currency-symbol';
 export class PublicMenuComponent implements OnInit, OnDestroy {
   readonly resolvePublicPrimaryColor = resolvePublicPrimaryColor;
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private api = inject(ApiService);
   private translate = inject(TranslateService);
   private language = inject(LanguageService);
@@ -51,6 +54,9 @@ export class PublicMenuComponent implements OnInit, OnDestroy {
   errorKind = signal<'invalid_tenant' | 'tenant_not_found' | 'menu_load_failed' | null>(null);
   /** Category ids collapsed by user toggle (default: all expanded). */
   private collapsedCategoryIds = signal<Set<string>>(new Set());
+
+  googleMapsUrl = computed(() => this.tenant()?.public_google_maps_url?.trim() || null);
+  openstreetmapUrl = computed(() => this.tenant()?.public_openstreetmap_url?.trim() || null);
 
   constructor() {
     afterNextRender(() => this.updateDocumentTitle());
@@ -75,22 +81,32 @@ export class PublicMenuComponent implements OnInit, OnDestroy {
         }
       });
 
-    const idParam = this.route.snapshot.paramMap.get('tenantId');
-    const tid = idParam ? parseInt(idParam, 10) : NaN;
-    if (!Number.isFinite(tid) || tid < 1) {
+    const refParam = (this.route.snapshot.paramMap.get('tenantId') || '').trim();
+    if (!refParam) {
       this.errorKind.set('invalid_tenant');
       this.loading.set(false);
       this.updateDocumentTitle();
       return;
     }
-    this.tenantId.set(tid);
+    const numericId = /^\d+$/.test(refParam) ? parseInt(refParam, 10) : NaN;
+    if (Number.isFinite(numericId) && numericId >= 1) {
+      this.tenantId.set(numericId);
+    }
     this.updateDocumentTitle();
 
-    this.api.getPublicTenant(tid).subscribe({
+    this.api.getPublicTenant(refParam).subscribe({
       next: (t) => {
         this.tenant.set(t);
+        this.tenantId.set(t.id);
         this.logoUrl.set(this.api.getTenantLogoUrl(t.logo_filename ?? undefined, t.id));
-        this.loadMenu(tid);
+        const canonical = String(publicMenuTenantRef(t));
+        if (canonical && canonical !== refParam) {
+          void this.router.navigate(['/public-menu', canonical], {
+            replaceUrl: true,
+            queryParamsHandling: 'preserve',
+          });
+        }
+        this.loadMenu(t.id);
       },
       error: () => {
         this.errorKind.set('tenant_not_found');
@@ -210,6 +226,12 @@ export class PublicMenuComponent implements OnInit, OnDestroy {
 
   formatPrice(product: { price_cents: number }): string {
     return formatMoneyCents(this.translate, product.price_cents, this.menu()?.currency);
+  }
+
+  /** Build WhatsApp wa.me link from phone string (e.g. +34 612 345 678 -> https://wa.me/34612345678). */
+  getWhatsAppUrl(phone: string): string {
+    const digits = (phone || '').replace(/\D/g, '');
+    return `https://wa.me/${digits}`;
   }
 
   private updateDocumentTitle(): void {

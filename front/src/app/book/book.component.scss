@@ -363,10 +363,33 @@
   font-size: 0.875rem;
   font-weight: 500;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  color: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
 
   svg {
     opacity: 0.9;
   }
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(255, 255, 255, 0.28);
+    outline: none;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+  }
+}
+
+.book-form,
+#book-form-card,
+#book-content {
+  /* Clear sticky public-guest-header when scrolling from the hero CTA */
+  scroll-margin-top: 4.5rem;
 }
 
 // ============================================

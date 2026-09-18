@@ -2433,7 +2433,10 @@
     "MORNING_LABEL": "Etiqueta del torn del matí",
     "MORNING_LABEL_PLACEHOLDER": "Dinar / Esmorzar",
     "EVENING_LABEL": "Etiqueta del torn del vespre",
-    "EVENING_LABEL_PLACEHOLDER": "Sopar"
+    "EVENING_LABEL_PLACEHOLDER": "Sopar",
+    "CITY": "Ciutat",
+    "PUBLIC_SLUG": "Slug de l’URL del menú públic",
+    "PUBLIC_SLUG_HINT": "S’usa a /public-menu/{slug} (nom-ciutat). Lletres, números i guions. Buit = auto des del nom i la ciutat."
   },
   "PAYMENTS": {
     "PAYMENT": "Pagament",
@@ -2802,7 +2805,8 @@
       "BARTENDER": "Cambrer de barra",
       "WAITER": "Cambrer",
       "RECEPTIONIST": "Recepcionista",
-      "COURIER": "Repartidor"
+      "COURIER": "Repartidor",
+      "PLATFORM_OPERATOR": "Operador de plataforma"
     }
   },
   "TRANSLATIONS": {

@@ -1459,7 +1459,8 @@
       "BARTENDER": "بارمان",
       "WAITER": "نادل",
       "RECEPTIONIST": "موظف استقبال",
-      "COURIER": "عامل توصيل"
+      "COURIER": "عامل توصيل",
+      "PLATFORM_OPERATOR": "مشغّل المنصة"
     }
   },
   "CONTRACTS": {
@@ -2613,7 +2614,10 @@
     "MORNING_LABEL": "تسمية خدمة الصباح",
     "MORNING_LABEL_PLACEHOLDER": "غداء / فطور",
     "EVENING_LABEL": "تسمية خدمة المساء",
-    "EVENING_LABEL_PLACEHOLDER": "عشاء"
+    "EVENING_LABEL_PLACEHOLDER": "عشاء",
+    "CITY": "المدينة",
+    "PUBLIC_SLUG": "معرّف رابط القائمة العامة",
+    "PUBLIC_SLUG_HINT": "يُستخدم في /public-menu/{slug} (اسم-مدينة). أحرف وأرقام وشرطات. اتركه فارغًا للتوليد من الاسم والمدينة."
   },
   "PROVIDER_AUTH": {
     "NO_ACCOUNT": "ليس لديك حساب مورد؟",

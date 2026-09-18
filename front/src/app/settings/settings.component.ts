@@ -1251,6 +1251,25 @@ const SETTINGS_SECTION_HASH: Record<SettingsSectionId, string> = {
                     <label for="address">{{ 'SETTINGS.ADDRESS' | translate }}</label>
                     <input type="text" id="address" [(ngModel)]="formData.address" name="address" />
                   </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="city">{{ 'SETTINGS.CITY' | translate }}</label>
+                      <input type="text" id="city" [(ngModel)]="formData.city" name="city" />
+                    </div>
+                    <div class="form-group">
+                      <label for="public_slug">{{ 'SETTINGS.PUBLIC_SLUG' | translate }}</label>
+                      <input
+                        type="text"
+                        id="public_slug"
+                        [(ngModel)]="formData.public_slug"
+                        name="public_slug"
+                        data-testid="settings-public-slug"
+                        autocomplete="off"
+                      />
+                      <small class="field-hint">{{ 'SETTINGS.PUBLIC_SLUG_HINT' | translate }}</small>
+                    </div>
+                  </div>
                   
                   <div class="form-group">
                     <label for="website">{{ 'SETTINGS.WEBSITE' | translate }}</label>
@@ -3642,6 +3661,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     whatsapp: null,
     email: null,
     address: null,
+    city: null,
+    public_slug: null,
     website: null,
     tax_id: null,
     cif: null,
@@ -3891,6 +3912,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
           whatsapp: settings.whatsapp || null,
           email: settings.email || null,
           address: settings.address || null,
+          city: settings.city || null,
+          public_slug: settings.public_slug || null,
           website: settings.website || null,
           tax_id: settings.tax_id || null,
           cif: settings.cif || null,

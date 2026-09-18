@@ -24,7 +24,7 @@ import { TranslateModule } from '@ngx-translate/core';
           @if (showMenu()) {
             <a
               class="btn primary"
-              [routerLink]="['/public-menu', tenantId()]"
+              [routerLink]="['/public-menu', menuLinkRef()]"
               data-testid="loyalty-cta-menu"
             >
               {{ 'LOYALTY_PUBLIC.CTA_MENU' | translate }}
@@ -91,8 +91,16 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class PublicGuestSalesCtasComponent {
   tenantId = input(0);
+  /** Prefer public_slug for menu CTA (#413). */
+  publicMenuRef = input<string | number | null>(null);
   /** When false, hide the menu CTA (channel unavailable for tenant). */
   showMenu = input(true);
   showBook = input(true);
   showDelivery = input(true);
+
+  menuLinkRef(): string | number {
+    const ref = this.publicMenuRef();
+    if (ref != null && String(ref).trim() !== '') return ref;
+    return this.tenantId();
+  }
 }

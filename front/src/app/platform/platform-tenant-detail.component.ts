@@ -276,9 +276,14 @@ export class PlatformTenantDetailComponent implements OnInit {
   }
 
   publicUrl(segment: string): string {
-    const id = this.tenant()?.id;
+    const t = this.tenant();
+    const id = t?.id;
     if (!id || typeof window === 'undefined') return `/${segment}/${id ?? ''}`;
-    return `${window.location.origin}/${segment}/${id}`;
+    const ref =
+      segment === 'public-menu' && t?.public_slug?.trim()
+        ? t.public_slug.trim()
+        : id;
+    return `${window.location.origin}/${segment}/${ref}`;
   }
 
   logout(): void {

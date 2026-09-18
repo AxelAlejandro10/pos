@@ -31,6 +31,7 @@ import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
           [tenantId]="tid"
           [tenantName]="tenant()?.name ?? null"
           [logoUrl]="logoUrl()"
+          [headerBackgroundColor]="tenant()?.public_background_color ?? null"
           activePage="loyalty"
         />
       } @else {
@@ -90,7 +91,10 @@ import { resolvePublicPrimaryColor } from '../shared/public-brand-colors';
               </div>
             }
             @if (tenantId(); as tid) {
-              <app-public-guest-sales-ctas [tenantId]="tid" />
+              <app-public-guest-sales-ctas
+                [tenantId]="tid"
+                [publicMenuRef]="tenant()?.public_slug?.trim() || tid"
+              />
             }
           </div>
         </main>

@@ -829,6 +829,8 @@ class TenantSummary(_BaseModel):
     email: str | None = None
     whatsapp: str | None = None
     address: str | None = None
+    city: str | None = None
+    public_slug: str | None = None
     opening_hours: str | None = None
     public_background_color: str | None = None
     public_primary_color: str | None = None
@@ -1088,6 +1090,8 @@ def _tenant_to_summary(t: models.Tenant, session: Session) -> TenantSummary:
         email=t.email,
         whatsapp=t.whatsapp,
         address=t.address,
+        city=getattr(t, "city", None),
+        public_slug=getattr(t, "public_slug", None),
         opening_hours=t.opening_hours,
         public_background_color=t.public_background_color,
         public_primary_color=getattr(t, "public_primary_color", None),
@@ -1157,19 +1161,28 @@ def get_public_legal_urls(
     }
 
 
-@app.get("/public/tenants/{tenant_id}")
+@app.get("/public/tenants/{tenant_ref}")
 @public_menu_ip_limit()
 def get_public_tenant(
     request: Request,
     response: Response,
-    tenant_id: int,
+    tenant_ref: str,
     session: Session = Depends(get_session),
     lang: str = Depends(_get_requested_language),
 ) -> JSONResponse:
-    """Get one tenant's public info for book page (name, logo, phone, email, whatsapp, opening_hours). Public, no authentication."""
-    tenant = session.get(models.Tenant, tenant_id)
+    """Get one tenant's public info for book page (name, logo, phone, email, whatsapp, opening_hours). Public, no authentication.
+
+    ``tenant_ref`` may be the numeric id or ``public_slug`` (name-city).
+    """
+    from .tenant_public_slug import ensure_tenant_public_slug, resolve_tenant_by_ref
+
+    tenant = resolve_tenant_by_ref(session, tenant_ref)
     if not tenant:
         raise HTTPException(status_code=404, detail=api_error_payload("tenant_not_found", lang))
+    had_slug = (tenant.public_slug or "").strip()
+    ensure_tenant_public_slug(session, tenant)
+    if (tenant.public_slug or "").strip() != had_slug:
+        session.commit()
     summary = _tenant_to_summary(tenant, session)
     # Return explicit JSON so whatsapp is always present (same tenant as /tenant/settings)
     body = {
@@ -1182,6 +1195,8 @@ def get_public_tenant(
         "email": summary.email,
         "whatsapp": summary.whatsapp,
         "address": summary.address,
+        "city": summary.city,
+        "public_slug": summary.public_slug,
         "opening_hours": summary.opening_hours,
         "public_background_color": summary.public_background_color,
         "public_primary_color": summary.public_primary_color,
@@ -1207,7 +1222,7 @@ def get_public_tenant(
 
 
 @app.get(
-    "/public/tenants/{tenant_id}/menu",
+    "/public/tenants/{tenant_ref}/menu",
     summary="Public tenant menu for marketing websites",
     tags=["Public"],
 )
@@ -1215,7 +1230,7 @@ def get_public_tenant(
 def get_public_tenant_menu(
     request: Request,
     response: Response,
-    tenant_id: int,
+    tenant_ref: str,
     session: Session = Depends(get_session),
     lang: str = Depends(_get_requested_language),
 ) -> dict:
@@ -1224,10 +1239,15 @@ def get_public_tenant_menu(
 
     Used by external marketing sites. Reuses product visibility rules from
     ``GET /menu/{table_token}`` (active catalog items, availability window).
+    ``tenant_ref`` may be numeric id or ``public_slug``.
     """
     from .public_tenant_menu import build_public_tenant_menu
+    from .tenant_public_slug import resolve_tenant_by_ref
 
-    body = build_public_tenant_menu(session, tenant_id, lang)
+    tenant = resolve_tenant_by_ref(session, tenant_ref)
+    if tenant is None or tenant.id is None:
+        raise HTTPException(status_code=404, detail=api_error_payload("tenant_not_found", lang))
+    body = build_public_tenant_menu(session, tenant.id, lang)
     if body is None:
         raise HTTPException(status_code=404, detail=api_error_payload("tenant_not_found", lang))
     return body
@@ -4204,6 +4224,40 @@ def update_tenant_settings(
         tenant.address = (
             tenant_update.address.strip() if tenant_update.address else None
         )
+    if tenant_update.city is not None:
+        tenant.city = (
+            tenant_update.city.strip()[:120] if tenant_update.city else None
+        )
+    if tenant_update.public_slug is not None:
+        from .tenant_public_slug import normalize_public_slug
+
+        raw_slug = (
+            tenant_update.public_slug.strip()
+            if isinstance(tenant_update.public_slug, str)
+            else ""
+        )
+        if not raw_slug:
+            # Empty clears so ensure can regenerate from name+city below
+            tenant.public_slug = None
+        else:
+            norm = normalize_public_slug(raw_slug)
+            if not norm:
+                raise HTTPException(
+                    status_code=400,
+                    detail="public_slug must be a URL-safe slug (letters, numbers, hyphens)",
+                )
+            taken = session.exec(
+                select(models.Tenant).where(
+                    models.Tenant.public_slug == norm,
+                    models.Tenant.id != tenant.id,
+                )
+            ).first()
+            if taken:
+                raise HTTPException(
+                    status_code=400,
+                    detail="public_slug is already in use by another restaurant",
+                )
+            tenant.public_slug = norm
     if tenant_update.website is not None:
         tenant.website = (
             tenant_update.website.strip() if tenant_update.website else None
@@ -4673,6 +4727,10 @@ def update_tenant_settings(
 
     if tenant_update.clock_qr_location_verify is not None:
         tenant.clock_qr_location_verify = tenant_update.clock_qr_location_verify
+
+    from .tenant_public_slug import ensure_tenant_public_slug
+
+    ensure_tenant_public_slug(session, tenant)
 
     session.add(tenant)
     session.commit()

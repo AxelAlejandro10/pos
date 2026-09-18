@@ -413,6 +413,8 @@ export interface PlatformTenantSummary {
   owner_last_login_at?: string | null;
   tenant_email?: string | null;
   tenant_phone?: string | null;
+  public_slug?: string | null;
+  city?: string | null;
   product_count: number;
   table_count: number;
   user_count: number;
@@ -655,6 +657,10 @@ export interface TenantSummary {
   whatsapp?: string | null;
   /** Mailing / street address (shown on public book and reservation pages when set). */
   address?: string | null;
+  /** City used in public menu slug (name-city, #413). */
+  city?: string | null;
+  /** Unique public path for /public-menu/{slug}; numeric id still works. */
+  public_slug?: string | null;
   opening_hours?: string | null;
   /** Google review URL (tenant settings). */
   public_google_review_url?: string | null;
@@ -1750,6 +1756,8 @@ export interface TenantSettings {
   whatsapp?: string | null;
   email?: string | null;
   address?: string | null;
+  city?: string | null;
+  public_slug?: string | null;
   website?: string | null;
   tax_id?: string | null;
   cif?: string | null;
@@ -3798,19 +3806,22 @@ export class ApiService {
     );
   }
 
-  getPublicTenant(tenantId: number): Observable<TenantSummary> {
-    return this.http.get<TenantSummary>(`${this.apiUrl}/public/tenants/${tenantId}`);
+  getPublicTenant(tenantRef: number | string): Observable<TenantSummary> {
+    return this.http.get<TenantSummary>(`${this.apiUrl}/public/tenants/${tenantRef}`);
   }
 
   /** Read-only grouped menu for a tenant (public marketing / QR menu page). */
-  getPublicTenantMenu(tenantId: number, lang?: string | null): Observable<PublicTenantMenuResponse> {
+  getPublicTenantMenu(
+    tenantRef: number | string,
+    lang?: string | null,
+  ): Observable<PublicTenantMenuResponse> {
     let params = new HttpParams();
     const resolvedLang = (lang ?? this.language.getLanguage()).trim();
     if (resolvedLang) {
       params = params.set('lang', resolvedLang);
     }
     return this.http.get<PublicTenantMenuResponse>(
-      `${this.apiUrl}/public/tenants/${tenantId}/menu`,
+      `${this.apiUrl}/public/tenants/${tenantRef}/menu`,
       { params },
     );
   }

@@ -37,6 +37,16 @@ export class BookComponent implements OnInit {
       void this.router.navigate(['/reservation'], { queryParams: { token } });
     }
   }
+
+  /** Hero "Book a table" pill: scroll to the booking form (issue #364). */
+  scrollToBookingForm(): void {
+    if (typeof document === 'undefined') return;
+    const target =
+      document.getElementById('book-form') ||
+      document.getElementById('book-form-card') ||
+      document.getElementById('book-content');
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
   private api = inject(ApiService);
   private translate = inject(TranslateService);
   private sanitizer = inject(DomSanitizer);

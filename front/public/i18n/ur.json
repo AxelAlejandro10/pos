@@ -2296,7 +2296,10 @@
     "MORNING_LABEL": "صبح کی سروس لیبل",
     "MORNING_LABEL_PLACEHOLDER": "لنچ / ناشتہ",
     "EVENING_LABEL": "شام کی سروس لیبل",
-    "EVENING_LABEL_PLACEHOLDER": "ڈنر"
+    "EVENING_LABEL_PLACEHOLDER": "ڈنر",
+    "CITY": "شہر",
+    "PUBLIC_SLUG": "عوامی مینو URL سلاگ",
+    "PUBLIC_SLUG_HINT": "/public-menu/{slug} (نام-شہر) میں استعمال۔ حروف، اعداد، ہائفن۔ خالی چھوڑیں تو نام اور شہر سے خود بنے گا۔"
   },
   "PAYMENTS": {
     "PAYMENT": "ادائیگی",
@@ -2665,7 +2668,8 @@
       "BARTENDER": "بارٹینڈر",
       "WAITER": "ویٹر",
       "RECEPTIONIST": "ریسپشنسٹ",
-      "COURIER": "کورئیر"
+      "COURIER": "کورئیر",
+      "PLATFORM_OPERATOR": "پلیٹ فارم آپریٹر"
     }
   },
   "TRANSLATIONS": {

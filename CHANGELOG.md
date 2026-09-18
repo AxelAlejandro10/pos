@@ -10,6 +10,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Added
 
+- **Public menu URL slug (#413):** `/public-menu/{slug}` uses a unique **name-city** `public_slug` (plus optional `city` in Settings). Numeric `/public-menu/{id}` still works and redirects to the slug when set. Landing QR, guest nav, delivery, loyalty CTAs, and platform shortcuts prefer the slug.
+- **Agent loop vs untrusted GitHub input:** New `docs/0077-agent-untrusted-github-input.md` (linked from `docs/README.md` and `docs/SECURITY-REVIEW.md`) explains soft controls, invisible UTF-8 risk, and hardening for malicious issues.
+- **Public menu contact footer (#412):** `/public-menu/{tenantId}` shows restaurant phone, WhatsApp, email, address, and maps links above the existing back/legal footer (same tenant fields as `/book`).
 - **Loyalty public Menu / Book / Delivery CTAs (#374):** `/loyalty/card/:token` uses the sticky guest header; card and join-success show body CTAs to `/public-menu`, `/book`, and `/delivery` for that tenant.
 - **Settings → Loyalty club docs link (#394):** Loyalty club tab links to the runbook on GitHub (`docs/0066-club-loyalty.md`). Smoke: `npm run test:settings-loyalty-docs --prefix front`.
 - **Sidebar mobile brand link fix (#390):** Close the broken mobile header `<a>` so the Angular template compiles again (desktop POS → dashboard link was already correct).
@@ -27,6 +30,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Fixed
 
+- **Public guest nav contrast on light wash (#411):** Sticky `app-public-guest-header` picks dark or white ink from tenant `public_background_color` (`pickContrastingForeground`) so light washes no longer leave white-on-lime unreadable labels. Design rule `.cursor/rules/ui-contrast.mdc`; tester must fail unreadable contrast.
+- **Book a table hero pill scrolls to form (#364):** On `/book/:tenantId`, the hero **"Book a table"** pill is a button that smooth-scrolls to the booking form (clears sticky guest header). Smoke: `npm run test:public-guest-header --prefix front`.
+- **Platform operator role i18n (#409):** Add `USERS.ROLES.PLATFORM_OPERATOR` to all `front/public/i18n/*.json` locales so sidebar/users/working-plan show a translated label instead of the raw key.
 - **Public button contrast on branded page wash (#408):** Secondary and calendar-nav controls use `--color-subtle` (not `--color-bg`) so a dark tenant page background no longer makes black-on-blue map/calendar buttons; primary CTAs keep white `--color-on-primary` text.
 - **Overbooking 0025 pytest without demo seed (#407):** `tests/test_overbooking_0025.py` creates its own tenant and 10 tables (5×4 + 5×2 = 30 seats) and no longer needs `seed_demo_tables` / tenant 1.
 - **SQLite tenant tip presets for pytest (#406):** `Tenant.tip_preset_percents` (and sibling tenant JSON fields) use dialect-aware JSON so SQLite unit tests can `create_all`; PostgreSQL still stores JSONB. No migration change.

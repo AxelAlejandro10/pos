@@ -2262,7 +2262,10 @@
     "MORNING_LABEL": "Bezeichnung Vormittag",
     "MORNING_LABEL_PLACEHOLDER": "Mittagessen / Frühstück",
     "EVENING_LABEL": "Bezeichnung Abend",
-    "EVENING_LABEL_PLACEHOLDER": "Abendessen"
+    "EVENING_LABEL_PLACEHOLDER": "Abendessen",
+    "CITY": "Stadt",
+    "PUBLIC_SLUG": "Öffentlicher Menü-URL-Slug",
+    "PUBLIC_SLUG_HINT": "Für /public-menu/{slug} (Name-Stadt). Buchstaben, Zahlen, Bindestriche. Leer lassen für Auto aus Name und Stadt."
   },
   "PAYMENTS": {
     "PAYMENT": "Zahlung",
@@ -2665,7 +2668,8 @@
       "BARTENDER": "Barkeeper",
       "WAITER": "Kellner",
       "RECEPTIONIST": "Empfangsmitarbeiter",
-      "COURIER": "Kurier"
+      "COURIER": "Kurier",
+      "PLATFORM_OPERATOR": "Plattform-Betreiber"
     }
   },
   "TRANSLATIONS": {

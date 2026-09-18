@@ -10,6 +10,7 @@
       [tenantId]="tenantId()"
       [tenantName]="tenant()?.name ?? null"
       [logoUrl]="logoUrl()"
+      [headerBackgroundColor]="tenant()?.public_background_color ?? null"
       activePage="loyalty"
     />
   } @else {
@@ -120,7 +121,10 @@
                 }
               </div>
             }
-            <app-public-guest-sales-ctas [tenantId]="tenantId()" />
+            <app-public-guest-sales-ctas
+              [tenantId]="tenantId()"
+              [publicMenuRef]="tenant()?.public_slug?.trim() || tenantId()"
+            />
           </div>
         } @else {
           <form (ngSubmit)="submit()" class="book-form join-form" data-testid="loyalty-join-form">

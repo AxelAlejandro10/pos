@@ -97,6 +97,10 @@ class Tenant(SQLModel, table=True):
     whatsapp: str | None = None
     email: str | None = None
     address: str | None = None
+    # City for public menu slug (name-city, #413); optional until set in Settings
+    city: str | None = Field(default=None, max_length=120)
+    # Unique public path segment for /public-menu/{slug}; numeric id still works
+    public_slug: str | None = Field(default=None, max_length=160, index=True)
     website: str | None = None
     tax_id: str | None = None  # Tax ID / VAT number (e.g. DE123456789)
     cif: str | None = None  # CIF / NIF (Spain: B12345678)
@@ -437,6 +441,8 @@ class PlatformTenantSummary(SQLModel):
     owner_last_login_at: datetime | None = None
     tenant_email: str | None = None
     tenant_phone: str | None = None
+    public_slug: str | None = None
+    city: str | None = None
     product_count: int = 0
     table_count: int = 0
     user_count: int = 0
@@ -1851,6 +1857,8 @@ class TenantUpdate(SQLModel):
     whatsapp: str | None = None
     email: str | None = None
     address: str | None = None
+    city: str | None = None
+    public_slug: str | None = None
     website: str | None = None
     tax_id: str | None = None
     cif: str | None = None

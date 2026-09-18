@@ -2296,7 +2296,10 @@
     "MORNING_LABEL": "Etiqueta del turno de mañana",
     "MORNING_LABEL_PLACEHOLDER": "Comida / Desayuno",
     "EVENING_LABEL": "Etiqueta del turno de tarde",
-    "EVENING_LABEL_PLACEHOLDER": "Cena"
+    "EVENING_LABEL_PLACEHOLDER": "Cena",
+    "CITY": "Ciudad",
+    "PUBLIC_SLUG": "Slug de URL del menú público",
+    "PUBLIC_SLUG_HINT": "Se usa en /public-menu/{slug} (nombre-ciudad). Letras, números y guiones. Vacío = auto desde nombre y ciudad."
   },
   "PAYMENTS": {
     "PAYMENT": "Pago",
@@ -2665,7 +2668,8 @@
       "BARTENDER": "Camarero de barra",
       "WAITER": "Camarero",
       "RECEPTIONIST": "Recepcionista",
-      "COURIER": "Repartidor"
+      "COURIER": "Repartidor",
+      "PLATFORM_OPERATOR": "Operador de plataforma"
     }
   },
   "TRANSLATIONS": {

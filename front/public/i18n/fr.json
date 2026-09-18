@@ -2243,7 +2243,10 @@
     "MORNING_LABEL": "Libellé du service du matin",
     "MORNING_LABEL_PLACEHOLDER": "Déjeuner / Petit-déjeuner",
     "EVENING_LABEL": "Libellé du service du soir",
-    "EVENING_LABEL_PLACEHOLDER": "Dîner"
+    "EVENING_LABEL_PLACEHOLDER": "Dîner",
+    "CITY": "Ville",
+    "PUBLIC_SLUG": "Slug d’URL du menu public",
+    "PUBLIC_SLUG_HINT": "Utilisé dans /public-menu/{slug} (nom-ville). Lettres, chiffres, tirets. Vide = auto depuis nom et ville."
   },
   "PAYMENTS": {
     "PAYMENT": "Paiement",
@@ -2612,7 +2615,8 @@
       "BARTENDER": "Barman",
       "WAITER": "Serveur",
       "RECEPTIONIST": "Réception",
-      "COURIER": "Livreur"
+      "COURIER": "Livreur",
+      "PLATFORM_OPERATOR": "Opérateur plateforme"
     }
   },
   "TRANSLATIONS": {
