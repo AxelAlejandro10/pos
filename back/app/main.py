@@ -14495,6 +14495,159 @@ def list_orders(
     return result
 
 
+class PosOrderItemIn(_BaseModel):
+    product_id: int
+    quantity: int = 1
+    notes: str | None = None
+
+
+class PosOrderIn(_BaseModel):
+    table_id: int | None = None
+    order_channel: str = "dine_in"
+    items: list[PosOrderItemIn]
+    customer_name: str | None = None
+    notes: str | None = None
+    mark_as_paid: bool = False
+    payment_method: str | None = "cash"
+    payment_amount_cents: int | None = None
+    tip_amount_cents: int | None = 0
+
+
+@app.post("/pos/orders")
+def create_pos_order(
+    payload: PosOrderIn,
+    current_user: Annotated[models.User, Depends(require_permission(Permission.ORDER_READ))],
+    session: Session = Depends(get_session),
+) -> dict:
+    """Cashier POS direct order submission and instant checkout."""
+    if not payload.items:
+        raise HTTPException(status_code=400, detail="Order must have at least one item")
+
+    tenant = session.get(models.Tenant, current_user.tenant_id)
+    if not tenant:
+        raise HTTPException(status_code=404, detail="Tenant not found")
+
+    table = None
+    if payload.table_id:
+        table = session.exec(
+            select(models.Table).where(
+                models.Table.id == payload.table_id,
+                models.Table.tenant_id == current_user.tenant_id,
+            )
+        ).first()
+    elif payload.order_channel == "take_away":
+        table = session.exec(
+            select(models.Table).where(
+                models.Table.tenant_id == current_user.tenant_id,
+                (models.Table.name.ilike("%take away%")) | (models.Table.name.ilike("%para llevar%")),
+            )
+        ).first()
+        if not table:
+            table = models.Table(
+                tenant_id=current_user.tenant_id,
+                name="Take Away",
+                token=str(uuid.uuid4()),
+                is_active=True,
+                seat_count=0,
+            )
+            session.add(table)
+            session.commit()
+            session.refresh(table)
+
+    if table and not table.is_active:
+        table.is_active = True
+        session.add(table)
+
+    is_paid = payload.mark_as_paid
+    now = datetime.now(timezone.utc)
+    order_status = models.OrderStatus.paid if is_paid else models.OrderStatus.pending
+
+    order = models.Order(
+        tenant_id=current_user.tenant_id,
+        table_id=table.id if table else None,
+        session_id=str(uuid.uuid4()),
+        customer_name=payload.customer_name or ("Take Away" if payload.order_channel == "take_away" else None),
+        notes=payload.notes,
+        status=order_status,
+        order_channel=models.OrderChannel.take_away.value if payload.order_channel == "take_away" else models.OrderChannel.table.value,
+        payment_method=payload.payment_method if is_paid else None,
+        paid_at=now if is_paid else None,
+        created_at=now,
+        created_by_user_id=current_user.id,
+        tip_amount_cents=payload.tip_amount_cents or 0,
+    )
+    session.add(order)
+    session.commit()
+    session.refresh(order)
+
+    prod_ids = [i.product_id for i in payload.items]
+    products = session.exec(
+        select(models.Product).where(
+            models.Product.id.in_(prod_ids),
+            models.Product.tenant_id == current_user.tenant_id,
+        )
+    ).all()
+    prod_map = {p.id: p for p in products if p.id is not None}
+
+    total_subtotal_cents = 0
+    for it in payload.items:
+        prod = prod_map.get(it.product_id)
+        if not prod:
+            continue
+        price = prod.price_cents
+        cost = prod.cost_cents or 0
+        qty = max(1, it.quantity)
+        total_subtotal_cents += price * qty
+
+        oi = models.OrderItem(
+            order_id=order.id,
+            product_id=prod.id,
+            product_name=prod.name,
+            quantity=qty,
+            price_cents=price,
+            cost_cents=cost,
+            notes=it.notes,
+            status=models.OrderItemStatus.pending,
+            added_by_session=order.session_id,
+        )
+        session.add(oi)
+
+    if is_paid:
+        total_pay = total_subtotal_cents + (payload.tip_amount_cents or 0)
+        pay_leg = models.OrderPayment(
+            order_id=order.id,
+            amount_cents=payload.payment_amount_cents or total_pay,
+            payment_method=payload.payment_method or "cash",
+            payer_label="Caja TPV",
+            paid_by_user_id=current_user.id,
+            paid_at=now,
+        )
+        session.add(pay_leg)
+
+    session.commit()
+    session.refresh(order)
+
+    try:
+        publish_order_update(current_user.tenant_id, {
+            "type": "new_order",
+            "order_id": order.id,
+            "table_name": table.name if table else "Take Away",
+            "status": order.status.value,
+            "created_at": order.created_at.isoformat()
+        }, table_id=table.id if table else None)
+    except Exception as e:
+        logger.warning(f"Failed to publish WS order update: {e}")
+
+    return {
+        "status": "ok",
+        "order_id": order.id,
+        "table_name": table.name if table else "Take Away",
+        "total_cents": total_subtotal_cents + (payload.tip_amount_cents or 0),
+        "is_paid": is_paid,
+        "created_at": order.created_at.isoformat(),
+    }
+
+
 @app.put("/orders/{order_id}/status")
 def update_order_status(
     order_id: int,

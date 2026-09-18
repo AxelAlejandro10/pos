@@ -2416,6 +2416,22 @@ export class ApiService {
     );
   }
 
+  createPosOrder(data: {
+    table_id?: number | null;
+    order_channel?: string;
+    items: Array<{ product_id: number; quantity: number; notes?: string | null }>;
+    customer_name?: string | null;
+    notes?: string | null;
+    mark_as_paid?: boolean;
+    payment_method?: string | null;
+    payment_amount_cents?: number | null;
+  }): Observable<{ status: string; order_id: number; table_name: string; total_cents: number; is_paid: boolean; created_at: string }> {
+    return this.http.post<{ status: string; order_id: number; table_name: string; total_cents: number; is_paid: boolean; created_at: string }>(
+      `${this.apiUrl}/pos/orders`,
+      data
+    );
+  }
+
   // Products
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/products`);

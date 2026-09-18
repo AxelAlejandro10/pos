@@ -1,0 +1,332 @@
+<div class="pos-container">
+  <!-- Top Navigation Bar -->
+  <header class="pos-header">
+    <div class="brand-section">
+      <span class="brand-icon">🍣</span>
+      <h1 class="brand-title">Kani Roll <span class="brand-badge">TPV Caja</span></h1>
+    </div>
+
+    <!-- Mode Selector: Take Away vs Dine In -->
+    <div class="order-mode-selector">
+      <button 
+        type="button" 
+        class="mode-btn" 
+        [class.active]="orderChannel() === 'take_away'"
+        (click)="orderChannel.set('take_away')">
+        🥡 Para Llevar
+      </button>
+
+      <button 
+        type="button" 
+        class="mode-btn" 
+        [class.active]="orderChannel() === 'dine_in'"
+        (click)="orderChannel.set('dine_in')">
+        🍽️ En Mesa
+      </button>
+
+      @if (orderChannel() === 'dine_in') {
+        <select class="table-select" [ngModel]="selectedTableId()" (ngModelChange)="selectedTableId.set($event)">
+          @for (t of tables(); track t.id) {
+            <option [value]="t.id">{{ t.name }}</option>
+          }
+        </select>
+      }
+    </div>
+
+    <!-- Quick Links -->
+    <div class="nav-links">
+      <a routerLink="/kitchen" class="nav-btn" title="Ver pantalla de cocina">👨‍🍳 Cocina</a>
+      <a routerLink="/orders" class="nav-btn" title="Ver historial de pedidos">📋 Pedidos</a>
+      <a routerLink="/reports" class="nav-btn" title="Ver reportes y ventas">📊 Reportes</a>
+      <a routerLink="/dashboard" class="nav-btn nav-btn-outline" title="Ir al panel completo">⚙️ Panel</a>
+    </div>
+  </header>
+
+  <!-- Main POS Workspace -->
+  <main class="pos-workspace">
+    <!-- Left Column: Catalog & Products -->
+    <section class="catalog-section">
+      <!-- Search & Categories Bar -->
+      <div class="catalog-toolbar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            placeholder="Buscar platillo..." 
+            [ngModel]="searchQuery()" 
+            (ngModelChange)="searchQuery.set($event)"
+            class="search-input" />
+          @if (searchQuery()) {
+            <button class="clear-search" (click)="searchQuery.set('')">✕</button>
+          }
+        </div>
+
+        <div class="category-pills">
+          <button 
+            type="button" 
+            class="cat-pill" 
+            [class.active]="selectedCategory() === 'all'"
+            (click)="setCategory('all')">
+            🌟 Todos
+          </button>
+          @for (cat of categories(); track cat) {
+            <button 
+              type="button" 
+              class="cat-pill" 
+              [class.active]="selectedCategory() === cat"
+              (click)="setCategory(cat)">
+              {{ cat }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Product Cards Grid -->
+      <div class="products-grid">
+        @for (p of filteredProducts(); track p.id) {
+          <div class="product-card" (click)="addToCart(p)">
+            <div class="product-img-wrapper">
+              @if (getProductImageUrl(p); as imgUrl) {
+                <img [src]="imgUrl" [alt]="p.name" class="product-img" />
+              } @else {
+                <div class="product-img-placeholder">
+                  <span>🍣</span>
+                </div>
+              }
+            </div>
+            <div class="product-info">
+              <h3 class="product-name">{{ p.name }}</h3>
+              @if (p.category) {
+                <span class="product-category">{{ p.category }}</span>
+              }
+              <div class="product-price">{{ formatPrice(p.price_cents) }}</div>
+            </div>
+          </div>
+        } @empty {
+          <div class="empty-products">
+            <p>No se encontraron platillos con esa búsqueda.</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Right Column: Ticket / Cart -->
+    <aside class="ticket-section">
+      <div class="ticket-header">
+        <div class="ticket-title-row">
+          <h2 class="ticket-title">Comanda Actual</h2>
+          <span class="ticket-badge" [class.badge-takeaway]="orderChannel() === 'take_away'">
+            {{ orderChannel() === 'take_away' ? '🥡 Para Llevar' : '🍽️ Mesa' }}
+          </span>
+        </div>
+        
+        <!-- Optional Customer Name -->
+        <input 
+          type="text" 
+          placeholder="Nombre del cliente (opcional)..." 
+          [ngModel]="customerName()" 
+          (ngModelChange)="customerName.set($event)"
+          class="ticket-customer-input" />
+      </div>
+
+      <!-- Ticket Items List -->
+      <div class="ticket-items">
+        @for (item of cart(); track item.product.id; let i = $index) {
+          <div class="ticket-item">
+            <div class="item-main">
+              <span class="item-name">{{ item.product.name }}</span>
+              <span class="item-total">{{ formatPrice(item.product.price_cents * item.quantity) }}</span>
+            </div>
+            <div class="item-controls">
+              <div class="qty-stepper">
+                <button type="button" class="qty-btn" (click)="decreaseQty(i)">−</button>
+                <span class="qty-val">{{ item.quantity }}</span>
+                <button type="button" class="qty-btn" (click)="increaseQty(i)">+</button>
+              </div>
+              <span class="item-unit-price">{{ formatPrice(item.product.price_cents) }} c/u</span>
+              <button type="button" class="delete-item-btn" (click)="removeFromCart(i)" title="Eliminar">🗑️</button>
+            </div>
+          </div>
+        } @empty {
+          <div class="empty-ticket">
+            <div class="empty-icon">🛒</div>
+            <p class="empty-text">El ticket está vacío</p>
+            <p class="empty-subtext">Haz clic en los platillos para agregarlos</p>
+          </div>
+        }
+      </div>
+
+      <!-- Ticket Footer & Action Buttons -->
+      <div class="ticket-footer">
+        @if (cart().length > 0) {
+          <div class="ticket-notes">
+            <input 
+              type="text" 
+              placeholder="Notas generales de cocina..." 
+              [ngModel]="orderNotes()" 
+              (ngModelChange)="orderNotes.set($event)"
+              class="notes-input" />
+          </div>
+
+          <div class="ticket-totals">
+            <div class="total-row grand-total">
+              <span>TOTAL</span>
+              <span>{{ formatPrice(totalCents()) }}</span>
+            </div>
+          </div>
+
+          <div class="ticket-actions">
+            <button 
+              type="button" 
+              class="btn-action btn-kitchen" 
+              [disabled]="isSubmitting()"
+              (click)="sendToKitchen()">
+              👨‍🍳 Enviar a Cocina
+            </button>
+
+            <button 
+              type="button" 
+              class="btn-action btn-pay" 
+              [disabled]="isSubmitting()"
+              (click)="openPayment()">
+              💵 COBRAR {{ formatPrice(totalCents()) }}
+            </button>
+          </div>
+
+          <button type="button" class="btn-clear" (click)="clearCart()">
+            Vaciar comanda
+          </button>
+        }
+      </div>
+    </aside>
+  </main>
+
+  <!-- Quick Payment Modal -->
+  @if (showPaymentModal()) {
+    <div class="modal-backdrop" (click)="closePayment()">
+      <div class="modal-card" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Cobro de Venta</h2>
+          <button class="btn-close" (click)="closePayment()">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="payment-total-banner">
+            <span class="total-label">Total a Cobrar</span>
+            <span class="total-value">{{ formatPrice(totalCents()) }}</span>
+          </div>
+
+          <!-- Payment Method Toggle -->
+          <div class="payment-methods">
+            <button 
+              type="button" 
+              class="pay-method-btn" 
+              [class.active]="paymentMethod() === 'cash'"
+              (click)="paymentMethod.set('cash')">
+              💵 Efectivo
+            </button>
+            <button 
+              type="button" 
+              class="pay-method-btn" 
+              [class.active]="paymentMethod() === 'terminal'"
+              (click)="paymentMethod.set('terminal')">
+              💳 Terminal / Tarjeta
+            </button>
+          </div>
+
+          @if (paymentMethod() === 'cash') {
+            <div class="cash-section">
+              <label class="input-label">Monto recibido del cliente ($ MXN):</label>
+              <input 
+                type="number" 
+                class="cash-input" 
+                [ngModel]="cashGiven()" 
+                (ngModelChange)="cashGiven.set($event)" />
+
+              <!-- Quick cash buttons -->
+              <div class="quick-cash-buttons">
+                <button type="button" class="quick-cash-btn" (click)="setQuickCash(totalCents() / 100)">Exacto</button>
+                <button type="button" class="quick-cash-btn" (click)="setQuickCash(100)">$100</button>
+                <button type="button" class="quick-cash-btn" (click)="setQuickCash(200)">$200</button>
+                <button type="button" class="quick-cash-btn" (click)="setQuickCash(500)">$500</button>
+                <button type="button" class="quick-cash-btn" (click)="setQuickCash(1000)">$1000</button>
+              </div>
+
+              <!-- Change calculation -->
+              <div class="change-box" [class.change-negative]="cashGiven() * 100 < totalCents()">
+                @if (cashGiven() * 100 >= totalCents()) {
+                  <span class="change-label">Cambio a entregar:</span>
+                  <span class="change-value">{{ formatPrice(changeDueCents()) }}</span>
+                } @else {
+                  <span class="change-label change-warning">⚠️ Falta cubrir:</span>
+                  <span class="change-value change-warning">{{ formatPrice(totalCents() - (cashGiven() * 100)) }}</span>
+                }
+              </div>
+            </div>
+          } @else {
+            <div class="card-section">
+              <div class="card-icon">💳</div>
+              <p class="card-hint">
+                Pasa la tarjeta por tu terminal física por <strong>{{ formatPrice(totalCents()) }}</strong>.
+              </p>
+              <p class="card-subhint">Al confirmar, el sistema registrará la venta pagada con tarjeta.</p>
+            </div>
+          }
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" (click)="closePayment()">Cancelar</button>
+          <button 
+            type="button" 
+            class="btn-confirm-pay" 
+            [disabled]="isSubmitting() || (paymentMethod() === 'cash' && cashGiven() * 100 < totalCents())"
+            (click)="confirmPayment()">
+            @if (isSubmitting()) {
+              Procesando...
+            } @else {
+              ✅ Confirmar Pago
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Success / Receipt Confirmation Modal -->
+  @if (lastSale()) {
+    <div class="modal-backdrop" (click)="closeLastSale()">
+      <div class="modal-card receipt-card" (click)="$event.stopPropagation()">
+        <div class="receipt-icon">🎉</div>
+        <h2>¡Venta Registrada!</h2>
+        <p class="receipt-sub">Orden #{{ lastSale()?.order_id }} — {{ lastSale()?.table_name }}</p>
+
+        <div class="receipt-summary">
+          <div class="receipt-row">
+            <span>Estado:</span>
+            <strong>{{ lastSale()?.is_paid ? '✅ Pagada' : '👨‍🍳 En Cocina' }}</strong>
+          </div>
+          <div class="receipt-row">
+            <span>Total:</span>
+            <strong>{{ formatPrice(lastSale()?.total_cents || 0) }}</strong>
+          </div>
+        </div>
+
+        <div class="receipt-actions">
+          <button type="button" class="btn-print" (click)="printReceipt()">
+            🖨️ Imprimir Ticket
+          </button>
+          <button type="button" class="btn-new-sale" (click)="closeLastSale()">
+            ➕ Nueva Venta
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Toast Notification -->
+  @if (toast()) {
+    <div class="pos-toast">
+      {{ toast() }}
+    </div>
+  }
+</div>

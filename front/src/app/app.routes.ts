@@ -97,6 +97,11 @@ export const routes: Routes = [
   { path: 'reservation', loadComponent: () => import('./reservation-view/reservation-view.component').then(m => m.ReservationViewComponent) },
 
   // Protected routes - accessible by all authenticated users
+  {
+    path: 'pos',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pos/pos.component').then(m => m.PosComponent),
+  },
   { path: 'dashboard', canActivate: [authGuard], loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent) },
   {
     path: 'catalog-inventory',
