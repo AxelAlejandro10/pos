@@ -2,7 +2,7 @@ import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ApiService, Product, Table } from '../services/api.service';
+import { ApiService, Product, Table, CanvasTable } from '../services/api.service';
 
 export interface CartItem {
   product: Product;
@@ -22,12 +22,13 @@ export class PosComponent implements OnInit {
 
   // State
   products = signal<Product[]>([]);
-  tables = signal<Table[]>([]);
+  tables = signal<CanvasTable[]>([]);
   selectedCategory = signal<string>('all');
   searchQuery = signal<string>('');
   
   orderChannel = signal<'take_away' | 'dine_in'>('take_away');
   selectedTableId = signal<number | null>(null);
+  showTableModal = signal<boolean>(false);
   customerName = signal<string>('');
   orderNotes = signal<string>('');
   
@@ -51,6 +52,16 @@ export class PosComponent implements OnInit {
   toast = signal<string | null>(null);
 
   // Computeds
+  selectedTableName = computed(() => {
+    if (this.orderChannel() === 'take_away') return 'Para Llevar (Mostrador)';
+    const t = this.tables().find((tbl) => tbl.id === this.selectedTableId());
+    return t ? t.name : 'Seleccionar Mesa';
+  });
+
+  diningTables = computed(() => {
+    return this.tables().filter(t => !t.name.toLowerCase().includes('take away') && !t.name.toLowerCase().includes('para llevar'));
+  });
+
   categories = computed(() => {
     const list = this.products()
       .map((p) => p.category)
@@ -97,12 +108,12 @@ export class PosComponent implements OnInit {
       error: (err) => this.showToast('Error cargando productos'),
     });
 
-    this.api.getTables().subscribe({
+    this.api.getTablesWithStatus().subscribe({
       next: (tbls) => {
         this.tables.set(tbls);
         // Default to first table if in dine_in
         if (tbls.length > 0 && !this.selectedTableId()) {
-          const firstNonTakeaway = tbls.find(t => !t.name.toLowerCase().includes('take away'));
+          const firstNonTakeaway = tbls.find(t => !t.name.toLowerCase().includes('take away') && !t.name.toLowerCase().includes('para llevar'));
           if (firstNonTakeaway && firstNonTakeaway.id != null) {
             this.selectedTableId.set(firstNonTakeaway.id);
           }
@@ -116,6 +127,35 @@ export class PosComponent implements OnInit {
     this.selectedCategory.set(cat);
   }
 
+  setOrderChannel(channel: 'take_away' | 'dine_in'): void {
+    this.orderChannel.set(channel);
+    if (channel === 'dine_in' && !this.selectedTableId()) {
+      const first = this.diningTables()[0];
+      if (first && first.id != null) {
+        this.selectedTableId.set(first.id);
+      }
+    }
+  }
+
+  selectTable(tableId: number): void {
+    this.selectedTableId.set(tableId);
+    this.showTableModal.set(false);
+  }
+
+  getProductCartQty(product: Product): number {
+    const found = this.cart().find((i) => i.product.id === product.id);
+    return found ? found.quantity : 0;
+  }
+
+  getItemInitials(name: string): string {
+    if (!name) return 'KR';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase();
+  }
+
   addToCart(product: Product): void {
     const current = [...this.cart()];
     const index = current.findIndex((i) => i.product.id === product.id);
@@ -126,6 +166,13 @@ export class PosComponent implements OnInit {
       current.push({ product, quantity: 1 });
     }
     this.cart.set(current);
+  }
+
+  decreaseProductQty(product: Product): void {
+    const index = this.cart().findIndex((i) => i.product.id === product.id);
+    if (index > -1) {
+      this.decreaseQty(index);
+    }
   }
 
   increaseQty(index: number): void {

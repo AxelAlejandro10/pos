@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { ApiService, KitchenStation, Order, OrderItem, OrderLineModifiers } from '../services/api.service';
 import { AudioService } from '../services/audio.service';
 import { PermissionService } from '../services/permission.service';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { FocusFirstInputDirective } from '../shared/focus-first-input.directive';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -250,6 +250,14 @@ const VIEW_CATEGORY: Record<string, string> = {
                 @if (order.notes) {
                   <div class="order-notes">{{ 'KITCHEN_DISPLAY.NOTES' | translate }}: {{ order.notes }}</div>
                 }
+                <div class="order-card-actions">
+                  <button type="button" class="btn-serve-kot" (click)="markOrderServed(order)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Servir / Despachar</span>
+                  </button>
+                </div>
               </article>
             }
           </div>
@@ -620,6 +628,36 @@ const VIEW_CATEGORY: Record<string, string> = {
       white-space: pre-wrap;
       word-break: break-word;
     }
+    .order-card-actions {
+      margin-top: auto;
+      padding: var(--space-3) var(--space-5);
+      border-top: 1px dashed var(--color-border);
+      background: var(--color-surface);
+    }
+    .btn-serve-kot {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: #16a34a;
+      color: #ffffff;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(22, 163, 74, 0.25);
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-serve-kot:hover {
+      background: #15803d;
+      transform: translateY(-1px);
+    }
+    .btn-serve-kot:active {
+      transform: translateY(0);
+    }
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -760,7 +798,11 @@ export class KitchenDisplayComponent implements OnInit, AfterViewInit, OnDestroy
       if (i.removed_by_customer) return false;
       if (!(i.status === 'pending' || i.status === 'preparing' || i.status === 'ready')) return false;
       if (!useStations) {
-        return i.category === category;
+        if (view === 'bar') {
+          return i.category === 'Beverages' || (i.category ? i.category.toLowerCase().includes('bebida') : false);
+        } else {
+          return i.category !== 'Beverages' && (!i.category || !i.category.toLowerCase().includes('bebida'));
+        }
       }
       const kr =
         i.kitchen_station_route ||
@@ -1200,6 +1242,22 @@ export class KitchenDisplayComponent implements OnInit, AfterViewInit, OnDestroy
     this.itemStatusDropdownOpen.set(null);
     this.api.updateOrderItemStatus(orderId, itemId, status).subscribe({
       next: () => this.loadOrders({ background: true }),
+      error: () => this.loadOrders({ background: true }),
+    });
+  }
+
+  markOrderServed(order: Order): void {
+    const items = (order.items ?? []).filter(
+      (i) => !i.removed_by_customer && (i.status === 'pending' || i.status === 'preparing' || i.status === 'ready')
+    );
+    if (items.length === 0) return;
+
+    const observables = items.map((i) => this.api.updateOrderItemStatus(order.id, i.id!, 'delivered'));
+    forkJoin(observables).subscribe({
+      next: () => {
+        this.loadOrders({ background: true });
+        this.audio.playRestaurantStatusChange();
+      },
       error: () => this.loadOrders({ background: true }),
     });
   }

@@ -2,69 +2,85 @@
   <!-- Top Navigation Bar -->
   <header class="pos-header">
     <div class="brand-section">
-      <span class="brand-icon">🍣</span>
-      <h1 class="brand-title">Kani Roll <span class="brand-badge">TPV Caja</span></h1>
+      <div class="brand-logo-badge">🍣</div>
+      <div class="brand-info">
+        <h1 class="brand-title">Kani Roll</h1>
+        <span class="brand-subtitle">URY Touch POS</span>
+      </div>
     </div>
 
-    <!-- Mode Selector: Take Away vs Dine In -->
-    <div class="order-mode-selector">
-      <button 
-        type="button" 
-        class="mode-btn" 
-        [class.active]="orderChannel() === 'take_away'"
-        (click)="orderChannel.set('take_away')">
-        🥡 Para Llevar
-      </button>
+    <!-- Segmented Mode Selector: Takeaway vs Table (ury Table.vue style) -->
+    <div class="switch-container">
+      <div class="switch-wrapper">
+        <button 
+          type="button" 
+          class="switch-btn" 
+          [class.active]="orderChannel() === 'take_away'"
+          (click)="setOrderChannel('take_away')">
+          🥡 Para Llevar
+        </button>
+        <button 
+          type="button" 
+          class="switch-btn" 
+          [class.active]="orderChannel() === 'dine_in'"
+          (click)="setOrderChannel('dine_in')">
+          🍽️ Mesas
+        </button>
+      </div>
 
-      <button 
-        type="button" 
-        class="mode-btn" 
-        [class.active]="orderChannel() === 'dine_in'"
-        (click)="orderChannel.set('dine_in')">
-        🍽️ En Mesa
-      </button>
-
+      <!-- Quick Table Trigger if Dine In -->
       @if (orderChannel() === 'dine_in') {
-        <select class="table-select" [ngModel]="selectedTableId()" (ngModelChange)="selectedTableId.set($event)">
-          @for (t of tables(); track t.id) {
-            <option [value]="t.id">{{ t.name }}</option>
-          }
-        </select>
+        <button type="button" class="table-badge-btn" (click)="showTableModal.set(true)">
+          <span class="status-indicator-dot"></span>
+          <span class="table-name-txt">{{ selectedTableName() }}</span>
+          <span class="dropdown-chevron">▾</span>
+        </button>
       }
     </div>
 
-    <!-- Quick Links -->
-    <div class="nav-links">
-      <a routerLink="/kitchen" class="nav-btn" title="Ver pantalla de cocina">👨‍🍳 Cocina</a>
-      <a routerLink="/orders" class="nav-btn" title="Ver historial de pedidos">📋 Pedidos</a>
-      <a routerLink="/reports" class="nav-btn" title="Ver reportes y ventas">📊 Reportes</a>
-      <a routerLink="/dashboard" class="nav-btn nav-btn-outline" title="Ir al panel completo">⚙️ Panel</a>
+    <!-- Quick Navigation Icons -->
+    <div class="header-nav-links">
+      <a routerLink="/kitchen" class="quick-nav-link" title="Pantalla de Cocina (KDS)">
+        <span class="nav-icon">👨‍🍳</span>
+        <span class="nav-label">Cocina</span>
+      </a>
+      <a routerLink="/reports" class="quick-nav-link" title="Analíticas (Pulse)">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Pulse</span>
+      </a>
+      <a routerLink="/orders" class="quick-nav-link" title="Historial">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">Órdenes</span>
+      </a>
+      <a routerLink="/dashboard" class="quick-nav-link nav-panel" title="Panel Principal">
+        <span class="nav-icon">⚙️</span>
+      </a>
     </div>
   </header>
 
   <!-- Main POS Workspace -->
   <main class="pos-workspace">
-    <!-- Left Column: Catalog & Products -->
+    <!-- Left Column: Menu Catalog (ury Menu.vue style) -->
     <section class="catalog-section">
-      <!-- Search & Categories Bar -->
+      <!-- Search & Category Filter Toolbar -->
       <div class="catalog-toolbar">
-        <div class="search-box">
+        <div class="search-input-wrap">
           <span class="search-icon">🔍</span>
           <input 
             type="text" 
-            placeholder="Buscar platillo..." 
+            placeholder="Buscar platillos, rollos, bebidas..." 
             [ngModel]="searchQuery()" 
             (ngModelChange)="searchQuery.set($event)"
             class="search-input" />
           @if (searchQuery()) {
-            <button class="clear-search" (click)="searchQuery.set('')">✕</button>
+            <button class="clear-search-btn" (click)="searchQuery.set('')">✕</button>
           }
         </div>
 
-        <div class="category-pills">
+        <div class="category-scroll-bar">
           <button 
             type="button" 
-            class="cat-pill" 
+            class="cat-chip" 
             [class.active]="selectedCategory() === 'all'"
             (click)="setCategory('all')">
             🌟 Todos
@@ -72,7 +88,7 @@
           @for (cat of categories(); track cat) {
             <button 
               type="button" 
-              class="cat-pill" 
+              class="cat-chip" 
               [class.active]="selectedCategory() === cat"
               (click)="setCategory(cat)">
               {{ cat }}
@@ -84,207 +100,293 @@
       <!-- Product Cards Grid -->
       <div class="products-grid">
         @for (p of filteredProducts(); track p.id) {
-          <div class="product-card" (click)="addToCart(p)">
-            <div class="product-img-wrapper">
+          <div class="product-card" [class.in-cart]="getProductCartQty(p) > 0">
+            <!-- Image / Initials Banner -->
+            <div class="card-media">
               @if (getProductImageUrl(p); as imgUrl) {
-                <img [src]="imgUrl" [alt]="p.name" class="product-img" />
+                <img [src]="imgUrl" [alt]="p.name" class="media-img" loading="lazy" />
               } @else {
-                <div class="product-img-placeholder">
-                  <span>🍣</span>
+                <div class="media-placeholder">
+                  <span class="initials-badge">{{ getItemInitials(p.name) }}</span>
                 </div>
               }
-            </div>
-            <div class="product-info">
-              <h3 class="product-name">{{ p.name }}</h3>
               @if (p.category) {
-                <span class="product-category">{{ p.category }}</span>
+                <span class="category-tag">{{ p.category }}</span>
               }
-              <div class="product-price">{{ formatPrice(p.price_cents) }}</div>
+            </div>
+
+            <!-- Card Info -->
+            <div class="card-content">
+              <h3 class="product-title" [title]="p.name">{{ p.name }}</h3>
+              @if (p.description) {
+                <p class="product-desc">{{ p.description }}</p>
+              }
+
+              <div class="card-bottom">
+                <span class="product-price">{{ formatPrice(p.price_cents) }}</span>
+
+                <!-- URY style Action button / Stepper -->
+                <div class="action-stepper-wrap">
+                  @if (getProductCartQty(p) === 0) {
+                    <button type="button" class="btn-add-item" (click)="addToCart(p)">
+                      ADD +
+                    </button>
+                  } @else {
+                    <div class="inline-stepper">
+                      <button type="button" class="stepper-btn minus" (click)="decreaseProductQty(p)">−</button>
+                      <span class="stepper-qty">{{ getProductCartQty(p) }}</span>
+                      <button type="button" class="stepper-btn plus" (click)="addToCart(p)">+</button>
+                    </div>
+                  }
+                </div>
+              </div>
             </div>
           </div>
         } @empty {
-          <div class="empty-products">
-            <p>No se encontraron platillos con esa búsqueda.</p>
+          <div class="empty-catalog-msg">
+            <span class="empty-icon">🍣</span>
+            <p>No se encontraron productos en esta categoría.</p>
           </div>
         }
       </div>
     </section>
 
-    <!-- Right Column: Ticket / Cart -->
-    <aside class="ticket-section">
-      <div class="ticket-header">
-        <div class="ticket-title-row">
-          <h2 class="ticket-title">Comanda Actual</h2>
-          <span class="ticket-badge" [class.badge-takeaway]="orderChannel() === 'take_away'">
-            {{ orderChannel() === 'take_away' ? '🥡 Para Llevar' : '🍽️ Mesa' }}
-          </span>
+    <!-- Right Column: Cart / Comanda (ury Cart.vue style) -->
+    <aside class="cart-section">
+      <div class="cart-header">
+        <div class="cart-title-row">
+          <div class="cart-title-meta">
+            <h2 class="cart-heading">Comanda</h2>
+            <span class="cart-order-badge" [class.badge-takeaway]="orderChannel() === 'take_away'">
+              {{ orderChannel() === 'take_away' ? '🥡 Para Llevar' : '🍽️ ' + selectedTableName() }}
+            </span>
+          </div>
+          @if (cart().length > 0) {
+            <button type="button" class="btn-clear-cart" (click)="clearCart()" title="Limpiar comanda">
+              Vaciar
+            </button>
+          }
         </div>
-        
-        <!-- Optional Customer Name -->
-        <input 
-          type="text" 
-          placeholder="Nombre del cliente (opcional)..." 
-          [ngModel]="customerName()" 
-          (ngModelChange)="customerName.set($event)"
-          class="ticket-customer-input" />
+
+        <!-- Customer Name Input -->
+        <div class="customer-name-field">
+          <input 
+            type="text" 
+            placeholder="Cliente (opcional)..." 
+            [ngModel]="customerName()" 
+            (ngModelChange)="customerName.set($event)"
+            class="customer-input" />
+        </div>
       </div>
 
-      <!-- Ticket Items List -->
-      <div class="ticket-items">
+      <!-- Cart Items List -->
+      <div class="cart-items-container">
         @for (item of cart(); track item.product.id; let i = $index) {
-          <div class="ticket-item">
-            <div class="item-main">
+          <div class="cart-row-item">
+            <div class="item-primary-info">
               <span class="item-name">{{ item.product.name }}</span>
-              <span class="item-total">{{ formatPrice(item.product.price_cents * item.quantity) }}</span>
+              <span class="item-subtotal">{{ formatPrice(item.product.price_cents * item.quantity) }}</span>
             </div>
-            <div class="item-controls">
-              <div class="qty-stepper">
-                <button type="button" class="qty-btn" (click)="decreaseQty(i)">−</button>
-                <span class="qty-val">{{ item.quantity }}</span>
-                <button type="button" class="qty-btn" (click)="increaseQty(i)">+</button>
-              </div>
+
+            <div class="item-secondary-info">
               <span class="item-unit-price">{{ formatPrice(item.product.price_cents) }} c/u</span>
-              <button type="button" class="delete-item-btn" (click)="removeFromCart(i)" title="Eliminar">🗑️</button>
+
+              <!-- Quantity stepper and delete button -->
+              <div class="item-actions">
+                <div class="row-stepper">
+                  <button type="button" class="row-btn" (click)="decreaseQty(i)">−</button>
+                  <span class="row-qty">{{ item.quantity }}</span>
+                  <button type="button" class="row-btn" (click)="increaseQty(i)">+</button>
+                </div>
+                <button type="button" class="btn-delete-row" (click)="removeFromCart(i)" title="Eliminar">
+                  🗑️
+                </button>
+              </div>
             </div>
           </div>
         } @empty {
-          <div class="empty-ticket">
-            <div class="empty-icon">🛒</div>
-            <p class="empty-text">El ticket está vacío</p>
-            <p class="empty-subtext">Haz clic en los platillos para agregarlos</p>
+          <div class="empty-cart-display">
+            <div class="empty-cart-illustration">🛒</div>
+            <p class="empty-cart-title">Comanda vacía</p>
+            <p class="empty-cart-hint">Selecciona platillos del menú para añadirlos</p>
           </div>
         }
       </div>
 
-      <!-- Ticket Footer & Action Buttons -->
-      <div class="ticket-footer">
+      <!-- Cart Footer: Notes, Grand Total and URY Actions -->
+      <div class="cart-footer">
         @if (cart().length > 0) {
-          <div class="ticket-notes">
+          <div class="cart-notes-box">
             <input 
               type="text" 
-              placeholder="Notas generales de cocina..." 
+              placeholder="Notas generales de cocina (ej. sin cebolla)..." 
               [ngModel]="orderNotes()" 
               (ngModelChange)="orderNotes.set($event)"
               class="notes-input" />
           </div>
 
-          <div class="ticket-totals">
-            <div class="total-row grand-total">
-              <span>TOTAL</span>
-              <span>{{ formatPrice(totalCents()) }}</span>
+          <div class="grand-total-banner">
+            <div class="total-label-wrap">
+              <span class="total-caption">Total a Pagar</span>
+              <span class="total-items-count">{{ cartCount() }} artículos</span>
             </div>
+            <span class="grand-total-amount">{{ formatPrice(totalCents()) }}</span>
           </div>
 
-          <div class="ticket-actions">
+          <div class="cart-action-buttons">
             <button 
               type="button" 
-              class="btn-action btn-kitchen" 
+              class="btn-kot" 
               [disabled]="isSubmitting()"
               (click)="sendToKitchen()">
-              👨‍🍳 Enviar a Cocina
+              👨‍🍳 Enviar KOT (Cocina)
             </button>
 
             <button 
               type="button" 
-              class="btn-action btn-pay" 
+              class="btn-settle" 
               [disabled]="isSubmitting()"
               (click)="openPayment()">
-              💵 COBRAR {{ formatPrice(totalCents()) }}
+              💵 Liquidar / Cobrar
             </button>
           </div>
-
-          <button type="button" class="btn-clear" (click)="clearCart()">
-            Vaciar comanda
-          </button>
         }
       </div>
     </aside>
   </main>
 
-  <!-- Quick Payment Modal -->
-  @if (showPaymentModal()) {
-    <div class="modal-backdrop" (click)="closePayment()">
-      <div class="modal-card" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <h2>Cobro de Venta</h2>
-          <button class="btn-close" (click)="closePayment()">✕</button>
+  <!-- Table Selection Modal (ury Table.vue style) -->
+  @if (showTableModal()) {
+    <div class="modal-overlay" (click)="showTableModal.set(false)">
+      <div class="modal-dialog table-picker-dialog" (click)="$event.stopPropagation()">
+        <div class="dialog-header">
+          <div>
+            <h2 class="dialog-title">Seleccionar Mesa</h2>
+            <p class="dialog-subtitle">Salón Principal (Kani Roll)</p>
+          </div>
+          <button class="btn-dialog-close" (click)="showTableModal.set(false)">✕</button>
         </div>
 
-        <div class="modal-body">
-          <div class="payment-total-banner">
-            <span class="total-label">Total a Cobrar</span>
-            <span class="total-value">{{ formatPrice(totalCents()) }}</span>
-          </div>
-
-          <!-- Payment Method Toggle -->
-          <div class="payment-methods">
+        <div class="table-cards-grid">
+          @for (t of diningTables(); track t.id) {
             <button 
               type="button" 
-              class="pay-method-btn" 
+              class="table-selector-card"
+              [class.selected]="selectedTableId() === t.id"
+              [class.occupied]="t.status === 'occupied'"
+              (click)="selectTable(t.id!)">
+              <div class="table-card-top">
+                <span class="table-card-name">{{ t.name }}</span>
+                <span class="table-card-status" [class.status-occupied]="t.status === 'occupied'">
+                  {{ t.status === 'occupied' ? 'Ocupada' : 'Libre' }}
+                </span>
+              </div>
+              <div class="table-card-bottom">
+                <span class="seats-text">💺 {{ t.seat_count || 4 }} asientos</span>
+              </div>
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Payment / Settlement Modal (ury recentOrder.vue style) -->
+  @if (showPaymentModal()) {
+    <div class="modal-overlay" (click)="closePayment()">
+      <div class="modal-dialog payment-dialog" (click)="$event.stopPropagation()">
+        <div class="dialog-header">
+          <div>
+            <h2 class="dialog-title">Cobro de Cuenta / Liquidación</h2>
+            <p class="dialog-subtitle">{{ orderChannel() === 'take_away' ? 'Para Llevar' : selectedTableName() }}</p>
+          </div>
+          <button class="btn-dialog-close" (click)="closePayment()">✕</button>
+        </div>
+
+        <div class="dialog-body">
+          <!-- Big Total Banner -->
+          <div class="settle-total-banner">
+            <span class="banner-lbl">Total a Cobrar:</span>
+            <span class="banner-amt">{{ formatPrice(totalCents()) }}</span>
+          </div>
+
+          <!-- Payment Mode Selection Cards -->
+          <label class="section-label">Selecciona el Método de Pago:</label>
+          <div class="payment-modes-grid">
+            <button 
+              type="button" 
+              class="mode-card" 
               [class.active]="paymentMethod() === 'cash'"
               (click)="paymentMethod.set('cash')">
-              💵 Efectivo
+              <span class="mode-icon">💵</span>
+              <span class="mode-name">Efectivo</span>
             </button>
             <button 
               type="button" 
-              class="pay-method-btn" 
+              class="mode-card" 
               [class.active]="paymentMethod() === 'terminal'"
               (click)="paymentMethod.set('terminal')">
-              💳 Terminal / Tarjeta
+              <span class="mode-icon">💳</span>
+              <span class="mode-name">Terminal Tarjeta</span>
             </button>
           </div>
 
+          <!-- Cash calculation section -->
           @if (paymentMethod() === 'cash') {
-            <div class="cash-section">
-              <label class="input-label">Monto recibido del cliente ($ MXN):</label>
+            <div class="cash-calc-panel">
+              <label class="field-label">Monto Recibido del Cliente ($ MXN):</label>
               <input 
                 type="number" 
-                class="cash-input" 
+                class="cash-input-field" 
                 [ngModel]="cashGiven()" 
                 (ngModelChange)="cashGiven.set($event)" />
 
               <!-- Quick cash buttons -->
-              <div class="quick-cash-buttons">
-                <button type="button" class="quick-cash-btn" (click)="setQuickCash(totalCents() / 100)">Exacto</button>
-                <button type="button" class="quick-cash-btn" (click)="setQuickCash(100)">$100</button>
-                <button type="button" class="quick-cash-btn" (click)="setQuickCash(200)">$200</button>
-                <button type="button" class="quick-cash-btn" (click)="setQuickCash(500)">$500</button>
-                <button type="button" class="quick-cash-btn" (click)="setQuickCash(1000)">$1000</button>
+              <div class="quick-cash-row">
+                <button type="button" class="quick-btn" (click)="setQuickCash(totalCents() / 100)">Exacto</button>
+                <button type="button" class="quick-btn" (click)="setQuickCash(100)">$100</button>
+                <button type="button" class="quick-btn" (click)="setQuickCash(200)">$200</button>
+                <button type="button" class="quick-btn" (click)="setQuickCash(500)">$500</button>
+                <button type="button" class="quick-btn" (click)="setQuickCash(1000)">$1000</button>
               </div>
 
-              <!-- Change calculation -->
-              <div class="change-box" [class.change-negative]="cashGiven() * 100 < totalCents()">
+              <!-- Change calculation box -->
+              <div class="change-status-box" [class.insufficient]="cashGiven() * 100 < totalCents()">
                 @if (cashGiven() * 100 >= totalCents()) {
-                  <span class="change-label">Cambio a entregar:</span>
-                  <span class="change-value">{{ formatPrice(changeDueCents()) }}</span>
+                  <div class="change-detail">
+                    <span class="change-lbl">Cambio a Devolver:</span>
+                    <span class="change-val">{{ formatPrice(changeDueCents()) }}</span>
+                  </div>
                 } @else {
-                  <span class="change-label change-warning">⚠️ Falta cubrir:</span>
-                  <span class="change-value change-warning">{{ formatPrice(totalCents() - (cashGiven() * 100)) }}</span>
+                  <div class="change-detail warning">
+                    <span class="change-lbl">⚠️ Falta para cubrir:</span>
+                    <span class="change-val">{{ formatPrice(totalCents() - (cashGiven() * 100)) }}</span>
+                  </div>
                 }
               </div>
             </div>
           } @else {
-            <div class="card-section">
-              <div class="card-icon">💳</div>
-              <p class="card-hint">
-                Pasa la tarjeta por tu terminal física por <strong>{{ formatPrice(totalCents()) }}</strong>.
+            <div class="terminal-guidance-panel">
+              <div class="terminal-icon">📟</div>
+              <p class="terminal-txt">
+                Pasa la tarjeta por la terminal física por el total de <strong>{{ formatPrice(totalCents()) }}</strong>.
               </p>
-              <p class="card-subhint">Al confirmar, el sistema registrará la venta pagada con tarjeta.</p>
+              <span class="terminal-hint">Al confirmar, el sistema registrará la venta como pagada exitosamente.</span>
             </div>
           }
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn-cancel" (click)="closePayment()">Cancelar</button>
+        <div class="dialog-footer">
+          <button type="button" class="btn-dialog-secondary" (click)="closePayment()">Cancelar</button>
           <button 
             type="button" 
-            class="btn-confirm-pay" 
+            class="btn-dialog-primary" 
             [disabled]="isSubmitting() || (paymentMethod() === 'cash' && cashGiven() * 100 < totalCents())"
             (click)="confirmPayment()">
             @if (isSubmitting()) {
-              Procesando...
+              Procesando venta...
             } @else {
-              ✅ Confirmar Pago
+              ✅ Confirmar y Cobrar
             }
           </button>
         </div>
@@ -292,31 +394,31 @@
     </div>
   }
 
-  <!-- Success / Receipt Confirmation Modal -->
+  <!-- Sale Receipt Modal (URY style) -->
   @if (lastSale()) {
-    <div class="modal-backdrop" (click)="closeLastSale()">
-      <div class="modal-card receipt-card" (click)="$event.stopPropagation()">
-        <div class="receipt-icon">🎉</div>
-        <h2>¡Venta Registrada!</h2>
-        <p class="receipt-sub">Orden #{{ lastSale()?.order_id }} — {{ lastSale()?.table_name }}</p>
+    <div class="modal-overlay" (click)="closeLastSale()">
+      <div class="modal-dialog receipt-dialog" (click)="$event.stopPropagation()">
+        <div class="receipt-success-badge">✅</div>
+        <h2 class="receipt-title">¡Venta Completada con Éxito!</h2>
+        <p class="receipt-meta">Orden #{{ lastSale()?.order_id }} • {{ lastSale()?.table_name }}</p>
 
-        <div class="receipt-summary">
-          <div class="receipt-row">
+        <div class="receipt-card-details">
+          <div class="receipt-line">
             <span>Estado:</span>
-            <strong>{{ lastSale()?.is_paid ? '✅ Pagada' : '👨‍🍳 En Cocina' }}</strong>
+            <strong>{{ lastSale()?.is_paid ? 'Pagada / Liquidada' : 'Enviada a Cocina' }}</strong>
           </div>
-          <div class="receipt-row">
-            <span>Total:</span>
+          <div class="receipt-line highlight">
+            <span>Total Cobrado:</span>
             <strong>{{ formatPrice(lastSale()?.total_cents || 0) }}</strong>
           </div>
         </div>
 
-        <div class="receipt-actions">
-          <button type="button" class="btn-print" (click)="printReceipt()">
+        <div class="receipt-dialog-actions">
+          <button type="button" class="btn-print-ticket" (click)="printReceipt()">
             🖨️ Imprimir Ticket
           </button>
-          <button type="button" class="btn-new-sale" (click)="closeLastSale()">
-            ➕ Nueva Venta
+          <button type="button" class="btn-new-order" (click)="closeLastSale()">
+            ➕ Siguiente Venta
           </button>
         </div>
       </div>
