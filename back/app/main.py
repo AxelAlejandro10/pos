@@ -14319,30 +14319,46 @@ def list_orders(
         and group_for_user.hub_tenant_id != current_user.tenant_id
     )
 
+    order_ids = [o.id for o in orders if o.id is not None]
+    table_ids = list({o.table_id for o in orders if o.table_id is not None})
+    bc_ids = list({o.billing_customer_id for o in orders if o.billing_customer_id is not None})
+
+    tables_by_id = {}
+    if table_ids:
+        t_rows = session.exec(select(models.Table).where(models.Table.id.in_(table_ids))).all()
+        tables_by_id = {t.id: t for t in t_rows if t.id is not None}
+
+    bc_by_id = {}
+    if bc_ids:
+        b_rows = session.exec(select(models.BillingCustomer).where(models.BillingCustomer.id.in_(bc_ids))).all()
+        bc_by_id = {b.id: b for b in b_rows if b.id is not None and b.tenant_id == current_user.tenant_id}
+
+    items_by_order_id: dict[int, list[models.OrderItem]] = {}
+    if order_ids:
+        raw_items = session.exec(
+            select(models.OrderItem)
+            .where(models.OrderItem.order_id.in_(order_ids))
+            .order_by(models.OrderItem.removed_by_customer.asc(), models.OrderItem.id.asc())
+        ).all()
+        for oi in raw_items:
+            items_by_order_id.setdefault(oi.order_id, []).append(oi)
+
+    all_prod_ids = list({oi.product_id for i_list in items_by_order_id.values() for oi in i_list if oi.product_id is not None})
+    product_map = {}
+    if all_prod_ids:
+        p_rows = session.exec(select(models.Product).where(models.Product.id.in_(all_prod_ids))).all()
+        product_map = {p.id: p for p in p_rows if p.id is not None}
+
     result = []
     for order in orders:
-        table = session.exec(select(models.Table).where(models.Table.id == order.table_id)).first()
-        
-        # Get items, optionally including removed ones
+        table = tables_by_id.get(order.table_id)
+        all_items = items_by_order_id.get(order.id, [])
         if include_removed:
-            items = session.exec(
-                select(models.OrderItem)
-                .where(models.OrderItem.order_id == order.id)
-                .order_by(models.OrderItem.removed_by_customer.asc(), models.OrderItem.id.asc())
-            ).all()
+            items = all_items
         else:
-            items = session.exec(
-                select(models.OrderItem)
-                .where(
-                    models.OrderItem.order_id == order.id,
-                    models.OrderItem.removed_by_customer == False
-                )
-            ).all()
-        
-        # Display status from items; paid + fully delivered → completed for Active/History (#345)
-        status_items = session.exec(
-            select(models.OrderItem).where(models.OrderItem.order_id == order.id)
-        ).all()
+            items = [oi for oi in all_items if not oi.removed_by_customer]
+        status_items = all_items
+
         if order.status == models.OrderStatus.cancelled:
             computed_status = models.OrderStatus.cancelled
         elif order.status == models.OrderStatus.out_for_delivery:
@@ -14357,9 +14373,6 @@ def list_orders(
         else:
             computed_status = compute_order_status_from_items(list(status_items))
         
-        # Get all items for removed count calculation
-        all_items = session.exec(select(models.OrderItem).where(models.OrderItem.order_id == order.id)).all()
-        
         # Calculate total from active items only (exclude items removed by customer OR staff, and cancelled)
         active_items = [
             item for item in all_items
@@ -14373,20 +14386,11 @@ def list_orders(
         loyalty_discount = order_level_discount_cents(order)
         total_cents = max(0, subtotal_cents - loyalty_discount) + tip_amt
 
-        # Product categories for kitchen/bar display filtering (one query per order)
-        product_ids = list({i.product_id for i in items})
-        product_map = {}
-        if product_ids:
-            products = session.exec(
-                select(models.Product).where(models.Product.id.in_(product_ids))
-            ).all()
-            product_map = {p.id: p for p in products}
-
         # Billing customer for Factura (if set)
         billing_customer = None
         if order.billing_customer_id:
-            bc = session.get(models.BillingCustomer, order.billing_customer_id)
-            if bc and bc.tenant_id == current_user.tenant_id:
+            bc = bc_by_id.get(order.billing_customer_id)
+            if bc:
                 billing_customer = {
                     "id": bc.id,
                     "name": bc.name,
